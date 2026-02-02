@@ -14,7 +14,7 @@ class HolidayTable extends Table {
   TextColumn get name => text()();
   TextColumn get countryCode => text()();
   BoolColumn get fixed => boolean().withDefault(const Constant(false))();
-  BoolColumn get global => boolean().withDefault(const Constant(true))();
+  BoolColumn get global => boolean().withDefault(const Constant(false))();
   TextColumn get counties => text().nullable()();
   TextColumn get types => text().nullable()();
   IntColumn get year => integer()();

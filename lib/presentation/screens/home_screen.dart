@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
 import 'package:holiday_calendar/presentation/screens/bridge_day_screen.dart';
+import 'package:holiday_calendar/presentation/screens/year_overview_screen.dart';
 import 'package:holiday_calendar/presentation/widgets/ads/banner_ad_widget.dart';
 import 'package:holiday_calendar/presentation/widgets/bridge_day_preview.dart';
 import 'package:holiday_calendar/presentation/widgets/calendar/holiday_calendar.dart';
@@ -22,6 +23,16 @@ class HomeScreen extends ConsumerWidget {
         title: const Text('Feiertage'),
         centerTitle: true,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.calendar_view_month),
+            tooltip: 'Jahresübersicht',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const YearOverviewScreen()),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.beach_access),
             tooltip: 'Brückentage',

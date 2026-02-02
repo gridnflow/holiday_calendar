@@ -89,13 +89,13 @@ class _StateDropdown extends ConsumerWidget {
                 children: [
                   ListTile(
                     title: const Text('Alle Bundesländer'),
-                    leading: Radio<FederalState?>(
-                      value: null,
-                      groupValue: selectedState,
-                      onChanged: (value) {
-                        ref.read(selectedFederalStateProvider.notifier).select(value);
-                        Navigator.pop(context);
-                      },
+                    leading: Icon(
+                      selectedState == null
+                          ? Icons.radio_button_checked
+                          : Icons.radio_button_unchecked,
+                      color: selectedState == null
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.outline,
                     ),
                     onTap: () {
                       ref.read(selectedFederalStateProvider.notifier).select(null);
@@ -105,13 +105,13 @@ class _StateDropdown extends ConsumerWidget {
                   ...states.map(
                     (state) => ListTile(
                       title: Text(state.nameDE),
-                      leading: Radio<FederalState?>(
-                        value: state,
-                        groupValue: selectedState,
-                        onChanged: (value) {
-                          ref.read(selectedFederalStateProvider.notifier).select(value);
-                          Navigator.pop(context);
-                        },
+                      leading: Icon(
+                        selectedState == state
+                            ? Icons.radio_button_checked
+                            : Icons.radio_button_unchecked,
+                        color: selectedState == state
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.outline,
                       ),
                       onTap: () {
                         ref.read(selectedFederalStateProvider.notifier).select(state);

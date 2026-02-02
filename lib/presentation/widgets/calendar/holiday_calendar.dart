@@ -112,16 +112,21 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
             isOutside: true,
           );
         },
-        // Holiday marker (dot)
+        // Holiday marker (dot) - different colors for national vs regional
         markerBuilder: (context, date, events) {
           if (events.isEmpty) return null;
+          // Check if any holiday is nationwide
+          final isNational = events.any((h) => h.global);
           return Positioned(
             bottom: 6,
             child: Container(
               width: 6,
               height: 6,
               decoration: BoxDecoration(
-                color: theme.colorScheme.tertiary,
+                // National: tertiary, Regional: outline (lighter)
+                color: isNational
+                    ? theme.colorScheme.tertiary
+                    : theme.colorScheme.outline,
                 shape: BoxShape.circle,
               ),
             ),
@@ -163,6 +168,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
     final normalizedDay = DateTime(day.year, day.month, day.day);
     final holidays = holidaysByDate[normalizedDay] ?? [];
     final isHoliday = holidays.isNotEmpty;
+    final isNationalHoliday = holidays.any((h) => h.global);
     final isWeekend = day.weekday == DateTime.saturday || day.weekday == DateTime.sunday;
 
     // Background color
@@ -181,13 +187,17 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
     }
 
     // Text color based on state priority
+    // National holidays: tertiary, Regional holidays: outline (lighter)
     Color textColor;
     if (isOutside) {
       textColor = colorScheme.outline;
     } else if (isSelected) {
       textColor = colorScheme.onPrimary;
-    } else if (isHoliday) {
+    } else if (isNationalHoliday) {
       textColor = colorScheme.tertiary;
+    } else if (isHoliday) {
+      // Regional holiday - lighter color
+      textColor = colorScheme.outline;
     } else if (isWeekend) {
       textColor = colorScheme.error;
     } else if (isToday) {
@@ -208,7 +218,9 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
           '${day.day}',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: textColor,
-            fontWeight: isToday || isSelected ? FontWeight.bold : FontWeight.normal,
+            fontWeight: isToday || isSelected || isNationalHoliday
+                ? FontWeight.bold
+                : FontWeight.normal,
           ),
         ),
       ),

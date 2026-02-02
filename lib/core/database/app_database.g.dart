@@ -82,7 +82,7 @@ class $HolidayTableTable extends HolidayTable
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'CHECK ("global" IN (0, 1))',
     ),
-    defaultValue: const Constant(true),
+    defaultValue: const Constant(false),
   );
   static const VerificationMeta _countiesMeta = const VerificationMeta(
     'counties',
