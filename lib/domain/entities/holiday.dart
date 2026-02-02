@@ -17,10 +17,23 @@ class Holiday with _$Holiday {
 
   const Holiday._();
 
+  /// Check if this holiday applies to a specific Bundesland
+  ///
+  /// - If global (nationwide) → applies to all states
+  /// - If not global but no stateCode selected → show all holidays
+  /// - If not global and stateCode selected → check if state is in counties list
   bool isApplicableTo(String? stateCode) {
+    // Nationwide holidays apply to everyone
     if (global) return true;
+
+    // If no state filter, show all holidays (including regional)
     if (stateCode == null) return true;
-    if (counties == null || counties!.isEmpty) return true;
+
+    // Regional holiday: must have counties and state must be in the list
+    // If counties is null/empty for a non-global holiday, it means
+    // we don't know which states it applies to - don't show it
+    if (counties == null || counties!.isEmpty) return false;
+
     return counties!.contains(stateCode);
   }
 }

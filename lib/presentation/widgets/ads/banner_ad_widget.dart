@@ -10,7 +10,6 @@ class BannerAdWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // 웹/데스크톱에서는 광고 미지원
     if (!AdConstants.isAdSupported) {
       return const SizedBox.shrink();
     }
@@ -45,20 +44,51 @@ class BannerAdWidget extends ConsumerWidget {
   }
 }
 
-class AdContainer extends StatelessWidget {
-  final Widget child;
-
-  const AdContainer({
-    super.key,
-    required this.child,
-  });
+/// Ad Banner Container with "Anzeige" label
+/// Design requirement: Clear separation from content with label
+class AdBannerContainer extends ConsumerWidget {
+  const AdBannerContainer({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey[100],
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: child,
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (!AdConstants.isAdSupported) {
+      return const SizedBox.shrink();
+    }
+
+    final shouldShowAds = ref.watch(shouldShowAdsProvider);
+
+    if (!shouldShowAds) {
+      return const SizedBox.shrink();
+    }
+
+    final theme = Theme.of(context);
+
+    return SafeArea(
+      top: false,
+      child: Container(
+        color: theme.colorScheme.surfaceContainerHighest,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Anzeige label
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(
+                'Anzeige',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+            // Ad Banner
+            const BannerAdWidget(),
+            const SizedBox(height: 4),
+          ],
+        ),
+      ),
     );
   }
 }
