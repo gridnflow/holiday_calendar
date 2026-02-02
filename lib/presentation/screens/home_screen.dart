@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
 import 'package:holiday_calendar/presentation/screens/bridge_day_screen.dart';
+import 'package:holiday_calendar/presentation/screens/notification_settings_screen.dart';
 import 'package:holiday_calendar/presentation/screens/year_overview_screen.dart';
 import 'package:holiday_calendar/presentation/widgets/ads/banner_ad_widget.dart';
 import 'package:holiday_calendar/presentation/widgets/bridge_day_preview.dart';
@@ -47,9 +48,10 @@ class HomeScreen extends ConsumerWidget {
             icon: const Icon(Icons.notifications_outlined),
             tooltip: 'Benachrichtigungen',
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Benachrichtigungen coming soon'),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const NotificationSettingsScreen(),
                 ),
               );
             },

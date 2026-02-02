@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:holiday_calendar/app.dart';
 import 'package:holiday_calendar/core/constants/ad_constants.dart';
+import 'package:holiday_calendar/core/services/notification_service.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
@@ -11,6 +12,15 @@ void main() async {
 
   // Initialize date formatting
   await initializeDateFormatting('de_DE', null);
+
+  // Initialize notifications
+  try {
+    await NotificationService().initialize();
+  } catch (e) {
+    if (kDebugMode) {
+      debugPrint('Failed to initialize NotificationService: $e');
+    }
+  }
 
   // Initialize Mobile Ads (only on supported platforms)
   if (AdConstants.isAdSupported) {
