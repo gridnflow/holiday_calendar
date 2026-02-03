@@ -93,7 +93,7 @@ flutter_launcher_icons:
   ios: true
   image_path: "assets/icons/calendar.png"
   adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "assets/icons/calendar.png"
+  adaptive_icon_foreground: "assets/icons/calendar_foreground.png"
   min_sdk_android: 21
   remove_alpha_ios: true
   web:
