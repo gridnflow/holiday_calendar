@@ -5,6 +5,7 @@ import 'package:holiday_calendar/presentation/screens/bridge_day_screen.dart';
 import 'package:holiday_calendar/presentation/screens/notification_settings_screen.dart';
 import 'package:holiday_calendar/presentation/screens/year_overview_screen.dart';
 import 'package:holiday_calendar/presentation/widgets/ads/banner_ad_widget.dart';
+import 'package:holiday_calendar/presentation/widgets/ads/native_ad_widget.dart';
 import 'package:holiday_calendar/presentation/widgets/bridge_day_preview.dart';
 import 'package:holiday_calendar/presentation/widgets/calendar/holiday_calendar.dart';
 import 'package:holiday_calendar/presentation/widgets/common/error_widget.dart';
@@ -68,6 +69,7 @@ class HomeScreen extends ConsumerWidget {
                   children: [
                     const HolidayCalendar(),
                     const Divider(height: 1),
+                    const NativeAdWidget(),
                     // Brückentage Preview (horizontal scrolling cards)
                     const BridgeDayPreview(),
                     // Vacation counter & efficiency index
