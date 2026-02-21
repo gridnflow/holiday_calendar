@@ -28,25 +28,19 @@ class HomeScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'Hinweis / Disclaimer',
+                'Transparenz & Datenquelle',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               const Text(
-                'Diese App ist keine offizielle Regierungsanwendung und steht in keiner Verbindung zu staatlichen Behörden. '
-                'Die angezeigten Feiertage basieren auf offiziellen deutschen Gesetzen und öffentlich zugänglichen Quellen.',
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'This app is not an official government application and is not affiliated with any government agency. '
-                'The public holidays displayed are based on official German laws and publicly available sources.',
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Offizielle Quellen / Official Sources:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                'Die in dieser App angezeigten Feiertagsdaten basieren auf den offiziellen gesetzlichen Regelungen der Bundesrepublik Deutschland. '
+                'Wir nutzen die OpenHolidays API, welche ihre Daten direkt aus verifizierten staatlichen Quellen bezieht.',
               ),
               const SizedBox(height: 8),
+              _SourceLink(
+                label: 'OpenHolidays API',
+                url: 'https://openholidaysapi.org',
+              ),
               _SourceLink(
                 label: 'Bundesministerium des Innern (BMI)',
                 url: 'https://www.bmi.bund.de',
@@ -55,9 +49,17 @@ class HomeScreen extends ConsumerWidget {
                 label: 'Gesetze im Internet (BMJV)',
                 url: 'https://www.gesetze-im-internet.de',
               ),
-              _SourceLink(
-                label: 'Feiertage – Wikipedia DE',
-                url: 'https://de.wikipedia.org/wiki/Gesetzliche_Feiertage_in_Deutschland',
+              const SizedBox(height: 16),
+              const Text(
+                'Haftungsausschluss',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Diese App ist KEINE offizielle Anwendung einer Regierungsbehörde und steht in keiner Verbindung zu einer staatlichen Stelle. '
+                'Es handelt sich um ein unabhängiges Informationsangebot für Bürgerinnen und Bürger. '
+                'Wir bemühen uns um höchste Aktualität, übernehmen jedoch keine Gewähr für die Richtigkeit oder Vollständigkeit der Angaben. '
+                'Bitte prüfen Sie offizielle Bekanntmachungen für verbindliche Informationen.',
               ),
             ],
           ),
