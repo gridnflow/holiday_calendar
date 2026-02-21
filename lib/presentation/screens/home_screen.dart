@@ -28,43 +28,56 @@ class HomeScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'Transparenz & Datenquelle',
+                '⚠️ WICHTIGE INFORMATIONEN',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               const Text(
-                'Die in dieser App angezeigten Feiertagsdaten basieren auf den offiziellen gesetzlichen Regelungen der Bundesrepublik Deutschland. '
-                'Wir nutzen die OpenHolidays API, welche ihre Daten direkt aus verifizierten staatlichen Quellen bezieht.',
+                'Diese App ist KEINE offizielle Regierungsanwendung und steht in keiner Verbindung zu staatlichen Stellen. '
+                'Es handelt sich um ein unabhängiges, privates Informationsangebot. '
+                'Für verbindliche Informationen wenden Sie sich bitte direkt an die zuständigen Behörden.',
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Datenquelle',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Die Feiertagsdaten basieren auf offiziellen gesetzlichen Regelungen der Bundesrepublik Deutschland. '
+                'Maßgebliche Quellen sind:',
+              ),
+              const SizedBox(height: 8),
+              _SourceLink(
+                label: 'BMI – Nationale Feiertage',
+                url: 'https://www.bmi.bund.de/DE/themen/verfassung/staatliche-symbole/nationale-feiertage/nationale-feiertage-node.html',
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Technische Umsetzung',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Zur technischen Bereitstellung der Daten wird die OpenHolidays API genutzt, '
+                'die Feiertagsinformationen aus den oben genannten offiziellen Quellen aggregiert.',
               ),
               const SizedBox(height: 8),
               _SourceLink(
                 label: 'OpenHolidays API',
-                url: 'https://openholidaysapi.org',
-              ),
-              _SourceLink(
-                label: 'Bundesministerium des Innern (BMI)',
-                url: 'https://www.bmi.bund.de',
-              ),
-              _SourceLink(
-                label: 'Gesetze im Internet (BMJV)',
-                url: 'https://www.gesetze-im-internet.de',
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Haftungsausschluss',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Diese App ist KEINE offizielle Anwendung einer Regierungsbehörde und steht in keiner Verbindung zu einer staatlichen Stelle. '
-                'Es handelt sich um ein unabhängiges Informationsangebot für Bürgerinnen und Bürger. '
-                'Wir bemühen uns um höchste Aktualität, übernehmen jedoch keine Gewähr für die Richtigkeit oder Vollständigkeit der Angaben. '
-                'Bitte prüfen Sie offizielle Bekanntmachungen für verbindliche Informationen.',
+                url: 'https://www.openholidaysapi.org/en/',
               ),
             ],
           ),
         ),
         actions: [
+          TextButton(
+            onPressed: () => launchUrl(
+              Uri.parse('https://yeonghub.github.io/holiday_calendar/privacy-policy.html'),
+              mode: LaunchMode.externalApplication,
+            ),
+            child: const Text('Datenschutz'),
+          ),
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text('Schließen'),

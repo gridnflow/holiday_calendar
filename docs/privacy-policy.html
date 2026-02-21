@@ -3,108 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datenschutzerklärung - Feiertage DE</title>
+    <title>Datenschutzerklärung – Feiertage DE</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; }
-        h1 { color: #1a73e8; }
-        h2 { color: #444; margin-top: 30px; }
-        p { margin: 10px 0; }
-        .updated { color: #666; font-size: 0.9em; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            color: #fff;
+            padding: 48px 24px 40px;
+            text-align: center;
+        }
+
+        .app-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            margin-top: 6px;
+            font-size: 0.95rem;
+            opacity: 0.85;
+        }
+
+        .lang-switch {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .lang-switch a {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+
+        .lang-switch a.active,
+        .lang-switch a:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            border-color: rgba(255,255,255,0.8);
+        }
+
+        main {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 32px 20px 64px;
+        }
+
+        .section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .section-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #e8f0fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        h2 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        p { font-size: 0.95rem; color: #444; margin-bottom: 10px; }
+        p:last-child { margin-bottom: 0; }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0;
+        }
+
+        ul li {
+            font-size: 0.95rem;
+            color: #444;
+            padding: 6px 0 6px 20px;
+            position: relative;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        ul li:last-child { border-bottom: none; }
+
+        ul li::before {
+            content: '›';
+            position: absolute;
+            left: 4px;
+            color: #1a73e8;
+            font-weight: 700;
+        }
+
+        a { color: #1a73e8; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+
+        .badge.warning {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .divider {
+            border: none;
+            border-top: 2px dashed #e0e0e0;
+            margin: 32px 0;
+        }
+
+        .lang-section { display: none; }
+        .lang-section.active { display: block; }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            font-size: 0.82rem;
+            color: #999;
+        }
+
+        @media (max-width: 480px) {
+            .section { padding: 20px 18px; }
+            header { padding: 36px 20px 32px; }
+            header h1 { font-size: 1.5rem; }
+        }
     </style>
 </head>
 <body>
-    <h1>Datenschutzerklärung</h1>
-    <p class="updated">Zuletzt aktualisiert: 7. Februar 2026</p>
 
-    <h2>1. Verantwortlicher</h2>
-    <p>GridnFlow<br>Betreiber der App „Feiertage DE"</p>
+<header>
+    <div class="app-icon">🗓️</div>
+    <h1>Feiertage DE</h1>
+    <p>Datenschutzerklärung · Privacy Policy</p>
+    <div class="lang-switch">
+        <a href="#" class="active" onclick="switchLang('de', this)">🇩🇪 Deutsch</a>
+        <a href="#" onclick="switchLang('en', this)">🇬🇧 English</a>
+    </div>
+</header>
 
-    <h2>2. Welche Daten werden erfasst?</h2>
-    <p>Die App „Feiertage DE" erfasst und speichert <strong>keine personenbezogenen Daten</strong> direkt. Folgende Daten werden jedoch lokal auf Ihrem Gerät gespeichert:</p>
-    <ul>
-        <li><strong>App-Einstellungen:</strong> Ihre Präferenzen (z. B. Bundesland-Auswahl) werden lokal auf Ihrem Gerät gespeichert.</li>
-        <li><strong>Benachrichtigungseinstellungen:</strong> Ihre Einstellungen für Erinnerungen werden lokal gespeichert.</li>
-    </ul>
+<main>
 
-    <h2>3. Werbung (Google AdMob)</h2>
-    <p>Diese App verwendet Google AdMob zur Anzeige von Werbung. Google AdMob kann folgende Daten erheben:</p>
-    <ul>
-        <li>Geräte-ID (Werbe-ID)</li>
-        <li>IP-Adresse</li>
-        <li>Nutzungsdaten der App</li>
-    </ul>
-    <p>Weitere Informationen finden Sie in der <a href="https://policies.google.com/privacy" target="_blank">Datenschutzerklärung von Google</a>.</p>
+    <!-- DEUTSCH -->
+    <div id="lang-de" class="lang-section active">
 
-    <h2>4. Internetverbindung</h2>
-    <p>Die App benötigt eine Internetverbindung, um Feiertagsdaten abzurufen und Werbung anzuzeigen.</p>
+        <p style="font-size:0.85rem;color:#888;margin-bottom:20px;">Zuletzt aktualisiert: 7. Februar 2026</p>
 
-    <h2>5. Datenspeicherung</h2>
-    <p>Alle App-Daten werden ausschließlich lokal auf Ihrem Gerät gespeichert. Es werden keine Daten an unsere Server übertragen.</p>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">🏢</div>
+                <h2>1. Verantwortlicher</h2>
+            </div>
+            <p><strong>GridnFlow</strong><br>Betreiber der App „Feiertage DE"<br>
+            <a href="mailto:gridnflow@gmail.com">gridnflow@gmail.com</a></p>
+        </div>
 
-    <h2>6. Ihre Rechte (DSGVO)</h2>
-    <p>Gemäß der Datenschutz-Grundverordnung (DSGVO) haben Sie folgende Rechte:</p>
-    <ul>
-        <li>Recht auf Auskunft</li>
-        <li>Recht auf Berichtigung</li>
-        <li>Recht auf Löschung</li>
-        <li>Recht auf Einschränkung der Verarbeitung</li>
-        <li>Recht auf Widerspruch</li>
-    </ul>
-    <p>Sie können alle lokal gespeicherten Daten jederzeit löschen, indem Sie die App deinstallieren oder die App-Daten in den Geräteeinstellungen löschen.</p>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">🔒</div>
+                <h2>2. Welche Daten werden erfasst?</h2>
+            </div>
+            <span class="badge">✓ Keine personenbezogenen Daten</span>
+            <p>Die App „Feiertage DE" erfasst <strong>keine personenbezogenen Daten</strong> direkt. Folgende Einstellungen werden ausschließlich lokal auf Ihrem Gerät gespeichert:</p>
+            <ul>
+                <li><strong>App-Einstellungen</strong> – z. B. Bundesland-Auswahl</li>
+                <li><strong>Benachrichtigungseinstellungen</strong> – Ihre Erinnerungen</li>
+            </ul>
+        </div>
 
-    <h2>7. Kontakt</h2>
-    <p>Bei Fragen zum Datenschutz kontaktieren Sie uns unter:<br>
-    <a href="mailto:gridnflow@gmail.com">gridnflow@gmail.com</a></p>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">📢</div>
+                <h2>3. Werbung (Google AdMob)</h2>
+            </div>
+            <span class="badge warning">Drittanbieter</span>
+            <p>Diese App verwendet Google AdMob zur Anzeige von Werbung. Google AdMob kann folgende Daten erheben:</p>
+            <ul>
+                <li>Geräte-ID (Werbe-ID)</li>
+                <li>IP-Adresse</li>
+                <li>Nutzungsdaten der App</li>
+            </ul>
+            <p style="margin-top:12px;">Weitere Informationen: <a href="https://policies.google.com/privacy" target="_blank">Datenschutzerklärung von Google ↗</a></p>
+        </div>
 
-    <h2>8. Änderungen</h2>
-    <p>Wir behalten uns vor, diese Datenschutzerklärung jederzeit zu aktualisieren. Die aktuelle Version ist stets in der App und auf dieser Seite verfügbar.</p>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">🌐</div>
+                <h2>4. Internetverbindung</h2>
+            </div>
+            <p>Die App benötigt eine Internetverbindung, um Feiertagsdaten abzurufen und Werbung anzuzeigen.</p>
+        </div>
 
-    <hr>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">💾</div>
+                <h2>5. Datenspeicherung</h2>
+            </div>
+            <span class="badge">✓ Nur lokal auf Ihrem Gerät</span>
+            <p>Alle App-Daten werden ausschließlich lokal auf Ihrem Gerät gespeichert. Es werden <strong>keine Daten an externe Server übertragen</strong>.</p>
+        </div>
 
-    <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: February 7, 2026</p>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">⚖️</div>
+                <h2>6. Ihre Rechte (DSGVO)</h2>
+            </div>
+            <ul>
+                <li>Recht auf Auskunft</li>
+                <li>Recht auf Berichtigung</li>
+                <li>Recht auf Löschung</li>
+                <li>Recht auf Einschränkung der Verarbeitung</li>
+                <li>Recht auf Widerspruch</li>
+            </ul>
+            <p style="margin-top:12px;">Lokale Daten löschen: App deinstallieren oder App-Daten in den Geräteeinstellungen löschen.</p>
+        </div>
 
-    <h2>1. Data Controller</h2>
-    <p>GridnFlow<br>Operator of the app "Feiertage DE"</p>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">✉️</div>
+                <h2>7. Kontakt</h2>
+            </div>
+            <p>Bei Fragen zum Datenschutz:<br>
+            <a href="mailto:gridnflow@gmail.com">gridnflow@gmail.com</a></p>
+        </div>
 
-    <h2>2. What data is collected?</h2>
-    <p>The app "Feiertage DE" does <strong>not collect any personal data</strong> directly. However, the following data is stored locally on your device:</p>
-    <ul>
-        <li><strong>App settings:</strong> Your preferences (e.g., state selection) are stored locally on your device.</li>
-        <li><strong>Notification settings:</strong> Your reminder settings are stored locally.</li>
-    </ul>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">🔄</div>
+                <h2>8. Änderungen</h2>
+            </div>
+            <p>Wir behalten uns vor, diese Datenschutzerklärung jederzeit zu aktualisieren. Die aktuelle Version ist stets in der App und auf dieser Seite verfügbar.</p>
+        </div>
 
-    <h2>3. Advertising (Google AdMob)</h2>
-    <p>This app uses Google AdMob to display advertisements. Google AdMob may collect the following data:</p>
-    <ul>
-        <li>Device ID (Advertising ID)</li>
-        <li>IP address</li>
-        <li>App usage data</li>
-    </ul>
-    <p>For more information, see <a href="https://policies.google.com/privacy" target="_blank">Google's Privacy Policy</a>.</p>
+    </div>
 
-    <h2>4. Internet Connection</h2>
-    <p>The app requires an internet connection to retrieve holiday data and display advertisements.</p>
+    <!-- ENGLISH -->
+    <div id="lang-en" class="lang-section">
 
-    <h2>5. Data Storage</h2>
-    <p>All app data is stored exclusively on your device. No data is transmitted to our servers.</p>
+        <p style="font-size:0.85rem;color:#888;margin-bottom:20px;">Last updated: February 7, 2026</p>
 
-    <h2>6. Your Rights (GDPR)</h2>
-    <p>Under the General Data Protection Regulation (GDPR), you have the following rights:</p>
-    <ul>
-        <li>Right of access</li>
-        <li>Right to rectification</li>
-        <li>Right to erasure</li>
-        <li>Right to restriction of processing</li>
-        <li>Right to object</li>
-    </ul>
-    <p>You can delete all locally stored data at any time by uninstalling the app or clearing app data in your device settings.</p>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">🏢</div>
+                <h2>1. Data Controller</h2>
+            </div>
+            <p><strong>GridnFlow</strong><br>Operator of the app "Feiertage DE"<br>
+            <a href="mailto:gridnflow@gmail.com">gridnflow@gmail.com</a></p>
+        </div>
 
-    <h2>7. Contact</h2>
-    <p>For privacy-related questions, contact us at:<br>
-    <a href="mailto:gridnflow@gmail.com">gridnflow@gmail.com</a></p>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">🔒</div>
+                <h2>2. What data is collected?</h2>
+            </div>
+            <span class="badge">✓ No personal data collected</span>
+            <p>The app "Feiertage DE" does <strong>not collect any personal data</strong> directly. The following settings are stored locally on your device only:</p>
+            <ul>
+                <li><strong>App settings</strong> – e.g. state selection</li>
+                <li><strong>Notification settings</strong> – your reminders</li>
+            </ul>
+        </div>
 
-    <h2>8. Changes</h2>
-    <p>We reserve the right to update this privacy policy at any time. The current version is always available in the app and on this page.</p>
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">📢</div>
+                <h2>3. Advertising (Google AdMob)</h2>
+            </div>
+            <span class="badge warning">Third-party service</span>
+            <p>This app uses Google AdMob to display advertisements. Google AdMob may collect the following data:</p>
+            <ul>
+                <li>Device ID (Advertising ID)</li>
+                <li>IP address</li>
+                <li>App usage data</li>
+            </ul>
+            <p style="margin-top:12px;">For more information: <a href="https://policies.google.com/privacy" target="_blank">Google's Privacy Policy ↗</a></p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">🌐</div>
+                <h2>4. Internet Connection</h2>
+            </div>
+            <p>The app requires an internet connection to retrieve holiday data and display advertisements.</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">💾</div>
+                <h2>5. Data Storage</h2>
+            </div>
+            <span class="badge">✓ Local device only</span>
+            <p>All app data is stored exclusively on your device. <strong>No data is transmitted to external servers.</strong></p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">⚖️</div>
+                <h2>6. Your Rights (GDPR)</h2>
+            </div>
+            <ul>
+                <li>Right of access</li>
+                <li>Right to rectification</li>
+                <li>Right to erasure</li>
+                <li>Right to restriction of processing</li>
+                <li>Right to object</li>
+            </ul>
+            <p style="margin-top:12px;">To delete local data: uninstall the app or clear app data in your device settings.</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">✉️</div>
+                <h2>7. Contact</h2>
+            </div>
+            <p>For privacy-related questions:<br>
+            <a href="mailto:gridnflow@gmail.com">gridnflow@gmail.com</a></p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">🔄</div>
+                <h2>8. Changes</h2>
+            </div>
+            <p>We reserve the right to update this privacy policy at any time. The current version is always available in the app and on this page.</p>
+        </div>
+
+    </div>
+
+</main>
+
+<footer>
+    © 2026 GridnFlow · Feiertage DE
+</footer>
+
+<script>
+    function switchLang(lang, el) {
+        document.querySelectorAll('.lang-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.lang-switch a').forEach(a => a.classList.remove('active'));
+        document.getElementById('lang-' + lang).classList.add('active');
+        el.classList.add('active');
+        return false;
+    }
+</script>
+
 </body>
 </html>
