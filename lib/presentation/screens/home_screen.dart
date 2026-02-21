@@ -73,7 +73,7 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => launchUrl(
-              Uri.parse('https://yeonghub.github.io/holiday_calendar/privacy-policy.html'),
+              Uri.parse('https://yeongshub.github.io/holiday_calendar/privacy-policy.html'),
               mode: LaunchMode.externalApplication,
             ),
             child: const Text('Datenschutz'),
