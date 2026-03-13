@@ -48,7 +48,7 @@ class _NativeAdWidgetState extends ConsumerState<NativeAdWidget> {
       ),
       request: const AdRequest(),
       nativeTemplateStyle: NativeTemplateStyle(
-        templateType: TemplateType.small,
+        templateType: TemplateType.medium,
         mainBackgroundColor: Colors.transparent,
         cornerRadius: 12,
         callToActionTextStyle: NativeTemplateTextStyle(
@@ -135,8 +135,8 @@ class _NativeAdWidgetState extends ConsumerState<NativeAdWidget> {
               borderRadius: BorderRadius.circular(12),
             ),
             constraints: const BoxConstraints(
-              minHeight: 90,
-              maxHeight: 120,
+              minHeight: 320,
+              maxHeight: 400,
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),

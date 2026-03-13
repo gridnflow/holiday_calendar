@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:holiday_calendar/core/services/widget_service.dart';
 import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
 import 'package:holiday_calendar/presentation/screens/bridge_day_screen.dart';
 import 'package:holiday_calendar/presentation/screens/notification_settings_screen.dart';
@@ -95,27 +96,32 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Feiertage'),
         centerTitle: true,
+        leadingWidth: 96,
+        leading: Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.calendar_view_month),
+              tooltip: 'Jahresübersicht',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const YearOverviewScreen()),
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.beach_access),
+              tooltip: 'Brückentage',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const BridgeDayScreen()),
+                );
+              },
+            ),
+          ],
+        ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.calendar_view_month),
-            tooltip: 'Jahresübersicht',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const YearOverviewScreen()),
-              );
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.beach_access),
-            tooltip: 'Brückentage',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const BridgeDayScreen()),
-              );
-            },
-          ),
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
             tooltip: 'Benachrichtigungen',
@@ -140,20 +146,23 @@ class HomeScreen extends ConsumerWidget {
           const FilterBar(),
           Expanded(
             child: holidaysAsync.when(
-              data: (_) => SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const HolidayCalendar(),
-                    const Divider(height: 1),
-                    const NativeAdWidget(),
-                    // Brückentage Preview (horizontal scrolling cards)
-                    const BridgeDayPreview(),
-                    // Vacation counter & efficiency index
-                    const VacationEfficiencyWidget(),
-                    const SizedBox(height: 8),
-                  ],
-                ),
-              ),
+              data: (holidays) {
+                WidgetService.updateNextHoliday(holidays);
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const HolidayCalendar(),
+                      const Divider(height: 1),
+                      const NativeAdWidget(),
+                      // Brückentage Preview (horizontal scrolling cards)
+                      const BridgeDayPreview(),
+                      // Vacation counter & efficiency index
+                      const VacationEfficiencyWidget(),
+                      const SizedBox(height: 8),
+                    ],
+                  ),
+                );
+              },
               loading: () => const CalendarLoadingShimmer(),
               error: (error, _) => AppErrorWidget(
                 message: error.toString(),

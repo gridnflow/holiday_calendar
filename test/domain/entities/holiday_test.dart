@@ -35,7 +35,7 @@ void main() {
       expect(holiday.isApplicableTo('DE-HH'), isFalse); // 함부르크도 미적용
     });
 
-    test('counties가 null이면 모든 주에 적용', () {
+    test('counties가 null이고 global이 false이면 특정 주에 미적용', () {
       final holiday = Holiday(
         date: DateTime(2025, 12, 25),
         localName: 'Weihnachten',
@@ -46,8 +46,9 @@ void main() {
         counties: null,
       );
 
-      expect(holiday.isApplicableTo('DE-BY'), isTrue);
-      expect(holiday.isApplicableTo('DE-BE'), isTrue);
+      // counties가 null인 non-global 공휴일은 어느 주에 해당하는지 알 수 없으므로 미적용
+      expect(holiday.isApplicableTo('DE-BY'), isFalse);
+      expect(holiday.isApplicableTo('DE-BE'), isFalse);
     });
 
     test('stateCode가 null이면 true 반환', () {
