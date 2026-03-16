@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feiertage DE – Alle deutschen Feiertage im Überblick</title>
+    <meta name="description" content="Feiertage DE – Alle gesetzlichen Feiertage in Deutschland. Kostenlos für Android.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --blue: #1a73e8;
+            --blue-dark: #1557b0;
+            --blue-light: #e8f0fe;
+            --green: #1e8e3e;
+            --green-light: #e6f4ea;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-500: #64748b;
+            --gray-700: #334155;
+            --gray-900: #0f172a;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.13);
+            --radius: 16px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fff;
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--gray-900);
+            text-decoration: none;
+        }
+
+        .nav-brand img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-700);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--blue); }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 24px 60px;
+            background: linear-gradient(135deg, #f0f6ff 0%, #f8fafc 50%, #f0faf4 100%);
+            text-align: center;
+        }
+
+        .hero-inner {
+            max-width: 640px;
+        }
+
+        .hero-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 28px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--green-light);
+            color: var(--green);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 20px;
+        }
+
+        .badge::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            background: var(--green);
+            border-radius: 50%;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+        }
+
+        h1 span { color: var(--blue); }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--gray-500);
+            margin-bottom: 36px;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-play {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--gray-900);
+            color: #fff;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: var(--shadow-md);
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn-play:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+        }
+
+        .btn-play svg { flex-shrink: 0; }
+
+        /* FEATURES */
+        .features {
+            padding: 80px 24px;
+            background: #fff;
+        }
+
+        .section-label {
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 48px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+
+        .feature-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+        }
+
+        .icon-blue { background: var(--blue-light); }
+        .icon-green { background: var(--green-light); }
+        .icon-orange { background: #fef3e2; }
+        .icon-purple { background: #f3e8ff; }
+
+        .feature-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--gray-900);
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+            line-height: 1.6;
+        }
+
+        /* STATES */
+        .states {
+            padding: 80px 24px;
+            background: var(--gray-50);
+        }
+
+        .states-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .state-chip {
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* CTA */
+        .cta {
+            padding: 80px 24px;
+            background: linear-gradient(135deg, var(--blue) 0%, #0d47a1 100%);
+            text-align: center;
+            color: #fff;
+        }
+
+        .cta h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            font-size: 1rem;
+            opacity: 0.85;
+            margin-bottom: 32px;
+        }
+
+        .btn-play-white {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            color: var(--gray-900);
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .btn-play-white:hover { transform: translateY(-2px); }
+
+        /* FOOTER */
+        footer {
+            background: var(--gray-900);
+            color: var(--gray-500);
+            text-align: center;
+            padding: 32px 24px;
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--gray-500);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover { color: #fff; }
+
+        footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a class="nav-brand" href="#">
+        <img src="assets/icons/calendarDE.png" alt="Feiertage DE">
+        Feiertage DE
+    </a>
+    <ul class="nav-links">
+        <li><a href="#features">Funktionen</a></li>
+        <li><a href="#states">Bundesländer</a></li>
+        <li><a href="docs/privacy-policy.html">Datenschutz</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-inner">
+        <img class="hero-icon" src="assets/icons/calendarDE.png" alt="Feiertage DE App Icon">
+        <div class="badge">Kostenlos für Android</div>
+        <h1>Alle <span>deutschen Feiertage</span> immer dabei</h1>
+        <p>Gesetzliche Feiertage für alle 16 Bundesländer – übersichtlich, schnell und offline verfügbar.</p>
+        <a class="btn-play" href="https://play.google.com/store/apps/details?id=com.gridnflow.feiertage.kalender" target="_blank">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M3 20.5v-17c0-.83 1.04-1.25 1.64-.66l14 8.5a.85.85 0 0 1 0 1.32l-14 8.5C3.04 21.75 3 21.33 3 20.5z" fill="white"/>
+            </svg>
+            Jetzt bei Google Play
+        </a>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+    <div class="section-label">Funktionen</div>
+    <h2 class="section-title">Alles, was du brauchst</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon icon-blue">📅</div>
+            <h3>Alle Feiertage auf einen Blick</h3>
+            <p>Gesetzliche Feiertage für alle 16 deutschen Bundesländer klar und übersichtlich dargestellt.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon icon-green">📍</div>
+            <h3>Bundesland-Filter</h3>
+            <p>Wähle dein Bundesland und sieh nur die für dich relevanten Feiertage – ganz ohne Ablenkung.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon icon-orange">🔔</div>
+            <h3>Erinnerungen</h3>
+            <p>Verpasse keinen Feiertag mehr. Erhalte rechtzeitig eine Benachrichtigung vor jedem Feiertag.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon icon-purple">🗓️</div>
+            <h3>Home-Widget</h3>
+            <p>Sieh den nächsten Feiertag direkt auf deinem Startbildschirm – ohne die App zu öffnen.</p>
+        </div>
+    </div>
+</section>
+
+<!-- STATES -->
+<section class="states" id="states">
+    <div class="section-label">Abdeckung</div>
+    <h2 class="section-title">Alle 16 Bundesländer</h2>
+    <div class="states-grid">
+        <div class="state-chip">Baden-Württemberg</div>
+        <div class="state-chip">Bayern</div>
+        <div class="state-chip">Berlin</div>
+        <div class="state-chip">Brandenburg</div>
+        <div class="state-chip">Bremen</div>
+        <div class="state-chip">Hamburg</div>
+        <div class="state-chip">Hessen</div>
+        <div class="state-chip">Mecklenburg-Vorpommern</div>
+        <div class="state-chip">Niedersachsen</div>
+        <div class="state-chip">Nordrhein-Westfalen</div>
+        <div class="state-chip">Rheinland-Pfalz</div>
+        <div class="state-chip">Saarland</div>
+        <div class="state-chip">Sachsen</div>
+        <div class="state-chip">Sachsen-Anhalt</div>
+        <div class="state-chip">Schleswig-Holstein</div>
+        <div class="state-chip">Thüringen</div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <h2>Jetzt kostenlos herunterladen</h2>
+    <p>Verfügbar für Android – kostenlos und werbefinanziert.</p>
+    <a class="btn-play-white" href="https://play.google.com/store/apps/details?id=com.gridnflow.feiertage.kalender" target="_blank">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M3 20.5v-17c0-.83 1.04-1.25 1.64-.66l14 8.5a.85.85 0 0 1 0 1.32l-14 8.5C3.04 21.75 3 21.33 3 20.5z" fill="#1a73e8"/>
+        </svg>
+        Bei Google Play herunterladen
+    </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-links">
+        <a href="docs/privacy-policy.html">Datenschutzerklärung</a>
+        <a href="app-ads.txt">app-ads.txt</a>
+    </div>
+    <p>© 2025 Feiertage DE. Alle Rechte vorbehalten.</p>
+</footer>
+
+</body>
+</html>
