@@ -23,7 +23,7 @@ final dbVacationsProvider = AutoDisposeStreamProvider<List<Vacation>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef DbVacationsRef = AutoDisposeStreamProviderRef<List<Vacation>>;
-String _$dbVacationsByDateHash() => r'aab1c9803bbc60c705398d63cc95aed33ee2ee1b';
+String _$dbVacationsByDateHash() => r'7cfc0d690ea29f24d66e16af5a1bf8a0fb6f04af';
 
 /// Map of date → vacation for quick lookup (all dates in range)
 ///
@@ -43,7 +43,7 @@ final dbVacationsByDateProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef DbVacationsByDateRef = AutoDisposeProviderRef<Map<DateTime, Vacation>>;
-String _$nextVacationHash() => r'd336cc6f8fdd3f5e73fc85c649ce6cb793454e29';
+String _$nextVacationHash() => r'e66d5cdc3d96269ae4ea890fbce4e4a771be2384';
 
 /// Next upcoming vacation (endDate >= today)
 ///

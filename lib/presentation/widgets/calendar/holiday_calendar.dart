@@ -237,10 +237,14 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
     Color? backgroundColor;
     if (isSelected) {
       backgroundColor = colorScheme.primary;
+    } else if (isNationalHoliday && !isOutside) {
+      backgroundColor = colorScheme.tertiaryContainer.withValues(alpha: 0.5);
+    } else if (isHoliday && !isOutside) {
+      backgroundColor = colorScheme.tertiaryContainer.withValues(alpha: 0.25);
     } else if (isSchoolHoliday && !isOutside) {
-      backgroundColor = colorScheme.secondary.withValues(alpha: 0.1);
+      backgroundColor = colorScheme.secondaryContainer.withValues(alpha: 0.4);
     } else if (isVacation && !isOutside) {
-      backgroundColor = colorScheme.primaryContainer.withValues(alpha: 0.15);
+      backgroundColor = colorScheme.primaryContainer.withValues(alpha: 0.4);
     }
 
     // Border (only for today, not selected)

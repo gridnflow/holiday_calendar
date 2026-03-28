@@ -47,50 +47,41 @@ class VacationNotifier extends _$VacationNotifier {
 /// Map of date → vacation for quick lookup (all dates in range)
 @riverpod
 Map<DateTime, Vacation> dbVacationsByDate(Ref ref) {
-  final vacationsAsync = ref.watch(dbVacationsProvider);
-  return vacationsAsync.when(
-    data: (vacations) {
-      final map = <DateTime, Vacation>{};
-      for (final vacation in vacations) {
-        var current = DateTime(
-          vacation.startDate.year,
-          vacation.startDate.month,
-          vacation.startDate.day,
-        );
-        final end = DateTime(
-          vacation.endDate.year,
-          vacation.endDate.month,
-          vacation.endDate.day,
-        );
-        while (!current.isAfter(end)) {
-          map[current] = vacation;
-          current = current.add(const Duration(days: 1));
-        }
-      }
-      return map;
-    },
-    loading: () => {},
-    error: (_, __) => {},
-  );
+  final vacations = ref.watch(dbVacationsProvider).valueOrNull ?? [];
+  final map = <DateTime, Vacation>{};
+  for (final vacation in vacations) {
+    var current = DateTime(
+      vacation.startDate.year,
+      vacation.startDate.month,
+      vacation.startDate.day,
+    );
+    final end = DateTime(
+      vacation.endDate.year,
+      vacation.endDate.month,
+      vacation.endDate.day,
+    );
+    while (!current.isAfter(end)) {
+      map[current] = vacation;
+      current = current.add(const Duration(days: 1));
+    }
+  }
+  return map;
 }
 
 /// Next upcoming vacation (endDate >= today)
 @riverpod
 Vacation? nextVacation(Ref ref) {
   final vacationsAsync = ref.watch(dbVacationsProvider);
-  return vacationsAsync.when(
-    data: (vacations) {
-      final now = DateTime.now();
-      final today = DateTime(now.year, now.month, now.day);
-      final upcoming = vacations
-          .where((v) =>
-              !DateTime(v.endDate.year, v.endDate.month, v.endDate.day)
-                  .isBefore(today))
-          .toList()
-        ..sort((a, b) => a.startDate.compareTo(b.startDate));
-      return upcoming.isEmpty ? null : upcoming.first;
-    },
-    loading: () => null,
-    error: (_, __) => null,
-  );
+  final vacations = vacationsAsync.valueOrNull;
+  if (vacations == null) return null;
+
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final upcoming = vacations
+      .where((v) =>
+          !DateTime(v.endDate.year, v.endDate.month, v.endDate.day)
+              .isBefore(today))
+      .toList()
+    ..sort((a, b) => a.startDate.compareTo(b.startDate));
+  return upcoming.isEmpty ? null : upcoming.first;
 }
