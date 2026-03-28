@@ -376,7 +376,8 @@ class _EfficiencyIndexSection extends StatelessWidget {
         ...top3.asMap().entries.map((entry) {
           final index = entry.key;
           final rec = entry.value;
-          final isFirst = index == 0;
+          final isPast = rec.endDate.isBefore(DateTime.now());
+          final isFirst = index == 0 && !isPast;
 
           return _EfficiencyItem(
             rank: index + 1,
@@ -387,6 +388,7 @@ class _EfficiencyIndexSection extends StatelessWidget {
                 ? rec.relatedHolidays.first.localName
                 : '',
             isHighlighted: isFirst,
+            isPast: isPast,
           );
         }),
       ],
@@ -402,6 +404,7 @@ class _EfficiencyItem extends StatelessWidget {
   final double efficiency;
   final String holidayName;
   final bool isHighlighted;
+  final bool isPast;
 
   const _EfficiencyItem({
     required this.rank,
@@ -410,99 +413,110 @@ class _EfficiencyItem extends StatelessWidget {
     required this.efficiency,
     required this.holidayName,
     this.isHighlighted = false,
+    this.isPast = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final disabledColor = theme.colorScheme.onSurface.withValues(alpha: 0.38);
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: isHighlighted
-            ? theme.colorScheme.tertiaryContainer.withValues(alpha: 0.3)
-            : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(10),
-        border: isHighlighted
-            ? Border.all(color: theme.colorScheme.tertiary.withValues(alpha: 0.5))
-            : null,
-      ),
-      child: Row(
-        children: [
-          // Rank medal
-          Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: _getRankColor(rank),
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                '$rank',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-
-          // Ratio display
-          RichText(
-            text: TextSpan(
-              style: theme.textTheme.bodyMedium,
-              children: [
-                TextSpan(
-                  text: '1',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-                TextSpan(
-                  text: ' Urlaubstag = ',
-                  style: TextStyle(color: theme.colorScheme.onSurface),
-                ),
-                TextSpan(
-                  text: '$totalDaysOff',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.tertiary,
-                    fontSize: 16,
-                  ),
-                ),
-                TextSpan(
-                  text: ' freie Tage',
-                  style: TextStyle(color: theme.colorScheme.onSurface),
-                ),
-              ],
-            ),
-          ),
-
-          const Spacer(),
-
-          // Holiday name chip
-          if (holidayName.isNotEmpty)
+    return Opacity(
+      opacity: isPast ? 0.45 : 1.0,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: isPast
+              ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.4)
+              : isHighlighted
+                  ? theme.colorScheme.tertiaryContainer.withValues(alpha: 0.3)
+                  : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(10),
+          border: isHighlighted && !isPast
+              ? Border.all(color: theme.colorScheme.tertiary.withValues(alpha: 0.5))
+              : null,
+        ),
+        child: Row(
+          children: [
+            // Rank medal
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              width: 24,
+              height: 24,
               decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(8),
+                color: isPast ? theme.colorScheme.outline : _getRankColor(rank),
+                shape: BoxShape.circle,
               ),
-              child: Text(
-                holidayName.length > 12
-                    ? '${holidayName.substring(0, 10)}...'
-                    : holidayName,
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.outline,
+              child: Center(
+                child: Text(
+                  '$rank',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
                 ),
               ),
             ),
-        ],
+            const SizedBox(width: 12),
+
+            // Ratio display
+            RichText(
+              text: TextSpan(
+                style: theme.textTheme.bodyMedium,
+                children: [
+                  TextSpan(
+                    text: '1',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: isPast ? disabledColor : theme.colorScheme.primary,
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' Urlaubstag = ',
+                    style: TextStyle(
+                      color: isPast ? disabledColor : theme.colorScheme.onSurface,
+                    ),
+                  ),
+                  TextSpan(
+                    text: '$totalDaysOff',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: isPast ? disabledColor : theme.colorScheme.tertiary,
+                      fontSize: 16,
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' freie Tage',
+                    style: TextStyle(
+                      color: isPast ? disabledColor : theme.colorScheme.onSurface,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const Spacer(),
+
+            // Holiday name chip
+            if (holidayName.isNotEmpty)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  holidayName.length > 12
+                      ? '${holidayName.substring(0, 10)}...'
+                      : holidayName,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: isPast ? disabledColor : theme.colorScheme.outline,
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
