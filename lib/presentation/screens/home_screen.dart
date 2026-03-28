@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/core/services/widget_service.dart';
+import 'package:holiday_calendar/presentation/providers/db_vacation_provider.dart';
 import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
 import 'package:holiday_calendar/presentation/screens/bridge_day_screen.dart';
 import 'package:holiday_calendar/presentation/screens/notification_settings_screen.dart';
@@ -153,6 +154,7 @@ class HomeScreen extends ConsumerWidget {
                     children: [
                       const HolidayCalendar(),
                       const _NextHolidayDDayCard(),
+                      const _NextVacationDDayCard(),
                       const Divider(height: 1),
                       const NativeAdWidget(),
                       // Brückentage Preview (horizontal scrolling cards)
@@ -251,6 +253,102 @@ class _NextHolidayDDayCard extends ConsumerWidget {
                             : 'Noch $daysUntil Tage',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onPrimaryContainer,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NextVacationDDayCard extends ConsumerWidget {
+  const _NextVacationDDayCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final nextVacation = ref.watch(nextVacationProvider);
+
+    if (nextVacation == null) return const SizedBox.shrink();
+
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final startDate = DateTime(
+      nextVacation.startDate.year,
+      nextVacation.startDate.month,
+      nextVacation.startDate.day,
+    );
+    final endDate = DateTime(
+      nextVacation.endDate.year,
+      nextVacation.endDate.month,
+      nextVacation.endDate.day,
+    );
+
+    final isOngoing = !today.isBefore(startDate) && !today.isAfter(endDate);
+    final daysUntil = startDate.difference(today).inDays;
+
+    final theme = Theme.of(context);
+
+    String dDayLabel;
+    String subtitleLabel;
+    if (isOngoing) {
+      dDayLabel = '🏖️';
+      subtitleLabel = 'Urlaub läuft! 🏖️';
+    } else {
+      dDayLabel = 'D-$daysUntil';
+      subtitleLabel = daysUntil == 1
+          ? 'Morgen beginnt der Urlaub'
+          : 'Noch $daysUntil Tage';
+    }
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+      child: Container(
+        decoration: BoxDecoration(
+          color: theme.colorScheme.secondaryContainer,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        child: Row(
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.secondary,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: Text(
+                  isOngoing ? '🏖️' : dDayLabel,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: theme.colorScheme.onSecondary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    nextVacation.title,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitleLabel,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSecondaryContainer,
                     ),
                   ),
                 ],

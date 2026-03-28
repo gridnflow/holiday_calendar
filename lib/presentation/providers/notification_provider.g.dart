@@ -27,7 +27,7 @@ final notificationsSupportedProvider = AutoDisposeProvider<bool>.internal(
 // ignore: unused_element
 typedef NotificationsSupportedRef = AutoDisposeProviderRef<bool>;
 String _$notificationSettingsHash() =>
-    r'35b7dedcbb59b2c354271f122dc7cfc15bc82af1';
+    r'c86ffe110cd57ed90b4396c960cbf1b46f334cf9';
 
 /// Notification settings with persistence
 ///

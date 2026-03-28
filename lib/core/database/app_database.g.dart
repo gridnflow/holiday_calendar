@@ -1178,12 +1178,312 @@ class SchoolHolidayTableCompanion
   }
 }
 
+class $VacationTableTable extends VacationTable
+    with TableInfo<$VacationTableTable, VacationTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $VacationTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _startDateMeta = const VerificationMeta(
+    'startDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> startDate = GeneratedColumn<DateTime>(
+    'start_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _endDateMeta = const VerificationMeta(
+    'endDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> endDate = GeneratedColumn<DateTime>(
+    'end_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, title, startDate, endDate];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'vacation_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<VacationTableData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('start_date')) {
+      context.handle(
+        _startDateMeta,
+        startDate.isAcceptableOrUnknown(data['start_date']!, _startDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startDateMeta);
+    }
+    if (data.containsKey('end_date')) {
+      context.handle(
+        _endDateMeta,
+        endDate.isAcceptableOrUnknown(data['end_date']!, _endDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_endDateMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  VacationTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return VacationTableData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      startDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}start_date'],
+      )!,
+      endDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}end_date'],
+      )!,
+    );
+  }
+
+  @override
+  $VacationTableTable createAlias(String alias) {
+    return $VacationTableTable(attachedDatabase, alias);
+  }
+}
+
+class VacationTableData extends DataClass
+    implements Insertable<VacationTableData> {
+  final int id;
+  final String title;
+  final DateTime startDate;
+  final DateTime endDate;
+  const VacationTableData({
+    required this.id,
+    required this.title,
+    required this.startDate,
+    required this.endDate,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['title'] = Variable<String>(title);
+    map['start_date'] = Variable<DateTime>(startDate);
+    map['end_date'] = Variable<DateTime>(endDate);
+    return map;
+  }
+
+  VacationTableCompanion toCompanion(bool nullToAbsent) {
+    return VacationTableCompanion(
+      id: Value(id),
+      title: Value(title),
+      startDate: Value(startDate),
+      endDate: Value(endDate),
+    );
+  }
+
+  factory VacationTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return VacationTableData(
+      id: serializer.fromJson<int>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      startDate: serializer.fromJson<DateTime>(json['startDate']),
+      endDate: serializer.fromJson<DateTime>(json['endDate']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'title': serializer.toJson<String>(title),
+      'startDate': serializer.toJson<DateTime>(startDate),
+      'endDate': serializer.toJson<DateTime>(endDate),
+    };
+  }
+
+  VacationTableData copyWith({
+    int? id,
+    String? title,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) => VacationTableData(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    startDate: startDate ?? this.startDate,
+    endDate: endDate ?? this.endDate,
+  );
+  VacationTableData copyWithCompanion(VacationTableCompanion data) {
+    return VacationTableData(
+      id: data.id.present ? data.id.value : this.id,
+      title: data.title.present ? data.title.value : this.title,
+      startDate: data.startDate.present ? data.startDate.value : this.startDate,
+      endDate: data.endDate.present ? data.endDate.value : this.endDate,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('VacationTableData(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, title, startDate, endDate);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is VacationTableData &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.startDate == this.startDate &&
+          other.endDate == this.endDate);
+}
+
+class VacationTableCompanion extends UpdateCompanion<VacationTableData> {
+  final Value<int> id;
+  final Value<String> title;
+  final Value<DateTime> startDate;
+  final Value<DateTime> endDate;
+  const VacationTableCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.startDate = const Value.absent(),
+    this.endDate = const Value.absent(),
+  });
+  VacationTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String title,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) : title = Value(title),
+       startDate = Value(startDate),
+       endDate = Value(endDate);
+  static Insertable<VacationTableData> custom({
+    Expression<int>? id,
+    Expression<String>? title,
+    Expression<DateTime>? startDate,
+    Expression<DateTime>? endDate,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (startDate != null) 'start_date': startDate,
+      if (endDate != null) 'end_date': endDate,
+    });
+  }
+
+  VacationTableCompanion copyWith({
+    Value<int>? id,
+    Value<String>? title,
+    Value<DateTime>? startDate,
+    Value<DateTime>? endDate,
+  }) {
+    return VacationTableCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (startDate.present) {
+      map['start_date'] = Variable<DateTime>(startDate.value);
+    }
+    if (endDate.present) {
+      map['end_date'] = Variable<DateTime>(endDate.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('VacationTableCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $HolidayTableTable holidayTable = $HolidayTableTable(this);
   late final $SchoolHolidayTableTable schoolHolidayTable =
       $SchoolHolidayTableTable(this);
+  late final $VacationTableTable vacationTable = $VacationTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1191,6 +1491,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     holidayTable,
     schoolHolidayTable,
+    vacationTable,
   ];
 }
 
@@ -1782,6 +2083,185 @@ typedef $$SchoolHolidayTableTableProcessedTableManager =
       SchoolHolidayTableData,
       PrefetchHooks Function()
     >;
+typedef $$VacationTableTableCreateCompanionBuilder =
+    VacationTableCompanion Function({
+      Value<int> id,
+      required String title,
+      required DateTime startDate,
+      required DateTime endDate,
+    });
+typedef $$VacationTableTableUpdateCompanionBuilder =
+    VacationTableCompanion Function({
+      Value<int> id,
+      Value<String> title,
+      Value<DateTime> startDate,
+      Value<DateTime> endDate,
+    });
+
+class $$VacationTableTableFilterComposer
+    extends Composer<_$AppDatabase, $VacationTableTable> {
+  $$VacationTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get startDate => $composableBuilder(
+    column: $table.startDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get endDate => $composableBuilder(
+    column: $table.endDate,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$VacationTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $VacationTableTable> {
+  $$VacationTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get startDate => $composableBuilder(
+    column: $table.startDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get endDate => $composableBuilder(
+    column: $table.endDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$VacationTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $VacationTableTable> {
+  $$VacationTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get startDate =>
+      $composableBuilder(column: $table.startDate, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get endDate =>
+      $composableBuilder(column: $table.endDate, builder: (column) => column);
+}
+
+class $$VacationTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $VacationTableTable,
+          VacationTableData,
+          $$VacationTableTableFilterComposer,
+          $$VacationTableTableOrderingComposer,
+          $$VacationTableTableAnnotationComposer,
+          $$VacationTableTableCreateCompanionBuilder,
+          $$VacationTableTableUpdateCompanionBuilder,
+          (
+            VacationTableData,
+            BaseReferences<
+              _$AppDatabase,
+              $VacationTableTable,
+              VacationTableData
+            >,
+          ),
+          VacationTableData,
+          PrefetchHooks Function()
+        > {
+  $$VacationTableTableTableManager(_$AppDatabase db, $VacationTableTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$VacationTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$VacationTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$VacationTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<DateTime> startDate = const Value.absent(),
+                Value<DateTime> endDate = const Value.absent(),
+              }) => VacationTableCompanion(
+                id: id,
+                title: title,
+                startDate: startDate,
+                endDate: endDate,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String title,
+                required DateTime startDate,
+                required DateTime endDate,
+              }) => VacationTableCompanion.insert(
+                id: id,
+                title: title,
+                startDate: startDate,
+                endDate: endDate,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$VacationTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $VacationTableTable,
+      VacationTableData,
+      $$VacationTableTableFilterComposer,
+      $$VacationTableTableOrderingComposer,
+      $$VacationTableTableAnnotationComposer,
+      $$VacationTableTableCreateCompanionBuilder,
+      $$VacationTableTableUpdateCompanionBuilder,
+      (
+        VacationTableData,
+        BaseReferences<_$AppDatabase, $VacationTableTable, VacationTableData>,
+      ),
+      VacationTableData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1790,4 +2270,6 @@ class $AppDatabaseManager {
       $$HolidayTableTableTableManager(_db, _db.holidayTable);
   $$SchoolHolidayTableTableTableManager get schoolHolidayTable =>
       $$SchoolHolidayTableTableTableManager(_db, _db.schoolHolidayTable);
+  $$VacationTableTableTableManager get vacationTable =>
+      $$VacationTableTableTableManager(_db, _db.vacationTable);
 }

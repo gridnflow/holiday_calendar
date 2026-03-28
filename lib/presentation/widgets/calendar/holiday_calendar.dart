@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/domain/entities/holiday.dart';
 import 'package:holiday_calendar/domain/entities/school_holiday.dart';
+import 'package:holiday_calendar/domain/entities/vacation.dart';
+import 'package:holiday_calendar/presentation/providers/db_vacation_provider.dart';
 import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
 import 'package:holiday_calendar/presentation/providers/month_provider.dart';
 import 'package:holiday_calendar/presentation/providers/school_holiday_provider.dart';
 import 'package:holiday_calendar/presentation/providers/state_provider.dart';
 import 'package:holiday_calendar/presentation/providers/year_provider.dart';
 import 'package:holiday_calendar/presentation/widgets/calendar/date_detail_sheet.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HolidayCalendar extends ConsumerStatefulWidget {
@@ -26,6 +29,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
     final selectedMonth = ref.watch(selectedMonthProvider);
     final holidaysByDate = ref.watch(holidaysByDateProvider);
     final schoolHolidaysByDate = ref.watch(schoolHolidaysByDateProvider);
+    final vacationsByDate = ref.watch(dbVacationsByDateProvider);
     final selectedState = ref.watch(selectedFederalStateProvider);
     final theme = Theme.of(context);
 
@@ -78,6 +82,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
             day,
             holidaysByDate,
             schoolHolidaysByDate,
+            vacationsByDate,
             isToday: false,
             isSelected: false,
             isOutside: false,
@@ -90,6 +95,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
             day,
             holidaysByDate,
             schoolHolidaysByDate,
+            vacationsByDate,
             isToday: true,
             isSelected: false,
             isOutside: false,
@@ -102,6 +108,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
             day,
             holidaysByDate,
             schoolHolidaysByDate,
+            vacationsByDate,
             isToday: isSameDay(day, DateTime.now()),
             isSelected: true,
             isOutside: false,
@@ -114,19 +121,21 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
             day,
             holidaysByDate,
             schoolHolidaysByDate,
+            vacationsByDate,
             isToday: false,
             isSelected: false,
             isOutside: true,
           );
         },
-        // Marker (dots) - holiday and/or school holiday
+        // Marker (dots) - holiday and/or school holiday and/or vacation
         markerBuilder: (context, date, events) {
           final normalizedDate = DateTime(date.year, date.month, date.day);
           final isSchoolHoliday =
               schoolHolidaysByDate.containsKey(normalizedDate);
           final hasHoliday = events.isNotEmpty;
+          final isVacation = vacationsByDate.containsKey(normalizedDate);
 
-          if (!hasHoliday && !isSchoolHoliday) return null;
+          if (!hasHoliday && !isSchoolHoliday && !isVacation) return null;
 
           final dots = <Widget>[];
 
@@ -150,6 +159,17 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
               height: 6,
               decoration: BoxDecoration(
                 color: theme.colorScheme.secondary,
+                shape: BoxShape.circle,
+              ),
+            ));
+          }
+
+          if (isVacation) {
+            dots.add(Container(
+              width: 6,
+              height: 6,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary,
                 shape: BoxShape.circle,
               ),
             ));
@@ -182,6 +202,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
           selectedDay,
           holidaysByDate,
           schoolHolidaysByDate,
+          vacationsByDate,
           selectedState?.nameDE ?? 'Alle Bundesländer',
         );
       },
@@ -196,7 +217,8 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
     BuildContext context,
     DateTime day,
     Map<DateTime, List<Holiday>> holidaysByDate,
-    Map<DateTime, SchoolHoliday> schoolHolidaysByDate, {
+    Map<DateTime, SchoolHoliday> schoolHolidaysByDate,
+    Map<DateTime, Vacation> vacationsByDate, {
     required bool isToday,
     required bool isSelected,
     required bool isOutside,
@@ -209,6 +231,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
     final isNationalHoliday = holidays.any((h) => h.global);
     final isWeekend = day.weekday == DateTime.saturday || day.weekday == DateTime.sunday;
     final isSchoolHoliday = schoolHolidaysByDate.containsKey(normalizedDay);
+    final isVacation = vacationsByDate.containsKey(normalizedDay);
 
     // Background color
     Color? backgroundColor;
@@ -216,6 +239,8 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
       backgroundColor = colorScheme.primary;
     } else if (isSchoolHoliday && !isOutside) {
       backgroundColor = colorScheme.secondary.withValues(alpha: 0.1);
+    } else if (isVacation && !isOutside) {
+      backgroundColor = colorScheme.primaryContainer.withValues(alpha: 0.15);
     }
 
     // Border (only for today, not selected)
@@ -273,21 +298,122 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
     DateTime day,
     Map<DateTime, List<Holiday>> holidaysByDate,
     Map<DateTime, SchoolHoliday> schoolHolidaysByDate,
+    Map<DateTime, Vacation> vacationsByDate,
     String bundesland,
   ) {
     final normalizedDay = DateTime(day.year, day.month, day.day);
     final holidays = holidaysByDate[normalizedDay] ?? [];
     final schoolHoliday = schoolHolidaysByDate[normalizedDay];
+    final vacation = vacationsByDate[normalizedDay];
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => DateDetailSheet(
+      builder: (ctx) => DateDetailSheet(
         date: day,
         holidays: holidays,
         bundesland: bundesland,
         schoolHoliday: schoolHoliday,
+        vacation: vacation,
+        onAddVacation: () {
+          Navigator.pop(ctx);
+          _showAddVacationDialog(context, day, ref);
+        },
+        onDeleteVacation: vacation != null
+            ? () {
+                ref
+                    .read(vacationNotifierProvider.notifier)
+                    .deleteVacation(vacation.id);
+                Navigator.pop(ctx);
+              }
+            : null,
+      ),
+    );
+  }
+
+  void _showAddVacationDialog(
+      BuildContext context, DateTime initialDate, WidgetRef ref) {
+    DateTime startDate = initialDate;
+    DateTime endDate = initialDate;
+    final titleController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setState) => AlertDialog(
+          title: const Text('Urlaub eintragen'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: const InputDecoration(
+                    labelText: 'Bezeichnung (optional)'),
+              ),
+              const SizedBox(height: 16),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('Von'),
+                subtitle: Text(
+                    DateFormat('d. MMMM yyyy', 'de_DE').format(startDate)),
+                trailing: const Icon(Icons.calendar_today, size: 18),
+                onTap: () async {
+                  final picked = await showDatePicker(
+                    context: ctx,
+                    initialDate: startDate,
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime(2030),
+                    locale: const Locale('de'),
+                  );
+                  if (picked != null) {
+                    setState(() {
+                      startDate = picked;
+                      if (endDate.isBefore(startDate)) endDate = startDate;
+                    });
+                  }
+                },
+              ),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('Bis'),
+                subtitle: Text(
+                    DateFormat('d. MMMM yyyy', 'de_DE').format(endDate)),
+                trailing: const Icon(Icons.calendar_today, size: 18),
+                onTap: () async {
+                  final picked = await showDatePicker(
+                    context: ctx,
+                    initialDate: endDate,
+                    firstDate: startDate,
+                    lastDate: DateTime(2030),
+                    locale: const Locale('de'),
+                  );
+                  if (picked != null) setState(() => endDate = picked);
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Abbrechen'),
+            ),
+            FilledButton(
+              onPressed: () {
+                final title = titleController.text.trim().isEmpty
+                    ? 'Urlaub'
+                    : titleController.text.trim();
+                ref.read(vacationNotifierProvider.notifier).addVacation(
+                      title: title,
+                      startDate: startDate,
+                      endDate: endDate,
+                    );
+                Navigator.pop(ctx);
+              },
+              child: const Text('Speichern'),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:holiday_calendar/core/services/calendar_service.dart';
 import 'package:holiday_calendar/domain/entities/holiday.dart';
 import 'package:holiday_calendar/domain/entities/school_holiday.dart';
+import 'package:holiday_calendar/domain/entities/vacation.dart';
 import 'package:intl/intl.dart';
 
 /// Bottom sheet that shows date details
@@ -11,6 +12,9 @@ class DateDetailSheet extends StatelessWidget {
   final List<Holiday> holidays;
   final String bundesland;
   final SchoolHoliday? schoolHoliday;
+  final Vacation? vacation;
+  final VoidCallback? onAddVacation;
+  final VoidCallback? onDeleteVacation;
 
   const DateDetailSheet({
     super.key,
@@ -18,6 +22,9 @@ class DateDetailSheet extends StatelessWidget {
     required this.holidays,
     required this.bundesland,
     this.schoolHoliday,
+    this.vacation,
+    this.onAddVacation,
+    this.onDeleteVacation,
   });
 
   @override
@@ -153,6 +160,39 @@ class DateDetailSheet extends StatelessWidget {
                   '${DateFormat('d. MMM', 'de_DE').format(schoolHoliday!.startDate)}'
                   ' – ${DateFormat('d. MMM yyyy', 'de_DE').format(schoolHoliday!.endDate)}'
                   ' (${schoolHoliday!.durationDays} Tage)',
+                ),
+              ),
+            ],
+
+            // Vacation info
+            if (vacation != null) ...[
+              ListTile(
+                leading: Icon(Icons.beach_access,
+                    color: theme.colorScheme.primary),
+                title: Text(vacation!.title),
+                subtitle: Text(
+                  '${DateFormat('d. MMM', 'de_DE').format(vacation!.startDate)}'
+                  ' – ${DateFormat('d. MMM yyyy', 'de_DE').format(vacation!.endDate)}'
+                  ' (${vacation!.durationDays} Tage)',
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete_outline),
+                  onPressed: onDeleteVacation,
+                ),
+              ),
+            ],
+
+            // Add vacation button (only if no vacation on this day)
+            if (vacation == null) ...[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: onAddVacation,
+                    icon: const Icon(Icons.add),
+                    label: const Text('Urlaub eintragen'),
+                  ),
                 ),
               ),
             ],

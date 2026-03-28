@@ -38,12 +38,19 @@ class SchoolHolidayTable extends Table {
   Set<Column> get primaryKey => {apiId, year, subdivisionCode};
 }
 
-@DriftDatabase(tables: [HolidayTable, SchoolHolidayTable])
+class VacationTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get title => text()();
+  DateTimeColumn get startDate => dateTime()();
+  DateTimeColumn get endDate => dateTime()();
+}
+
+@DriftDatabase(tables: [HolidayTable, SchoolHolidayTable, VacationTable])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -53,6 +60,9 @@ class AppDatabase extends _$AppDatabase {
         onUpgrade: (Migrator m, int from, int to) async {
           if (from < 2) {
             await m.createTable(schoolHolidayTable);
+          }
+          if (from < 3) {
+            await m.createTable(vacationTable);
           }
         },
       );
@@ -137,6 +147,23 @@ class AppDatabase extends _$AppDatabase {
     final cacheAge = DateTime.now().difference(result.cachedAt);
     return cacheAge.inHours < 24;
   }
+
+  // --- Vacation queries ---
+
+  Stream<List<VacationTableData>> watchAllVacations() =>
+      select(vacationTable).watch();
+
+  Future<List<VacationTableData>> getAllVacations() =>
+      select(vacationTable).get();
+
+  Future<int> insertVacation(VacationTableCompanion vacation) =>
+      into(vacationTable).insert(vacation);
+
+  Future<bool> updateVacation(VacationTableCompanion vacation) =>
+      update(vacationTable).replace(vacation);
+
+  Future<int> deleteVacation(int id) =>
+      (delete(vacationTable)..where((v) => v.id.equals(id))).go();
 }
 
 LazyDatabase _openConnection() {
