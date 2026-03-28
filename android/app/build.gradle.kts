@@ -14,8 +14,8 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.example.holiday_calendar"
-    compileSdk = flutter.compileSdkVersion
+    namespace = "com.gridnflow.feiertage.kalender"
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

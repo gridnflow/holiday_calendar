@@ -5,6 +5,7 @@ import 'package:holiday_calendar/data/models/open_holiday_model.dart';
 
 abstract class HolidayRemoteDataSource {
   Future<List<OpenHolidayModel>> getHolidays(int year);
+  Future<List<OpenHolidayModel>> getSchoolHolidays(int year, String subdivisionCode);
 }
 
 class HolidayRemoteDataSourceImpl implements HolidayRemoteDataSource {
@@ -25,6 +26,35 @@ class HolidayRemoteDataSourceImpl implements HolidayRemoteDataSource {
       } else {
         throw ServerException(
           message: 'Failed to fetch holidays',
+          statusCode: response.statusCode,
+        );
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout) {
+        throw const NetworkException(message: 'No internet connection');
+      }
+      throw ServerException(
+        message: e.message ?? 'Unknown error',
+        statusCode: e.response?.statusCode,
+      );
+    }
+  }
+
+  @override
+  Future<List<OpenHolidayModel>> getSchoolHolidays(
+      int year, String subdivisionCode) async {
+    try {
+      final response = await dio.get(
+        ApiConstants.schoolHolidaysEndpoint(year, subdivisionCode),
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = response.data;
+        return data.map((json) => OpenHolidayModel.fromJson(json)).toList();
+      } else {
+        throw ServerException(
+          message: 'Failed to fetch school holidays',
           statusCode: response.statusCode,
         );
       }

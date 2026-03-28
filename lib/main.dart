@@ -13,25 +13,16 @@ void main() async {
   // Initialize date formatting
   await initializeDateFormatting('de_DE', null);
 
-  // Initialize notifications
-  try {
-    await NotificationService().initialize();
-  } catch (e) {
-    if (kDebugMode) {
-      debugPrint('Failed to initialize NotificationService: $e');
-    }
-  }
-
-  // Initialize Mobile Ads (only on supported platforms)
-  if (AdConstants.isAdSupported) {
-    try {
-      await MobileAds.instance.initialize();
-    } catch (e) {
-      if (kDebugMode) {
-        debugPrint('Failed to initialize MobileAds: $e');
-      }
-    }
-  }
+  // Initialize notifications and ads in parallel
+  await Future.wait([
+    NotificationService().initialize().catchError((e) {
+      if (kDebugMode) debugPrint('Failed to initialize NotificationService: $e');
+    }),
+    if (AdConstants.isAdSupported)
+      MobileAds.instance.initialize().catchError((e) {
+        if (kDebugMode) debugPrint('Failed to initialize MobileAds: $e');
+      }),
+  ]);
 
   runApp(const ProviderScope(child: HolidayCalendarApp()));
 }

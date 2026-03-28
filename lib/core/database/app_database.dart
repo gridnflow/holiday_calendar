@@ -24,12 +24,38 @@ class HolidayTable extends Table {
   Set<Column> get primaryKey => {apiId, year};
 }
 
-@DriftDatabase(tables: [HolidayTable])
+class SchoolHolidayTable extends Table {
+  TextColumn get apiId => text()();
+  DateTimeColumn get startDate => dateTime()();
+  DateTimeColumn get endDate => dateTime()();
+  TextColumn get localName => text()();
+  TextColumn get name => text()();
+  TextColumn get subdivisionCode => text()();
+  IntColumn get year => integer()();
+  DateTimeColumn get cachedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {apiId, year, subdivisionCode};
+}
+
+@DriftDatabase(tables: [HolidayTable, SchoolHolidayTable])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onCreate: (Migrator m) async {
+          await m.createAll();
+        },
+        onUpgrade: (Migrator m, int from, int to) async {
+          if (from < 2) {
+            await m.createTable(schoolHolidayTable);
+          }
+        },
+      );
 
   // 특정 연도의 공휴일 조회
   Future<List<HolidayTableData>> getHolidaysByYear(int year) {
@@ -61,9 +87,55 @@ class AppDatabase extends _$AppDatabase {
     return cacheAge.inHours < 24;
   }
 
-  // 전체 캐시 삭제
+  // 전체 공휴일 캐시 삭제
   Future<int> clearAllCache() {
     return delete(holidayTable).go();
+  }
+
+  // --- SchoolHoliday queries ---
+
+  // 특정 연도+연방주의 학교 방학 조회
+  Future<List<SchoolHolidayTableData>> getSchoolHolidaysByYearAndState(
+      int year, String subdivisionCode) {
+    return (select(schoolHolidayTable)
+          ..where((s) =>
+              s.year.equals(year) &
+              s.subdivisionCode.equals(subdivisionCode)))
+        .get();
+  }
+
+  // 특정 연도+연방주의 학교 방학 삭제
+  Future<int> deleteSchoolHolidaysByYearAndState(
+      int year, String subdivisionCode) {
+    return (delete(schoolHolidayTable)
+          ..where((s) =>
+              s.year.equals(year) &
+              s.subdivisionCode.equals(subdivisionCode)))
+        .go();
+  }
+
+  // 학교 방학 일괄 저장
+  Future<void> insertSchoolHolidays(
+      List<SchoolHolidayTableCompanion> schoolHolidays) async {
+    await batch((batch) {
+      batch.insertAllOnConflictUpdate(schoolHolidayTable, schoolHolidays);
+    });
+  }
+
+  // 학교 방학 캐시 유효성 확인
+  Future<bool> isSchoolHolidayCacheValid(
+      int year, String subdivisionCode) async {
+    final result = await (select(schoolHolidayTable)
+          ..where((s) =>
+              s.year.equals(year) &
+              s.subdivisionCode.equals(subdivisionCode))
+          ..limit(1))
+        .getSingleOrNull();
+
+    if (result == null) return false;
+
+    final cacheAge = DateTime.now().difference(result.cachedAt);
+    return cacheAge.inHours < 24;
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:holiday_calendar/core/services/analytics_service.dart';
 import 'package:holiday_calendar/domain/entities/federal_state.dart';
 import 'package:holiday_calendar/presentation/providers/month_provider.dart';
 import 'package:holiday_calendar/presentation/providers/state_provider.dart';
@@ -115,6 +116,7 @@ class _StateDropdown extends ConsumerWidget {
                       ),
                       onTap: () {
                         ref.read(selectedFederalStateProvider.notifier).select(state);
+                        AnalyticsService().logBundeslandSelected(state.code);
                         Navigator.pop(context);
                       },
                     ),

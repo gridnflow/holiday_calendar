@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/domain/entities/holiday.dart';
+import 'package:holiday_calendar/domain/entities/school_holiday.dart';
 import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
 import 'package:holiday_calendar/presentation/providers/month_provider.dart';
+import 'package:holiday_calendar/presentation/providers/school_holiday_provider.dart';
 import 'package:holiday_calendar/presentation/providers/state_provider.dart';
 import 'package:holiday_calendar/presentation/providers/year_provider.dart';
 import 'package:holiday_calendar/presentation/widgets/calendar/date_detail_sheet.dart';
@@ -23,6 +25,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
     final selectedYear = ref.watch(selectedYearProvider);
     final selectedMonth = ref.watch(selectedMonthProvider);
     final holidaysByDate = ref.watch(holidaysByDateProvider);
+    final schoolHolidaysByDate = ref.watch(schoolHolidaysByDateProvider);
     final selectedState = ref.watch(selectedFederalStateProvider);
     final theme = Theme.of(context);
 
@@ -74,6 +77,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
             context,
             day,
             holidaysByDate,
+            schoolHolidaysByDate,
             isToday: false,
             isSelected: false,
             isOutside: false,
@@ -85,6 +89,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
             context,
             day,
             holidaysByDate,
+            schoolHolidaysByDate,
             isToday: true,
             isSelected: false,
             isOutside: false,
@@ -96,6 +101,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
             context,
             day,
             holidaysByDate,
+            schoolHolidaysByDate,
             isToday: isSameDay(day, DateTime.now()),
             isSelected: true,
             isOutside: false,
@@ -107,28 +113,58 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
             context,
             day,
             holidaysByDate,
+            schoolHolidaysByDate,
             isToday: false,
             isSelected: false,
             isOutside: true,
           );
         },
-        // Holiday marker (dot) - different colors for national vs regional
+        // Marker (dots) - holiday and/or school holiday
         markerBuilder: (context, date, events) {
-          if (events.isEmpty) return null;
-          // Check if any holiday is nationwide
-          final isNational = events.any((h) => h.global);
-          return Positioned(
-            bottom: 6,
-            child: Container(
+          final normalizedDate = DateTime(date.year, date.month, date.day);
+          final isSchoolHoliday =
+              schoolHolidaysByDate.containsKey(normalizedDate);
+          final hasHoliday = events.isNotEmpty;
+
+          if (!hasHoliday && !isSchoolHoliday) return null;
+
+          final dots = <Widget>[];
+
+          if (hasHoliday) {
+            final isNational = events.any((h) => h.global);
+            dots.add(Container(
               width: 6,
               height: 6,
               decoration: BoxDecoration(
-                // National: tertiary, Regional: outline (lighter)
                 color: isNational
                     ? theme.colorScheme.tertiary
                     : theme.colorScheme.outline,
                 shape: BoxShape.circle,
               ),
+            ));
+          }
+
+          if (isSchoolHoliday) {
+            dots.add(Container(
+              width: 6,
+              height: 6,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.secondary,
+                shape: BoxShape.circle,
+              ),
+            ));
+          }
+
+          return Positioned(
+            bottom: 4,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: dots
+                  .map((dot) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 1),
+                        child: dot,
+                      ))
+                  .toList(),
             ),
           );
         },
@@ -145,6 +181,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
           context,
           selectedDay,
           holidaysByDate,
+          schoolHolidaysByDate,
           selectedState?.nameDE ?? 'Alle Bundesländer',
         );
       },
@@ -158,7 +195,8 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
   Widget _buildDateCell(
     BuildContext context,
     DateTime day,
-    Map<DateTime, List<Holiday>> holidaysByDate, {
+    Map<DateTime, List<Holiday>> holidaysByDate,
+    Map<DateTime, SchoolHoliday> schoolHolidaysByDate, {
     required bool isToday,
     required bool isSelected,
     required bool isOutside,
@@ -170,11 +208,14 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
     final isHoliday = holidays.isNotEmpty;
     final isNationalHoliday = holidays.any((h) => h.global);
     final isWeekend = day.weekday == DateTime.saturday || day.weekday == DateTime.sunday;
+    final isSchoolHoliday = schoolHolidaysByDate.containsKey(normalizedDay);
 
     // Background color
     Color? backgroundColor;
     if (isSelected) {
       backgroundColor = colorScheme.primary;
+    } else if (isSchoolHoliday && !isOutside) {
+      backgroundColor = colorScheme.secondary.withValues(alpha: 0.1);
     }
 
     // Border (only for today, not selected)
@@ -231,10 +272,12 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
     BuildContext context,
     DateTime day,
     Map<DateTime, List<Holiday>> holidaysByDate,
+    Map<DateTime, SchoolHoliday> schoolHolidaysByDate,
     String bundesland,
   ) {
     final normalizedDay = DateTime(day.year, day.month, day.day);
     final holidays = holidaysByDate[normalizedDay] ?? [];
+    final schoolHoliday = schoolHolidaysByDate[normalizedDay];
 
     showModalBottomSheet(
       context: context,
@@ -244,6 +287,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
         date: day,
         holidays: holidays,
         bundesland: bundesland,
+        schoolHoliday: schoolHoliday,
       ),
     );
   }

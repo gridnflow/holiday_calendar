@@ -152,11 +152,11 @@ class HomeScreen extends ConsumerWidget {
                   child: Column(
                     children: [
                       const HolidayCalendar(),
+                      const _NextHolidayDDayCard(),
                       const Divider(height: 1),
                       const NativeAdWidget(),
                       // Brückentage Preview (horizontal scrolling cards)
                       const BridgeDayPreview(),
-                      // Vacation counter & efficiency index
                       const VacationEfficiencyWidget(),
                       const SizedBox(height: 8),
                     ],
@@ -174,6 +174,90 @@ class HomeScreen extends ConsumerWidget {
           ),
           const AdBannerContainer(),
         ],
+      ),
+    );
+  }
+}
+
+class _NextHolidayDDayCard extends ConsumerWidget {
+  const _NextHolidayDDayCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final holidaysAsync = ref.watch(holidayNotifierProvider);
+    final holidays = holidaysAsync.valueOrNull ?? [];
+
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
+    final upcoming = holidays
+        .where((h) => !DateTime(h.date.year, h.date.month, h.date.day).isBefore(today))
+        .toList()
+      ..sort((a, b) => a.date.compareTo(b.date));
+
+    if (upcoming.isEmpty) return const SizedBox.shrink();
+
+    final next = upcoming.first;
+    final nextDate = DateTime(next.date.year, next.date.month, next.date.day);
+    final daysUntil = nextDate.difference(today).inDays;
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+      child: Container(
+        decoration: BoxDecoration(
+          color: theme.colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        child: Row(
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: Text(
+                  daysUntil == 0 ? 'Heute' : 'D-$daysUntil',
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: theme.colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    next.localName,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    daysUntil == 0
+                        ? 'Heute ist Feiertag 🎉'
+                        : daysUntil == 1
+                            ? 'Morgen ist Feiertag'
+                            : 'Noch $daysUntil Tage',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onPrimaryContainer,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

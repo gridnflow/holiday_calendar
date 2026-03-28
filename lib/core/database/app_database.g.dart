@@ -660,15 +660,538 @@ class HolidayTableCompanion extends UpdateCompanion<HolidayTableData> {
   }
 }
 
+class $SchoolHolidayTableTable extends SchoolHolidayTable
+    with TableInfo<$SchoolHolidayTableTable, SchoolHolidayTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SchoolHolidayTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _apiIdMeta = const VerificationMeta('apiId');
+  @override
+  late final GeneratedColumn<String> apiId = GeneratedColumn<String>(
+    'api_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _startDateMeta = const VerificationMeta(
+    'startDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> startDate = GeneratedColumn<DateTime>(
+    'start_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _endDateMeta = const VerificationMeta(
+    'endDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> endDate = GeneratedColumn<DateTime>(
+    'end_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _localNameMeta = const VerificationMeta(
+    'localName',
+  );
+  @override
+  late final GeneratedColumn<String> localName = GeneratedColumn<String>(
+    'local_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _subdivisionCodeMeta = const VerificationMeta(
+    'subdivisionCode',
+  );
+  @override
+  late final GeneratedColumn<String> subdivisionCode = GeneratedColumn<String>(
+    'subdivision_code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _yearMeta = const VerificationMeta('year');
+  @override
+  late final GeneratedColumn<int> year = GeneratedColumn<int>(
+    'year',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cachedAtMeta = const VerificationMeta(
+    'cachedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> cachedAt = GeneratedColumn<DateTime>(
+    'cached_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    apiId,
+    startDate,
+    endDate,
+    localName,
+    name,
+    subdivisionCode,
+    year,
+    cachedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'school_holiday_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SchoolHolidayTableData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('api_id')) {
+      context.handle(
+        _apiIdMeta,
+        apiId.isAcceptableOrUnknown(data['api_id']!, _apiIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_apiIdMeta);
+    }
+    if (data.containsKey('start_date')) {
+      context.handle(
+        _startDateMeta,
+        startDate.isAcceptableOrUnknown(data['start_date']!, _startDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startDateMeta);
+    }
+    if (data.containsKey('end_date')) {
+      context.handle(
+        _endDateMeta,
+        endDate.isAcceptableOrUnknown(data['end_date']!, _endDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_endDateMeta);
+    }
+    if (data.containsKey('local_name')) {
+      context.handle(
+        _localNameMeta,
+        localName.isAcceptableOrUnknown(data['local_name']!, _localNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_localNameMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('subdivision_code')) {
+      context.handle(
+        _subdivisionCodeMeta,
+        subdivisionCode.isAcceptableOrUnknown(
+          data['subdivision_code']!,
+          _subdivisionCodeMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_subdivisionCodeMeta);
+    }
+    if (data.containsKey('year')) {
+      context.handle(
+        _yearMeta,
+        year.isAcceptableOrUnknown(data['year']!, _yearMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_yearMeta);
+    }
+    if (data.containsKey('cached_at')) {
+      context.handle(
+        _cachedAtMeta,
+        cachedAt.isAcceptableOrUnknown(data['cached_at']!, _cachedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_cachedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {apiId, year, subdivisionCode};
+  @override
+  SchoolHolidayTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SchoolHolidayTableData(
+      apiId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}api_id'],
+      )!,
+      startDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}start_date'],
+      )!,
+      endDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}end_date'],
+      )!,
+      localName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}local_name'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      subdivisionCode: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}subdivision_code'],
+      )!,
+      year: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}year'],
+      )!,
+      cachedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}cached_at'],
+      )!,
+    );
+  }
+
+  @override
+  $SchoolHolidayTableTable createAlias(String alias) {
+    return $SchoolHolidayTableTable(attachedDatabase, alias);
+  }
+}
+
+class SchoolHolidayTableData extends DataClass
+    implements Insertable<SchoolHolidayTableData> {
+  final String apiId;
+  final DateTime startDate;
+  final DateTime endDate;
+  final String localName;
+  final String name;
+  final String subdivisionCode;
+  final int year;
+  final DateTime cachedAt;
+  const SchoolHolidayTableData({
+    required this.apiId,
+    required this.startDate,
+    required this.endDate,
+    required this.localName,
+    required this.name,
+    required this.subdivisionCode,
+    required this.year,
+    required this.cachedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['api_id'] = Variable<String>(apiId);
+    map['start_date'] = Variable<DateTime>(startDate);
+    map['end_date'] = Variable<DateTime>(endDate);
+    map['local_name'] = Variable<String>(localName);
+    map['name'] = Variable<String>(name);
+    map['subdivision_code'] = Variable<String>(subdivisionCode);
+    map['year'] = Variable<int>(year);
+    map['cached_at'] = Variable<DateTime>(cachedAt);
+    return map;
+  }
+
+  SchoolHolidayTableCompanion toCompanion(bool nullToAbsent) {
+    return SchoolHolidayTableCompanion(
+      apiId: Value(apiId),
+      startDate: Value(startDate),
+      endDate: Value(endDate),
+      localName: Value(localName),
+      name: Value(name),
+      subdivisionCode: Value(subdivisionCode),
+      year: Value(year),
+      cachedAt: Value(cachedAt),
+    );
+  }
+
+  factory SchoolHolidayTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SchoolHolidayTableData(
+      apiId: serializer.fromJson<String>(json['apiId']),
+      startDate: serializer.fromJson<DateTime>(json['startDate']),
+      endDate: serializer.fromJson<DateTime>(json['endDate']),
+      localName: serializer.fromJson<String>(json['localName']),
+      name: serializer.fromJson<String>(json['name']),
+      subdivisionCode: serializer.fromJson<String>(json['subdivisionCode']),
+      year: serializer.fromJson<int>(json['year']),
+      cachedAt: serializer.fromJson<DateTime>(json['cachedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'apiId': serializer.toJson<String>(apiId),
+      'startDate': serializer.toJson<DateTime>(startDate),
+      'endDate': serializer.toJson<DateTime>(endDate),
+      'localName': serializer.toJson<String>(localName),
+      'name': serializer.toJson<String>(name),
+      'subdivisionCode': serializer.toJson<String>(subdivisionCode),
+      'year': serializer.toJson<int>(year),
+      'cachedAt': serializer.toJson<DateTime>(cachedAt),
+    };
+  }
+
+  SchoolHolidayTableData copyWith({
+    String? apiId,
+    DateTime? startDate,
+    DateTime? endDate,
+    String? localName,
+    String? name,
+    String? subdivisionCode,
+    int? year,
+    DateTime? cachedAt,
+  }) => SchoolHolidayTableData(
+    apiId: apiId ?? this.apiId,
+    startDate: startDate ?? this.startDate,
+    endDate: endDate ?? this.endDate,
+    localName: localName ?? this.localName,
+    name: name ?? this.name,
+    subdivisionCode: subdivisionCode ?? this.subdivisionCode,
+    year: year ?? this.year,
+    cachedAt: cachedAt ?? this.cachedAt,
+  );
+  SchoolHolidayTableData copyWithCompanion(SchoolHolidayTableCompanion data) {
+    return SchoolHolidayTableData(
+      apiId: data.apiId.present ? data.apiId.value : this.apiId,
+      startDate: data.startDate.present ? data.startDate.value : this.startDate,
+      endDate: data.endDate.present ? data.endDate.value : this.endDate,
+      localName: data.localName.present ? data.localName.value : this.localName,
+      name: data.name.present ? data.name.value : this.name,
+      subdivisionCode: data.subdivisionCode.present
+          ? data.subdivisionCode.value
+          : this.subdivisionCode,
+      year: data.year.present ? data.year.value : this.year,
+      cachedAt: data.cachedAt.present ? data.cachedAt.value : this.cachedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SchoolHolidayTableData(')
+          ..write('apiId: $apiId, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('localName: $localName, ')
+          ..write('name: $name, ')
+          ..write('subdivisionCode: $subdivisionCode, ')
+          ..write('year: $year, ')
+          ..write('cachedAt: $cachedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    apiId,
+    startDate,
+    endDate,
+    localName,
+    name,
+    subdivisionCode,
+    year,
+    cachedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SchoolHolidayTableData &&
+          other.apiId == this.apiId &&
+          other.startDate == this.startDate &&
+          other.endDate == this.endDate &&
+          other.localName == this.localName &&
+          other.name == this.name &&
+          other.subdivisionCode == this.subdivisionCode &&
+          other.year == this.year &&
+          other.cachedAt == this.cachedAt);
+}
+
+class SchoolHolidayTableCompanion
+    extends UpdateCompanion<SchoolHolidayTableData> {
+  final Value<String> apiId;
+  final Value<DateTime> startDate;
+  final Value<DateTime> endDate;
+  final Value<String> localName;
+  final Value<String> name;
+  final Value<String> subdivisionCode;
+  final Value<int> year;
+  final Value<DateTime> cachedAt;
+  final Value<int> rowid;
+  const SchoolHolidayTableCompanion({
+    this.apiId = const Value.absent(),
+    this.startDate = const Value.absent(),
+    this.endDate = const Value.absent(),
+    this.localName = const Value.absent(),
+    this.name = const Value.absent(),
+    this.subdivisionCode = const Value.absent(),
+    this.year = const Value.absent(),
+    this.cachedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SchoolHolidayTableCompanion.insert({
+    required String apiId,
+    required DateTime startDate,
+    required DateTime endDate,
+    required String localName,
+    required String name,
+    required String subdivisionCode,
+    required int year,
+    required DateTime cachedAt,
+    this.rowid = const Value.absent(),
+  }) : apiId = Value(apiId),
+       startDate = Value(startDate),
+       endDate = Value(endDate),
+       localName = Value(localName),
+       name = Value(name),
+       subdivisionCode = Value(subdivisionCode),
+       year = Value(year),
+       cachedAt = Value(cachedAt);
+  static Insertable<SchoolHolidayTableData> custom({
+    Expression<String>? apiId,
+    Expression<DateTime>? startDate,
+    Expression<DateTime>? endDate,
+    Expression<String>? localName,
+    Expression<String>? name,
+    Expression<String>? subdivisionCode,
+    Expression<int>? year,
+    Expression<DateTime>? cachedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (apiId != null) 'api_id': apiId,
+      if (startDate != null) 'start_date': startDate,
+      if (endDate != null) 'end_date': endDate,
+      if (localName != null) 'local_name': localName,
+      if (name != null) 'name': name,
+      if (subdivisionCode != null) 'subdivision_code': subdivisionCode,
+      if (year != null) 'year': year,
+      if (cachedAt != null) 'cached_at': cachedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SchoolHolidayTableCompanion copyWith({
+    Value<String>? apiId,
+    Value<DateTime>? startDate,
+    Value<DateTime>? endDate,
+    Value<String>? localName,
+    Value<String>? name,
+    Value<String>? subdivisionCode,
+    Value<int>? year,
+    Value<DateTime>? cachedAt,
+    Value<int>? rowid,
+  }) {
+    return SchoolHolidayTableCompanion(
+      apiId: apiId ?? this.apiId,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      localName: localName ?? this.localName,
+      name: name ?? this.name,
+      subdivisionCode: subdivisionCode ?? this.subdivisionCode,
+      year: year ?? this.year,
+      cachedAt: cachedAt ?? this.cachedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (apiId.present) {
+      map['api_id'] = Variable<String>(apiId.value);
+    }
+    if (startDate.present) {
+      map['start_date'] = Variable<DateTime>(startDate.value);
+    }
+    if (endDate.present) {
+      map['end_date'] = Variable<DateTime>(endDate.value);
+    }
+    if (localName.present) {
+      map['local_name'] = Variable<String>(localName.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (subdivisionCode.present) {
+      map['subdivision_code'] = Variable<String>(subdivisionCode.value);
+    }
+    if (year.present) {
+      map['year'] = Variable<int>(year.value);
+    }
+    if (cachedAt.present) {
+      map['cached_at'] = Variable<DateTime>(cachedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SchoolHolidayTableCompanion(')
+          ..write('apiId: $apiId, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('localName: $localName, ')
+          ..write('name: $name, ')
+          ..write('subdivisionCode: $subdivisionCode, ')
+          ..write('year: $year, ')
+          ..write('cachedAt: $cachedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $HolidayTableTable holidayTable = $HolidayTableTable(this);
+  late final $SchoolHolidayTableTable schoolHolidayTable =
+      $SchoolHolidayTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [holidayTable];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    holidayTable,
+    schoolHolidayTable,
+  ];
 }
 
 typedef $$HolidayTableTableCreateCompanionBuilder =
@@ -987,10 +1510,284 @@ typedef $$HolidayTableTableProcessedTableManager =
       HolidayTableData,
       PrefetchHooks Function()
     >;
+typedef $$SchoolHolidayTableTableCreateCompanionBuilder =
+    SchoolHolidayTableCompanion Function({
+      required String apiId,
+      required DateTime startDate,
+      required DateTime endDate,
+      required String localName,
+      required String name,
+      required String subdivisionCode,
+      required int year,
+      required DateTime cachedAt,
+      Value<int> rowid,
+    });
+typedef $$SchoolHolidayTableTableUpdateCompanionBuilder =
+    SchoolHolidayTableCompanion Function({
+      Value<String> apiId,
+      Value<DateTime> startDate,
+      Value<DateTime> endDate,
+      Value<String> localName,
+      Value<String> name,
+      Value<String> subdivisionCode,
+      Value<int> year,
+      Value<DateTime> cachedAt,
+      Value<int> rowid,
+    });
+
+class $$SchoolHolidayTableTableFilterComposer
+    extends Composer<_$AppDatabase, $SchoolHolidayTableTable> {
+  $$SchoolHolidayTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get apiId => $composableBuilder(
+    column: $table.apiId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get startDate => $composableBuilder(
+    column: $table.startDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get endDate => $composableBuilder(
+    column: $table.endDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get localName => $composableBuilder(
+    column: $table.localName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get subdivisionCode => $composableBuilder(
+    column: $table.subdivisionCode,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get year => $composableBuilder(
+    column: $table.year,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get cachedAt => $composableBuilder(
+    column: $table.cachedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$SchoolHolidayTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $SchoolHolidayTableTable> {
+  $$SchoolHolidayTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get apiId => $composableBuilder(
+    column: $table.apiId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get startDate => $composableBuilder(
+    column: $table.startDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get endDate => $composableBuilder(
+    column: $table.endDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get localName => $composableBuilder(
+    column: $table.localName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get subdivisionCode => $composableBuilder(
+    column: $table.subdivisionCode,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get year => $composableBuilder(
+    column: $table.year,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get cachedAt => $composableBuilder(
+    column: $table.cachedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$SchoolHolidayTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SchoolHolidayTableTable> {
+  $$SchoolHolidayTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get apiId =>
+      $composableBuilder(column: $table.apiId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get startDate =>
+      $composableBuilder(column: $table.startDate, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get endDate =>
+      $composableBuilder(column: $table.endDate, builder: (column) => column);
+
+  GeneratedColumn<String> get localName =>
+      $composableBuilder(column: $table.localName, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get subdivisionCode => $composableBuilder(
+    column: $table.subdivisionCode,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get year =>
+      $composableBuilder(column: $table.year, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get cachedAt =>
+      $composableBuilder(column: $table.cachedAt, builder: (column) => column);
+}
+
+class $$SchoolHolidayTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SchoolHolidayTableTable,
+          SchoolHolidayTableData,
+          $$SchoolHolidayTableTableFilterComposer,
+          $$SchoolHolidayTableTableOrderingComposer,
+          $$SchoolHolidayTableTableAnnotationComposer,
+          $$SchoolHolidayTableTableCreateCompanionBuilder,
+          $$SchoolHolidayTableTableUpdateCompanionBuilder,
+          (
+            SchoolHolidayTableData,
+            BaseReferences<
+              _$AppDatabase,
+              $SchoolHolidayTableTable,
+              SchoolHolidayTableData
+            >,
+          ),
+          SchoolHolidayTableData,
+          PrefetchHooks Function()
+        > {
+  $$SchoolHolidayTableTableTableManager(
+    _$AppDatabase db,
+    $SchoolHolidayTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SchoolHolidayTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SchoolHolidayTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SchoolHolidayTableTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> apiId = const Value.absent(),
+                Value<DateTime> startDate = const Value.absent(),
+                Value<DateTime> endDate = const Value.absent(),
+                Value<String> localName = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> subdivisionCode = const Value.absent(),
+                Value<int> year = const Value.absent(),
+                Value<DateTime> cachedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SchoolHolidayTableCompanion(
+                apiId: apiId,
+                startDate: startDate,
+                endDate: endDate,
+                localName: localName,
+                name: name,
+                subdivisionCode: subdivisionCode,
+                year: year,
+                cachedAt: cachedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String apiId,
+                required DateTime startDate,
+                required DateTime endDate,
+                required String localName,
+                required String name,
+                required String subdivisionCode,
+                required int year,
+                required DateTime cachedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => SchoolHolidayTableCompanion.insert(
+                apiId: apiId,
+                startDate: startDate,
+                endDate: endDate,
+                localName: localName,
+                name: name,
+                subdivisionCode: subdivisionCode,
+                year: year,
+                cachedAt: cachedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$SchoolHolidayTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SchoolHolidayTableTable,
+      SchoolHolidayTableData,
+      $$SchoolHolidayTableTableFilterComposer,
+      $$SchoolHolidayTableTableOrderingComposer,
+      $$SchoolHolidayTableTableAnnotationComposer,
+      $$SchoolHolidayTableTableCreateCompanionBuilder,
+      $$SchoolHolidayTableTableUpdateCompanionBuilder,
+      (
+        SchoolHolidayTableData,
+        BaseReferences<
+          _$AppDatabase,
+          $SchoolHolidayTableTable,
+          SchoolHolidayTableData
+        >,
+      ),
+      SchoolHolidayTableData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
   $$HolidayTableTableTableManager get holidayTable =>
       $$HolidayTableTableTableManager(_db, _db.holidayTable);
+  $$SchoolHolidayTableTableTableManager get schoolHolidayTable =>
+      $$SchoolHolidayTableTableTableManager(_db, _db.schoolHolidayTable);
 }

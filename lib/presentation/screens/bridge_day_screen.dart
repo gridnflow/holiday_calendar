@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:holiday_calendar/core/services/analytics_service.dart';
+import 'package:holiday_calendar/core/services/calendar_export_service.dart';
 import 'package:holiday_calendar/presentation/providers/bridge_day_provider.dart';
 import 'package:holiday_calendar/presentation/providers/year_provider.dart';
 import 'package:holiday_calendar/presentation/widgets/bridge_day_card.dart';
@@ -51,6 +53,13 @@ class BridgeDayScreen extends ConsumerWidget {
   }
 
   void _showDetails(BuildContext context, dynamic recommendation) {
+    AnalyticsService().logBridgeDayViewed(
+      vacationDays: recommendation.vacationDaysNeeded,
+      totalDaysOff: recommendation.totalDaysOff,
+      holidayName: recommendation.relatedHolidays.isNotEmpty
+          ? recommendation.relatedHolidays.first.localName
+          : '',
+    );
     showModalBottomSheet(
       context: context,
       builder: (context) => Container(
@@ -92,6 +101,32 @@ class BridgeDayScreen extends ConsumerWidget {
               (h) => Padding(
                 padding: const EdgeInsets.only(left: 8, bottom: 4),
                 child: Text('• ${h.localName}'),
+              ),
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: () async {
+                  final ics = CalendarExportService.generateBridgeDayIcs(
+                    recommendation,
+                  );
+                  final success = await CalendarExportService.exportToCalendar(
+                    ics,
+                    'brueckentage_${recommendation.startDate.toIso8601String().split('T').first}',
+                  );
+                  if (context.mounted && !success) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Kalender-Export konnte nicht geöffnet werden.',
+                        ),
+                      ),
+                    );
+                  }
+                },
+                icon: const Icon(Icons.calendar_month),
+                label: const Text('Zum Kalender hinzufügen'),
               ),
             ),
           ],

@@ -1,0 +1,6 @@
+{
+  "swift.disableAutoResolve": true,
+  "swift.packageDependencies.enableAutoRefresh": false,
+  "swift.diagnostics": false,
+  "sourcekit-lsp.disable": true
+}

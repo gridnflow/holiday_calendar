@@ -1,0 +1,31 @@
+Feiertage DE – Your smart companion for public holidays and bridge days in Germany!
+
+All public holidays for all 16 federal states
+Bridge Days Calculator: Maximize your vacation with fewer days off
+Efficiency Score: See how many free days you get per vacation day used
+Year overview with monthly view
+Reminders for the best bridge days
+Home screen widget for the next public holiday
+
+Never waste vacation days again! Feiertage DE automatically calculates the best bridge day combinations for your federal state and shows you how to get maximum time off with minimal vacation days.
+
+BRIDGE DAYS CALCULATOR
+Simply select your federal state and Feiertage DE instantly finds the best bridge days for you. The efficiency score shows you at a glance how many free days you get per vacation day used.
+
+ALL 16 FEDERAL STATES
+Whether Bavaria, NRW, Baden-Württemberg or Berlin – select your state and see only the holidays that apply to you. Complete and up-to-date.
+
+YEAR OVERVIEW
+The clear 12-month view gives you the perfect overview of all holidays and bridge days throughout the year.
+
+REMINDERS
+Never miss a bridge day again! Set individual reminders so you can plan your vacation in time.
+
+HOME SCREEN WIDGET
+See your next public holiday right on the home screen – without opening the app.
+
+Supported states: Bavaria, Baden-Württemberg, Berlin, Brandenburg, Bremen, Hamburg, Hesse, Mecklenburg-Western Pomerania, Lower Saxony, North Rhine-Westphalia, Rhineland-Palatinate, Saarland, Saxony, Saxony-Anhalt, Schleswig-Holstein, Thuringia.
+
+Data source: OpenHolidays API & BMI (Federal Ministry of the Interior)
+
+Fewer vacation days, more free time.

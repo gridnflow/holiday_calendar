@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:holiday_calendar/core/services/analytics_service.dart';
 import 'package:holiday_calendar/core/services/notification_service.dart';
 import 'package:holiday_calendar/domain/entities/bridge_day.dart';
 import 'package:holiday_calendar/presentation/providers/bridge_day_provider.dart';
@@ -9,6 +10,8 @@ part 'notification_provider.g.dart';
 
 const String _brueckentagNotificationsKey = 'brueckentag_notifications_enabled';
 const String _reminderDaysBeforeKey = 'reminder_days_before';
+const String _holidayRemindersKey = 'holiday_reminders_enabled';
+const String _monthlySummaryKey = 'monthly_summary_enabled';
 
 /// Notification settings with persistence
 @riverpod
@@ -19,12 +22,15 @@ class NotificationSettings extends _$NotificationSettings {
     return NotificationSettingsData(
       brueckentagEnabled: prefs.getBool(_brueckentagNotificationsKey) ?? false,
       reminderDaysBefore: prefs.getInt(_reminderDaysBeforeKey) ?? 7,
+      holidayRemindersEnabled: prefs.getBool(_holidayRemindersKey) ?? false,
+      monthlySummaryEnabled: prefs.getBool(_monthlySummaryKey) ?? true,
     );
   }
 
   Future<void> setBrueckentagEnabled(bool enabled) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_brueckentagNotificationsKey, enabled);
+    AnalyticsService().logNotificationToggled(enabled);
 
     if (enabled) {
       // Request permissions and schedule notifications
@@ -36,6 +42,38 @@ class NotificationSettings extends _$NotificationSettings {
     } else {
       // Cancel all notifications
       await NotificationService().cancelAllNotifications();
+    }
+
+    ref.invalidateSelf();
+  }
+
+  Future<void> setHolidayRemindersEnabled(bool enabled) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_holidayRemindersKey, enabled);
+
+    if (enabled) {
+      final service = NotificationService();
+      await service.requestPermissions();
+    } else {
+      // Cancel holiday reminder notifications (IDs 1000-1999)
+      final service = NotificationService();
+      final pending = await service.getPendingNotifications();
+      for (final n in pending) {
+        if (n.id >= 1000 && n.id < 2000) {
+          await service.cancelNotification(n.id);
+        }
+      }
+    }
+
+    ref.invalidateSelf();
+  }
+
+  Future<void> setMonthlySummaryEnabled(bool enabled) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_monthlySummaryKey, enabled);
+
+    if (!enabled) {
+      await NotificationService().cancelNotification(8001);
     }
 
     ref.invalidateSelf();
@@ -92,10 +130,14 @@ class NotificationSettings extends _$NotificationSettings {
 class NotificationSettingsData {
   final bool brueckentagEnabled;
   final int reminderDaysBefore;
+  final bool holidayRemindersEnabled;
+  final bool monthlySummaryEnabled;
 
   const NotificationSettingsData({
     required this.brueckentagEnabled,
     required this.reminderDaysBefore,
+    required this.holidayRemindersEnabled,
+    required this.monthlySummaryEnabled,
   });
 }
 

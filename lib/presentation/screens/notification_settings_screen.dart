@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/presentation/providers/notification_provider.dart';
+import 'package:holiday_calendar/presentation/providers/school_holiday_provider.dart';
 
 /// Screen for configuring Brückentage notification settings
 class NotificationSettingsScreen extends ConsumerWidget {
@@ -110,6 +111,30 @@ class NotificationSettingsScreen extends ConsumerWidget {
 
             const Divider(),
 
+            // Holiday reminders toggle (D-7 / D-1)
+            SwitchListTile(
+              title: const Text('Feiertag-Erinnerungen'),
+              subtitle: const Text('7 Tage und 1 Tag vor jedem Feiertag erinnern'),
+              value: settings.holidayRemindersEnabled,
+              onChanged: notificationsSupported
+                  ? (value) {
+                      ref
+                          .read(notificationSettingsProvider.notifier)
+                          .setHolidayRemindersEnabled(value);
+                    }
+                  : null,
+              secondary: Icon(
+                settings.holidayRemindersEnabled
+                    ? Icons.event_available
+                    : Icons.event_outlined,
+                color: settings.holidayRemindersEnabled
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.outline,
+              ),
+            ),
+
+            const Divider(),
+
             // Reminder days selector
             ListTile(
               enabled: settings.brueckentagEnabled,
@@ -135,6 +160,61 @@ class NotificationSettingsScreen extends ConsumerWidget {
               onTap: settings.brueckentagEnabled
                   ? () => _showReminderDaysDialog(context, ref, settings)
                   : null,
+            ),
+
+            const Divider(),
+
+            // Monthly summary toggle
+            SwitchListTile(
+              title: const Text('Monatliche Zusammenfassung'),
+              subtitle: const Text(
+                'Am 1. jeden Monats eine Übersicht der Feiertage erhalten',
+              ),
+              value: settings.monthlySummaryEnabled,
+              onChanged: notificationsSupported
+                  ? (value) {
+                      ref
+                          .read(notificationSettingsProvider.notifier)
+                          .setMonthlySummaryEnabled(value);
+                    }
+                  : null,
+              secondary: Icon(
+                Icons.calendar_month_outlined,
+                color: settings.monthlySummaryEnabled
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.outline,
+              ),
+            ),
+
+            const Divider(),
+
+            // Schulferien toggle
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                'Kalender',
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+            ),
+            SwitchListTile(
+              title: const Text('Schulferien anzeigen'),
+              subtitle: const Text(
+                'Schulferien deines Bundeslandes im Kalender anzeigen',
+              ),
+              value: ref.watch(showSchoolHolidaysProvider),
+              onChanged: (value) {
+                ref.read(showSchoolHolidaysProvider.notifier).toggle(value);
+              },
+              secondary: Icon(
+                Icons.school_outlined,
+                color: ref.watch(showSchoolHolidaysProvider)
+                    ? theme.colorScheme.secondary
+                    : theme.colorScheme.outline,
+              ),
             ),
 
             const Divider(),

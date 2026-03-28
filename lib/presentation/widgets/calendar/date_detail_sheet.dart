@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:holiday_calendar/core/services/calendar_service.dart';
 import 'package:holiday_calendar/domain/entities/holiday.dart';
+import 'package:holiday_calendar/domain/entities/school_holiday.dart';
 import 'package:intl/intl.dart';
 
 /// Bottom sheet that shows date details
@@ -8,12 +10,14 @@ class DateDetailSheet extends StatelessWidget {
   final DateTime date;
   final List<Holiday> holidays;
   final String bundesland;
+  final SchoolHoliday? schoolHoliday;
 
   const DateDetailSheet({
     super.key,
     required this.date,
     required this.holidays,
     required this.bundesland,
+    this.schoolHoliday,
   });
 
   @override
@@ -137,6 +141,22 @@ class DateDetailSheet extends StatelessWidget {
                       : null,
             ),
 
+            // School holiday info
+            if (schoolHoliday != null) ...[
+              ListTile(
+                leading: Icon(
+                  Icons.school_outlined,
+                  color: theme.colorScheme.secondary,
+                ),
+                title: Text(schoolHoliday!.localName),
+                subtitle: Text(
+                  '${DateFormat('d. MMM', 'de_DE').format(schoolHoliday!.startDate)}'
+                  ' – ${DateFormat('d. MMM yyyy', 'de_DE').format(schoolHoliday!.endDate)}'
+                  ' (${schoolHoliday!.durationDays} Tage)',
+                ),
+              ),
+            ],
+
             // Multiple holidays
             if (holidays.length > 1) ...[
               const Divider(),
@@ -163,6 +183,29 @@ class DateDetailSheet extends StatelessWidget {
                           ),
                         ),
                   ],
+                ),
+              ),
+            ],
+
+            // Add to calendar button
+            if (isHoliday) ...[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: () {
+                      CalendarService.addHolidayToCalendar(holidays.first);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              '${holidays.first.localName} wird zum Kalender hinzugefügt'),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.event_available),
+                    label: const Text('Zum Kalender hinzufügen'),
+                  ),
                 ),
               ),
             ],

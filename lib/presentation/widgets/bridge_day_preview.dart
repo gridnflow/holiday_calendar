@@ -57,13 +57,14 @@ class BridgeDayPreview extends ConsumerWidget {
         ),
         // Horizontal scrolling cards
         SizedBox(
-          height: 120,
+          height: 140,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             itemCount: recommendations.length,
             itemBuilder: (context, index) {
               final recommendation = recommendations[index];
+              final isPast = recommendation.endDate.isBefore(DateTime.now());
               return _BridgeDayPreviewCard(
                 vacationDays: recommendation.vacationDaysNeeded,
                 totalDaysOff: recommendation.totalDaysOff,
@@ -73,6 +74,7 @@ class BridgeDayPreview extends ConsumerWidget {
                     : '',
                 dateRange:
                     '${DateFormat('dd.MM', 'de_DE').format(recommendation.startDate)} - ${DateFormat('dd.MM', 'de_DE').format(recommendation.endDate)}',
+                isPast: isPast,
                 onTap: () {
                   Navigator.push(
                     context,
@@ -94,6 +96,7 @@ class _BridgeDayPreviewCard extends StatelessWidget {
   final double efficiency;
   final String holidayName;
   final String dateRange;
+  final bool isPast;
   final VoidCallback? onTap;
 
   const _BridgeDayPreviewCard({
@@ -102,17 +105,20 @@ class _BridgeDayPreviewCard extends StatelessWidget {
     required this.efficiency,
     required this.holidayName,
     required this.dateRange,
+    this.isPast = false,
     this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final disabledColor = theme.colorScheme.onSurface.withValues(alpha: 0.38);
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+      color: isPast ? theme.colorScheme.surfaceContainerHighest : null,
       child: InkWell(
-        onTap: onTap,
+        onTap: isPast ? null : onTap,
         borderRadius: BorderRadius.circular(12),
         child: Container(
           width: 160,
@@ -130,13 +136,15 @@ class _BridgeDayPreviewCard extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: _getEfficiencyColor(efficiency),
+                      color: isPast
+                          ? theme.colorScheme.surfaceContainerHighest
+                          : _getEfficiencyColor(efficiency),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
                       '${efficiency.toStringAsFixed(1)}x',
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: isPast ? disabledColor : Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
                       ),
@@ -145,23 +153,24 @@ class _BridgeDayPreviewCard extends StatelessWidget {
                   Icon(
                     Icons.arrow_forward_ios,
                     size: 12,
-                    color: theme.colorScheme.outline,
+                    color: disabledColor,
                   ),
                 ],
               ),
-              const Spacer(),
+              const SizedBox(height: 8),
               // Main info
               Text(
                 '$vacationDays → $totalDaysOff Tage',
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.bold,
+                  color: isPast ? disabledColor : null,
                 ),
               ),
               const SizedBox(height: 4),
               Text(
                 holidayName,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.tertiary,
+                  color: isPast ? disabledColor : theme.colorScheme.tertiary,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -170,7 +179,7 @@ class _BridgeDayPreviewCard extends StatelessWidget {
               Text(
                 dateRange,
                 style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.outline,
+                  color: disabledColor,
                 ),
               ),
             ],

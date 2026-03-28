@@ -11,6 +11,11 @@ class ApiConstants {
   static String publicHolidaysEndpoint(int year) =>
       '/PublicHolidays?countryIsoCode=$countryCode&languageIsoCode=$languageCode&validFrom=$year-01-01&validTo=$year-12-31';
 
+  /// Get school holidays endpoint
+  /// Returns school holidays for a specific year and subdivision in Germany
+  static String schoolHolidaysEndpoint(int year, String subdivisionCode) =>
+      '/SchoolHolidays?countryIsoCode=$countryCode&languageIsoCode=$languageCode&validFrom=$year-01-01&validTo=$year-12-31&subdivisionCode=$subdivisionCode';
+
   /// Get subdivisions (federal states) endpoint
   static String subdivisionsEndpoint() =>
       '/Subdivisions?countryIsoCode=$countryCode';

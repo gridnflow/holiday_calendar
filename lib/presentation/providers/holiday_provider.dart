@@ -18,7 +18,14 @@ class HolidayNotifier extends _$HolidayNotifier {
     final result = await repository.getHolidays(year);
 
     return result.fold(
-      (failure) => throw Exception(failure.toString()),
+      (failure) => throw Exception(failure.when(
+        network: (_) =>
+            'Keine Internetverbindung. Bitte überprüfe deine Verbindung und versuche es erneut.',
+        server: (msg, code) =>
+            'Serverfehler (${code ?? ''}). Bitte versuche es später erneut.',
+        unknown: (_) =>
+            'Ein unbekannter Fehler ist aufgetreten. Bitte versuche es erneut.',
+      )),
       (holidays) {
         if (selectedState == null) {
           return holidays;

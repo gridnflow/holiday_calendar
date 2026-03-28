@@ -3,7 +3,7 @@ import 'package:holiday_calendar/domain/entities/holiday.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WidgetService {
-  static const _channel = MethodChannel('com.example.holiday_calendar/widget');
+  static const _channel = MethodChannel('com.gridnflow.feiertage.kalender/widget');
 
   static const _nameKey = 'widget_next_holiday_name';
   static const _dateKey = 'widget_next_holiday_date';
@@ -20,20 +20,28 @@ class WidgetService {
 
     final prefs = await SharedPreferences.getInstance();
 
+    String name;
+    String date;
+    int days;
+
     if (upcoming.isEmpty) {
-      await prefs.setString(_nameKey, 'Kein Feiertag');
-      await prefs.setString(_dateKey, '—');
-      await prefs.setInt(_daysKey, -1);
+      name = 'Kein Feiertag';
+      date = '—';
+      days = -1;
     } else {
       final next = upcoming.first;
       final nextDate = DateTime(next.date.year, next.date.month, next.date.day);
-      final days = nextDate.difference(today).inDays;
-
-      await prefs.setString(_nameKey, next.localName);
-      await prefs.setString(_dateKey, _formatDate(next.date));
-      await prefs.setInt(_daysKey, days);
+      name = next.localName;
+      date = _formatDate(next.date);
+      days = nextDate.difference(today).inDays;
     }
 
+    // Save to SharedPreferences (used by Android widget)
+    await prefs.setString(_nameKey, name);
+    await prefs.setString(_dateKey, date);
+    await prefs.setInt(_daysKey, days);
+
+    // Notify native side to update widget
     try {
       await _channel.invokeMethod('updateWidget');
     } catch (_) {}
