@@ -1,4 +1,3 @@
-import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/core/database/app_database.dart';
 import 'package:holiday_calendar/domain/entities/vacation.dart';

@@ -144,6 +144,6 @@ class NotificationSettingsData {
 /// Provider to check if notifications are supported
 @riverpod
 bool notificationsSupported(Ref ref) {
-  // Notifications are supported on Android and iOS
+  // Notifications are supported on Android
   return true;
 }

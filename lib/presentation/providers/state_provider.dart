@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/domain/entities/federal_state.dart';
-import 'package:holiday_calendar/presentation/providers/bridge_day_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -72,14 +71,9 @@ class AnnualVacationDays extends _$AnnualVacationDays {
   }
 }
 
-// Used vacation days (how many bridge days user has planned)
+// Used vacation days — placeholder, always 0 until bridge day selection is implemented
 @riverpod
-int usedVacationDays(Ref ref) {
-  final recommendations = ref.watch(topBridgeDayRecommendationsProvider);
-  // Count vacation days needed for top recommendations user might have selected
-  // For now, return 0 as placeholder — will be updated when user marks bridge days
-  return 0;
-}
+int usedVacationDays(Ref ref) => 0;
 
 @riverpod
 int remainingVacationDays(Ref ref) {

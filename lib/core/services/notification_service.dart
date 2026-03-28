@@ -50,7 +50,7 @@ class NotificationService {
     navigatorKey.currentState?.pushNamed('/bridge-days');
   }
 
-  /// Request notification permissions (iOS/Android 13+)
+  /// Request notification permissions (Android 13+)
   Future<bool> requestPermissions() async {
     final android = _notifications.resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>();

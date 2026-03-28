@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holiday_calendar/core/error/exceptions.dart';
 import 'package:holiday_calendar/core/error/failures.dart';
