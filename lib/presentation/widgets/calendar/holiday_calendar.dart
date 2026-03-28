@@ -176,7 +176,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
           }
 
           return Positioned(
-            bottom: 4,
+            bottom: 10,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: dots
