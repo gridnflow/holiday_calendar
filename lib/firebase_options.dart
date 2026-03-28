@@ -21,12 +21,13 @@ class DefaultFirebaseOptions {
     }
   }
 
-  // Replace with real values from `flutterfire configure`
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'PLACEHOLDER',
-    appId: 'PLACEHOLDER',
-    messagingSenderId: 'PLACEHOLDER',
+    apiKey: 'AIzaSyBKvVgmMkqLOLmZnlhRwPP5o_90X1SEOy8',
+    appId: '1:122962723732:android:bd051b5c526c8e76f20581',
+    messagingSenderId: '122962723732',
     projectId: 'flutter-todo-2026',
-    storageBucket: 'PLACEHOLDER',
+    storageBucket: 'flutter-todo-2026.firebasestorage.app',
   );
+
+  // Replace with real values from `flutterfire configure`
 }

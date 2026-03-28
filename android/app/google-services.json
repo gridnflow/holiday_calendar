@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "122962723732",
+    "project_id": "flutter-todo-2026",
+    "storage_bucket": "flutter-todo-2026.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122962723732:android:bd051b5c526c8e76f20581",
+        "android_client_info": {
+          "package_name": "com.gridnflow.feiertage.kalender"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122962723732-69be5566rrdi5pfg42b123b9997g002f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKvVgmMkqLOLmZnlhRwPP5o_90X1SEOy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122962723732-69be5566rrdi5pfg42b123b9997g002f.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "122962723732-gsm8k5kh8v7241sl5f8chhcna25r3kkp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.todomaster.todoApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122962723732:android:8870bc3e8f87f68af20581",
+        "android_client_info": {
+          "package_name": "com.gridnflow.todo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122962723732-7aunh2jn0a0mm49e7uagr5sh2j2gh9tc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gridnflow.todo",
+            "certificate_hash": "e442d3b4a71e51cc915a08db76a8ab42bf4a2364"
+          }
+        },
+        {
+          "client_id": "122962723732-69be5566rrdi5pfg42b123b9997g002f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKvVgmMkqLOLmZnlhRwPP5o_90X1SEOy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122962723732-69be5566rrdi5pfg42b123b9997g002f.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "122962723732-gsm8k5kh8v7241sl5f8chhcna25r3kkp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.todomaster.todoApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
