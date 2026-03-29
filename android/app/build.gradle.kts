@@ -1,3 +1,4 @@
+import java.util.Base64
 import java.util.Properties
 
 plugins {
@@ -19,7 +20,7 @@ val dartDefines = mutableMapOf<String, String>()
 val dartDefinesEncoded = (project.findProperty("dart-defines") as? String) ?: ""
 if (dartDefinesEncoded.isNotEmpty()) {
     dartDefinesEncoded.split(",").forEach { entry ->
-        val decoded = String(java.util.Base64.getDecoder().decode(entry), Charsets.UTF_8)
+        val decoded = String(Base64.getDecoder().decode(entry.trim()), Charsets.UTF_8)
         val idx = decoded.indexOf('=')
         if (idx > 0) {
             dartDefines[decoded.substring(0, idx)] = decoded.substring(idx + 1)
