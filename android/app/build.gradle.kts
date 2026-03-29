@@ -14,6 +14,19 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(keystorePropertiesFile.inputStream())
 }
 
+// Parse dart-defines for use in AndroidManifest
+val dartDefines = mutableMapOf<String, String>()
+val dartDefinesEncoded = (project.findProperty("dart-defines") as? String) ?: ""
+if (dartDefinesEncoded.isNotEmpty()) {
+    dartDefinesEncoded.split(",").forEach { entry ->
+        val decoded = String(java.util.Base64.getDecoder().decode(entry), Charsets.UTF_8)
+        val idx = decoded.indexOf('=')
+        if (idx > 0) {
+            dartDefines[decoded.substring(0, idx)] = decoded.substring(idx + 1)
+        }
+    }
+}
+
 android {
     namespace = "com.gridnflow.feiertage.kalender"
     compileSdk = 36
@@ -38,6 +51,7 @@ android {
         targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders["ADMOB_APP_ID"] = dartDefines["ADMOB_APP_ID"] ?: ""
     }
 
     signingConfigs {

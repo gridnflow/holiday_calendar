@@ -10,17 +10,15 @@ class AdConstants {
 
   static String get bannerAdUnitId {
     if (defaultTargetPlatform == TargetPlatform.android) {
-      return 'ca-app-pub-6139362725426823/5208063091';
+      return const String.fromEnvironment('ADMOB_BANNER_ID');
     }
     return '';
   }
 
   static String get nativeAdUnitId {
     if (defaultTargetPlatform == TargetPlatform.android) {
-      return 'ca-app-pub-6139362725426823/3703409736';
+      return const String.fromEnvironment('ADMOB_NATIVE_ID');
     }
     return '';
   }
-
-  // Android App ID: ca-app-pub-6139362725426823~2992119401
 }

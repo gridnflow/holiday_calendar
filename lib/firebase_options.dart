@@ -22,11 +22,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBKvVgmMkqLOLmZnlhRwPP5o_90X1SEOy8',
-    appId: '1:122962723732:android:bd051b5c526c8e76f20581',
-    messagingSenderId: '122962723732',
-    projectId: 'flutter-todo-2026',
-    storageBucket: 'flutter-todo-2026.firebasestorage.app',
+    apiKey: String.fromEnvironment('FIREBASE_API_KEY'),
+    appId: String.fromEnvironment('FIREBASE_APP_ID'),
+    messagingSenderId: String.fromEnvironment('FIREBASE_MESSAGING_SENDER_ID'),
+    projectId: String.fromEnvironment('FIREBASE_PROJECT_ID'),
+    storageBucket: String.fromEnvironment('FIREBASE_STORAGE_BUCKET'),
   );
 
   // Replace with real values from `flutterfire configure`
