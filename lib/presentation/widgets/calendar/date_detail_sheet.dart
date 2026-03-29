@@ -167,8 +167,7 @@ class DateDetailSheet extends StatelessWidget {
             // Vacation info
             if (vacation != null) ...[
               ListTile(
-                leading: Icon(Icons.beach_access,
-                    color: theme.colorScheme.primary),
+                leading: const Icon(Icons.beach_access, color: Colors.orange),
                 title: Text(vacation!.title),
                 subtitle: Text(
                   '${DateFormat('d. MMM', 'de_DE').format(vacation!.startDate)}'

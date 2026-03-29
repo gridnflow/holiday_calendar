@@ -23,9 +23,11 @@ final federalStatesProvider = AutoDisposeProvider<List<FederalState>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FederalStatesRef = AutoDisposeProviderRef<List<FederalState>>;
-String _$usedVacationDaysHash() => r'56ff7e407c3471c2feb514955060c06d94c1da11';
+String _$usedVacationDaysHash() => r'ca88830beaebd01ec0e1736b5ac29c61e98d77b7';
 
-/// See also [usedVacationDays].
+/// Counts weekdays (Mon–Fri) used across all vacations in the current year.
+///
+/// Copied from [usedVacationDays].
 @ProviderFor(usedVacationDays)
 final usedVacationDaysProvider = AutoDisposeProvider<int>.internal(
   usedVacationDays,

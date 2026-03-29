@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/domain/entities/federal_state.dart';
+import 'package:holiday_calendar/presentation/providers/db_vacation_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -71,9 +72,26 @@ class AnnualVacationDays extends _$AnnualVacationDays {
   }
 }
 
-// Used vacation days — placeholder, always 0 until bridge day selection is implemented
+/// Counts weekdays (Mon–Fri) used across all vacations in the current year.
 @riverpod
-int usedVacationDays(Ref ref) => 0;
+int usedVacationDays(Ref ref) {
+  final vacations = ref.watch(dbVacationsProvider).valueOrNull ?? [];
+  final currentYear = DateTime.now().year;
+  int total = 0;
+  for (final v in vacations) {
+    var day = DateTime(v.startDate.year, v.startDate.month, v.startDate.day);
+    final end = DateTime(v.endDate.year, v.endDate.month, v.endDate.day);
+    while (!day.isAfter(end)) {
+      if (day.year == currentYear &&
+          day.weekday != DateTime.saturday &&
+          day.weekday != DateTime.sunday) {
+        total++;
+      }
+      day = day.add(const Duration(days: 1));
+    }
+  }
+  return total;
+}
 
 @riverpod
 int remainingVacationDays(Ref ref) {

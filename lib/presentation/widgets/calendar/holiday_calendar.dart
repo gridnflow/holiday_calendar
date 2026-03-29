@@ -168,8 +168,8 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
             dots.add(Container(
               width: 6,
               height: 6,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary,
+              decoration: const BoxDecoration(
+                color: Colors.orange,
                 shape: BoxShape.circle,
               ),
             ));
@@ -244,7 +244,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
     } else if (isSchoolHoliday && !isOutside) {
       backgroundColor = colorScheme.secondaryContainer.withValues(alpha: 0.4);
     } else if (isVacation && !isOutside) {
-      backgroundColor = colorScheme.primaryContainer.withValues(alpha: 0.4);
+      backgroundColor = Colors.orange.withValues(alpha: 0.2);
     }
 
     // Border (only for today, not selected)

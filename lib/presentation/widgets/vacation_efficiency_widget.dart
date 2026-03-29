@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/presentation/providers/bridge_day_provider.dart';
+import 'package:holiday_calendar/presentation/providers/state_provider.dart';
 import 'package:holiday_calendar/presentation/providers/vacation_provider.dart';
 
 /// Combined widget showing:
@@ -13,31 +14,39 @@ class VacationEfficiencyWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final vacationAsync = ref.watch(vacationSettingsProvider);
     final recommendations = ref.watch(topBridgeDayRecommendationsProvider);
+    final usedDays = ref.watch(usedVacationDaysProvider);
 
     return vacationAsync.when(
-      data: (vacation) => Card(
-        margin: const EdgeInsets.all(16),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Vacation Counter Section
-              _VacationCounterSection(
-                vacation: vacation,
-                onEdit: () => _showVacationSettingsDialog(context, ref, vacation),
-              ),
+      data: (vacation) {
+        final effectiveVacation = VacationData(
+          totalDays: vacation.totalDays,
+          usedDays: usedDays,
+          resturlaubReminder: vacation.resturlaubReminder,
+        );
+        return Card(
+          margin: const EdgeInsets.all(16),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Vacation Counter Section
+                _VacationCounterSection(
+                  vacation: effectiveVacation,
+                  onEdit: () => _showVacationSettingsDialog(context, ref, vacation),
+                ),
 
-              const SizedBox(height: 16),
-              const Divider(),
-              const SizedBox(height: 12),
+                const SizedBox(height: 16),
+                const Divider(),
+                const SizedBox(height: 12),
 
-              // Efficiency Index Section
-              _EfficiencyIndexSection(recommendations: recommendations),
-            ],
+                // Efficiency Index Section
+                _EfficiencyIndexSection(recommendations: recommendations),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
       loading: () => const SizedBox.shrink(),
       error: (_, _) => const SizedBox.shrink(),
     );
