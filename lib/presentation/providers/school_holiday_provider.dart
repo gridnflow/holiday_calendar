@@ -50,19 +50,7 @@ class SchoolHolidayNotifier extends _$SchoolHolidayNotifier {
     final year = ref.watch(selectedYearProvider);
     final database = ref.watch(appDatabaseProvider);
 
-    // Check cache first
-    final isCacheValid = await database.isSchoolHolidayCacheValid(
-        year, selectedState.code);
-
-    if (isCacheValid) {
-      final cached = await database.getSchoolHolidaysByYearAndState(
-          year, selectedState.code);
-      if (cached.isNotEmpty) {
-        return cached.map(_mapRowToEntity).toList();
-      }
-    }
-
-    // Fetch from API
+    // Always fetch fresh from API; use cache only as offline fallback
     try {
       final remoteDataSource =
           HolidayRemoteDataSourceImpl(dio: ref.watch(dioProvider));
@@ -86,7 +74,7 @@ class SchoolHolidayNotifier extends _$SchoolHolidayNotifier {
         );
       }).toList();
 
-      // Cache
+      // Update cache
       await database.deleteSchoolHolidaysByYearAndState(
           year, selectedState.code);
       final companions = entities
@@ -106,7 +94,7 @@ class SchoolHolidayNotifier extends _$SchoolHolidayNotifier {
 
       return entities;
     } catch (_) {
-      // Fallback to cache
+      // Offline fallback to cache
       final cached = await database.getSchoolHolidaysByYearAndState(
           year, selectedState.code);
       return cached.map(_mapRowToEntity).toList();

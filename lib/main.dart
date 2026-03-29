@@ -6,14 +6,13 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:holiday_calendar/app.dart';
 import 'package:holiday_calendar/core/constants/ad_constants.dart';
 import 'package:holiday_calendar/core/services/notification_service.dart';
-import 'package:holiday_calendar/firebase_options.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Initialize Firebase (auto-configured via google-services.json)
+  await Firebase.initializeApp();
 
   // Initialize date formatting
   await initializeDateFormatting('de_DE', null);

@@ -97,5 +97,5 @@ int usedVacationDays(Ref ref) {
 int remainingVacationDays(Ref ref) {
   final total = ref.watch(annualVacationDaysProvider);
   final used = ref.watch(usedVacationDaysProvider);
-  return total - used;
+  return (total - used).clamp(0, total);
 }

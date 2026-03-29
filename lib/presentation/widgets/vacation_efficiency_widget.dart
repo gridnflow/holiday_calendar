@@ -58,7 +58,6 @@ class VacationEfficiencyWidget extends ConsumerWidget {
     VacationData currentData,
   ) {
     int totalDays = currentData.totalDays;
-    int usedDays = currentData.usedDays;
     bool reminder = currentData.resturlaubReminder;
 
     showModalBottomSheet(
@@ -132,53 +131,6 @@ class VacationEfficiencyWidget extends ConsumerWidget {
 
                   const SizedBox(height: 16),
 
-                  // Used vacation days
-                  Text(
-                    'Bereits genommen (Tage)',
-                    style: theme.textTheme.titleSmall,
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: usedDays > 0
-                            ? () => setState(() => usedDays--)
-                            : null,
-                        icon: const Icon(Icons.remove_circle_outline),
-                      ),
-                      Expanded(
-                        child: Slider(
-                          value: usedDays.toDouble(),
-                          min: 0,
-                          max: totalDays.toDouble(),
-                          divisions: totalDays > 0 ? totalDays : 1,
-                          label: '$usedDays',
-                          onChanged: (value) {
-                            setState(() => usedDays = value.round());
-                          },
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: usedDays < totalDays
-                            ? () => setState(() => usedDays++)
-                            : null,
-                        icon: const Icon(Icons.add_circle_outline),
-                      ),
-                      SizedBox(
-                        width: 40,
-                        child: Text(
-                          '$usedDays',
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 16),
-
                   // Resturlaub reminder
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
@@ -199,7 +151,6 @@ class VacationEfficiencyWidget extends ConsumerWidget {
                       onPressed: () async {
                         final notifier = ref.read(vacationSettingsProvider.notifier);
                         await notifier.setTotalDays(totalDays);
-                        await notifier.setUsedDays(usedDays);
                         await notifier.setResturlaubReminder(reminder);
                         if (context.mounted) {
                           Navigator.pop(context);

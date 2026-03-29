@@ -61,7 +61,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     }
 
     // Save vacation days
-    ref.read(vacationSettingsProvider.notifier).setTotalDays(_vacationDays);
+    await ref.read(vacationSettingsProvider.notifier).setTotalDays(_vacationDays);
 
     // Save school holiday preference
     ref.read(showSchoolHolidaysProvider.notifier).toggle(_showSchoolHolidays);
@@ -396,11 +396,11 @@ class _VacationAndNotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(32),
       child: Column(
         children: [
-          const Spacer(),
+          const SizedBox(height: 16),
           Icon(
             Icons.tune,
             size: 48,
@@ -516,7 +516,7 @@ class _VacationAndNotificationPage extends StatelessWidget {
             ),
           ),
 
-          const Spacer(),
+          const SizedBox(height: 32),
 
           SizedBox(
             width: double.infinity,
@@ -528,6 +528,7 @@ class _VacationAndNotificationPage extends StatelessWidget {
               child: const Text('Fertig'),
             ),
           ),
+          const SizedBox(height: 16),
         ],
       ),
     );
