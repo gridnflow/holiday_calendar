@@ -75,7 +75,7 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => launchUrl(
-              Uri.parse('https://yeongshub.github.io/holiday_calendar/privacy-policy.html'),
+              Uri.parse('https://gridnflow.github.io/privacy-policy.html'),
               mode: LaunchMode.externalApplication,
             ),
             child: const Text('Datenschutz'),
