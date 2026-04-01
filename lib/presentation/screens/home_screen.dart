@@ -199,8 +199,13 @@ class _NextHolidayDDayCard extends ConsumerWidget {
 
     if (upcoming.isEmpty) return const SizedBox.shrink();
 
+    // If today is a holiday (D-0), skip to the next upcoming one
     final next = upcoming.first;
-    final nextDate = DateTime(next.date.year, next.date.month, next.date.day);
+    final firstDate = DateTime(next.date.year, next.date.month, next.date.day);
+    final isToday = firstDate == today;
+    final display = isToday && upcoming.length > 1 ? upcoming[1] : next;
+
+    final nextDate = DateTime(display.date.year, display.date.month, display.date.day);
     final daysUntil = nextDate.difference(today).inDays;
     final theme = Theme.of(context);
 
@@ -223,7 +228,7 @@ class _NextHolidayDDayCard extends ConsumerWidget {
               ),
               child: Center(
                 child: Text(
-                  daysUntil == 0 ? 'Heute' : 'D-$daysUntil',
+                  'D-$daysUntil',
                   style: theme.textTheme.titleSmall?.copyWith(
                     color: theme.colorScheme.onPrimary,
                     fontWeight: FontWeight.bold,
@@ -237,7 +242,7 @@ class _NextHolidayDDayCard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    next.localName,
+                    display.localName,
                     style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -246,11 +251,9 @@ class _NextHolidayDDayCard extends ConsumerWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    daysUntil == 0
-                        ? 'Heute ist Feiertag 🎉'
-                        : daysUntil == 1
-                            ? 'Morgen ist Feiertag'
-                            : 'Noch $daysUntil Tage',
+                    daysUntil == 1
+                        ? 'Morgen ist Feiertag'
+                        : 'Noch $daysUntil Tage',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onPrimaryContainer,
                     ),
@@ -281,28 +284,15 @@ class _NextVacationDDayCard extends ConsumerWidget {
       nextVacation.startDate.month,
       nextVacation.startDate.day,
     );
-    final endDate = DateTime(
-      nextVacation.endDate.year,
-      nextVacation.endDate.month,
-      nextVacation.endDate.day,
-    );
 
-    final isOngoing = !today.isBefore(startDate) && !today.isAfter(endDate);
     final daysUntil = startDate.difference(today).inDays;
 
     final theme = Theme.of(context);
 
-    String dDayLabel;
-    String subtitleLabel;
-    if (isOngoing) {
-      dDayLabel = '🏖️';
-      subtitleLabel = 'Urlaub läuft! 🏖️';
-    } else {
-      dDayLabel = 'D-$daysUntil';
-      subtitleLabel = daysUntil == 1
-          ? 'Morgen beginnt der Urlaub'
-          : 'Noch $daysUntil Tage';
-    }
+    final dDayLabel = 'D-$daysUntil';
+    final subtitleLabel = daysUntil == 1
+        ? 'Morgen beginnt der Urlaub'
+        : 'Noch $daysUntil Tage';
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
@@ -323,7 +313,7 @@ class _NextVacationDDayCard extends ConsumerWidget {
               ),
               child: Center(
                 child: Text(
-                  isOngoing ? '🏖️' : dDayLabel,
+                  dDayLabel,
                   style: theme.textTheme.titleSmall?.copyWith(
                     color: theme.colorScheme.onSecondary,
                     fontWeight: FontWeight.bold,
