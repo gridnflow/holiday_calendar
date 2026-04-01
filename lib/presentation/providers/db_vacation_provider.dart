@@ -67,7 +67,7 @@ Map<DateTime, Vacation> dbVacationsByDate(Ref ref) {
   return map;
 }
 
-/// Next upcoming vacation (startDate > today, skipping ongoing)
+/// Next upcoming vacation — skips today's (D-0) and ongoing vacations
 @riverpod
 Vacation? nextVacation(Ref ref) {
   final vacationsAsync = ref.watch(dbVacationsProvider);
@@ -78,9 +78,18 @@ Vacation? nextVacation(Ref ref) {
   final today = DateTime(now.year, now.month, now.day);
   final upcoming = vacations
       .where((v) =>
-          DateTime(v.startDate.year, v.startDate.month, v.startDate.day)
-              .isAfter(today))
+          !DateTime(v.endDate.year, v.endDate.month, v.endDate.day)
+              .isBefore(today))
       .toList()
     ..sort((a, b) => a.startDate.compareTo(b.startDate));
-  return upcoming.isEmpty ? null : upcoming.first;
+
+  if (upcoming.isEmpty) return null;
+
+  // Skip D-0 (starts today) and ongoing (started before today) → show next
+  final first = upcoming.first;
+  final firstStart = DateTime(first.startDate.year, first.startDate.month, first.startDate.day);
+  if (!firstStart.isAfter(today)) {
+    return upcoming.length > 1 ? upcoming[1] : null;
+  }
+  return first;
 }
