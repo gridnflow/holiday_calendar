@@ -15,8 +15,9 @@ void main() async {
   // Initialize Firebase (auto-configured via google-services.json)
   await Firebase.initializeApp();
 
-  // Initialize date formatting
-  await initializeDateFormatting('de_DE', null);
+  // Initialize date formatting for all locales so DateFormat works in any
+  // of the app's supported languages, not just German.
+  await initializeDateFormatting();
 
   // Initialize notifications and ads in parallel
   await Future.wait([

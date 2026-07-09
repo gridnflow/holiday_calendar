@@ -33,8 +33,8 @@ class DateDetailSheet extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isHoliday = holidays.isNotEmpty;
-    final dateFormat = DateFormat('d. MMMM yyyy', 'de_DE');
     final languageCode = Localizations.localeOf(context).languageCode;
+    final dateFormat = DateFormat('d. MMMM yyyy', languageCode);
 
     return Container(
       decoration: BoxDecoration(
@@ -168,8 +168,8 @@ class DateDetailSheet extends StatelessWidget {
                 ),
                 title: Text(schoolHoliday!.localName),
                 subtitle: Text(
-                  '${DateFormat('d. MMM', 'de_DE').format(schoolHoliday!.startDate)}'
-                  ' – ${DateFormat('d. MMM yyyy', 'de_DE').format(schoolHoliday!.endDate)}'
+                  '${DateFormat('d. MMM', languageCode).format(schoolHoliday!.startDate)}'
+                  ' – ${DateFormat('d. MMM yyyy', languageCode).format(schoolHoliday!.endDate)}'
                   ' ${l10n.durationDaysParen(schoolHoliday!.durationDays)}',
                 ),
               ),
@@ -181,8 +181,8 @@ class DateDetailSheet extends StatelessWidget {
                 leading: const Icon(Icons.beach_access, color: Colors.orange),
                 title: Text(vacation!.title),
                 subtitle: Text(
-                  '${DateFormat('d. MMM', 'de_DE').format(vacation!.startDate)}'
-                  ' – ${DateFormat('d. MMM yyyy', 'de_DE').format(vacation!.endDate)}'
+                  '${DateFormat('d. MMM', languageCode).format(vacation!.startDate)}'
+                  ' – ${DateFormat('d. MMM yyyy', languageCode).format(vacation!.endDate)}'
                   ' ${l10n.durationDaysParen(vacation!.durationDays)}',
                 ),
                 trailing: IconButton(

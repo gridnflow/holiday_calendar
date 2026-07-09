@@ -47,7 +47,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
         return holidaysByDate[normalizedDay] ?? [];
       },
       startingDayOfWeek: StartingDayOfWeek.monday,
-      locale: 'de_DE',
+      locale: Localizations.localeOf(context).toString(),
       headerVisible: false,
       daysOfWeekHeight: 40,
       rowHeight: 52,
@@ -364,7 +364,8 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
                 contentPadding: EdgeInsets.zero,
                 title: Text(l10n.from),
                 subtitle: Text(
-                    DateFormat('d. MMMM yyyy', 'de_DE').format(startDate)),
+                    DateFormat('d. MMMM yyyy', Localizations.localeOf(ctx).languageCode)
+                        .format(startDate)),
                 trailing: const Icon(Icons.calendar_today, size: 18),
                 onTap: () async {
                   final picked = await showDatePicker(
@@ -372,7 +373,6 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
                     initialDate: startDate,
                     firstDate: DateTime(2020),
                     lastDate: DateTime(2030),
-                    locale: const Locale('de'),
                   );
                   if (picked != null) {
                     setState(() {
@@ -386,7 +386,8 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
                 contentPadding: EdgeInsets.zero,
                 title: Text(l10n.to),
                 subtitle: Text(
-                    DateFormat('d. MMMM yyyy', 'de_DE').format(endDate)),
+                    DateFormat('d. MMMM yyyy', Localizations.localeOf(ctx).languageCode)
+                        .format(endDate)),
                 trailing: const Icon(Icons.calendar_today, size: 18),
                 onTap: () async {
                   final picked = await showDatePicker(
@@ -394,7 +395,6 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
                     initialDate: endDate,
                     firstDate: startDate,
                     lastDate: DateTime(2030),
-                    locale: const Locale('de'),
                   );
                   if (picked != null) setState(() => endDate = picked);
                 },

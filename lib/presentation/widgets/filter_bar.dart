@@ -143,7 +143,8 @@ class _YearMonthPicker extends ConsumerWidget {
     final selectedMonth = ref.watch(selectedMonthProvider);
     final theme = Theme.of(context);
 
-    final monthName = DateFormat.MMMM('de_DE').format(DateTime(2024, selectedMonth));
+    final monthName = DateFormat.MMMM(Localizations.localeOf(context).languageCode)
+        .format(DateTime(2024, selectedMonth));
 
     return InkWell(
       onTap: () => _showYearMonthPicker(context, ref, selectedYear, selectedMonth),
@@ -265,7 +266,8 @@ class _YearMonthPicker extends ConsumerWidget {
                           childCount: 12,
                           builder: (context, index) {
                             final month = index + 1;
-                            final monthName = DateFormat.MMMM('de_DE').format(DateTime(2024, month));
+                            final monthName = DateFormat.MMMM(Localizations.localeOf(context).languageCode)
+                                .format(DateTime(2024, month));
                             final isSelected = month == tempMonth;
                             return Center(
                               child: Text(

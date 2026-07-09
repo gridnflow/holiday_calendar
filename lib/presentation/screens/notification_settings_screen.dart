@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/notification_provider.dart';
 import 'package:holiday_calendar/presentation/providers/school_holiday_provider.dart';
+import 'package:holiday_calendar/presentation/widgets/language_picker.dart';
 
 /// Screen for configuring Brückentage notification settings
 class NotificationSettingsScreen extends ConsumerWidget {
@@ -214,6 +215,22 @@ class NotificationSettingsScreen extends ConsumerWidget {
                     : theme.colorScheme.outline,
               ),
             ),
+
+            const Divider(),
+
+            // Language section
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                l10n.language,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+            ),
+            const LanguagePickerTile(),
 
             const Divider(),
 
