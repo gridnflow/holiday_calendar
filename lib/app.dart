@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:holiday_calendar/core/services/analytics_service.dart';
 import 'package:holiday_calendar/core/services/notification_service.dart';
 import 'package:holiday_calendar/core/theme/app_theme.dart';
 import 'package:holiday_calendar/l10n/app_localizations.dart';
@@ -17,6 +18,9 @@ class HolidayCalendarApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       navigatorKey: navigatorKey,
+      // Wire the Firebase observer so screen transitions are tracked
+      // automatically — without this, screen_view events never fire.
+      navigatorObservers: [AnalyticsService().observer],
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

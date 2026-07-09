@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:holiday_calendar/core/services/notification_service.dart';
 import 'package:holiday_calendar/core/services/widget_service.dart';
 import 'package:holiday_calendar/presentation/providers/db_vacation_provider.dart';
 import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
@@ -149,6 +150,11 @@ class HomeScreen extends ConsumerWidget {
             child: holidaysAsync.when(
               data: (holidays) {
                 WidgetService.updateNextHoliday(holidays);
+                // Refresh recurring re-engagement notifications from fresh
+                // data every time the home screen loads. Each sub-scheduler
+                // self-gates on its enabled flag, so this is a no-op when the
+                // user has all notification types turned off.
+                NotificationService().refreshScheduledNotifications(holidays);
                 return SingleChildScrollView(
                   child: Column(
                     children: [

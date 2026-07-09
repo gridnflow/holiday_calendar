@@ -2,7 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/core/services/analytics_service.dart';
 import 'package:holiday_calendar/core/services/notification_service.dart';
 import 'package:holiday_calendar/domain/entities/bridge_day.dart';
+import 'package:holiday_calendar/domain/entities/holiday.dart';
 import 'package:holiday_calendar/presentation/providers/bridge_day_provider.dart';
+import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -51,19 +53,13 @@ class NotificationSettings extends _$NotificationSettings {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_holidayRemindersKey, enabled);
 
+    final service = NotificationService();
     if (enabled) {
-      final service = NotificationService();
       await service.requestPermissions();
-    } else {
-      // Cancel holiday reminder notifications (IDs 1000-1999)
-      final service = NotificationService();
-      final pending = await service.getPendingNotifications();
-      for (final n in pending) {
-        if (n.id >= 1000 && n.id < 2000) {
-          await service.cancelNotification(n.id);
-        }
-      }
     }
+    // scheduleHolidayReminders self-gates on the flag we just wrote and
+    // cancels its own ID range when disabled, so call it either way.
+    await service.scheduleHolidayReminders(_currentHolidays());
 
     ref.invalidateSelf();
   }
@@ -72,12 +68,21 @@ class NotificationSettings extends _$NotificationSettings {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_monthlySummaryKey, enabled);
 
-    if (!enabled) {
-      await NotificationService().cancelNotification(8001);
+    final service = NotificationService();
+    if (enabled) {
+      await service.requestPermissions();
     }
+    // scheduleMonthlyHolidaySummary self-gates on the flag and cancels its
+    // own ID range when disabled, so call it either way.
+    await service.scheduleMonthlyHolidaySummary(_currentHolidays());
 
     ref.invalidateSelf();
   }
+
+  /// Current holiday list (empty if not yet loaded). The schedulers treat an
+  /// empty list as a no-op; the home screen reschedules once data arrives.
+  List<Holiday> _currentHolidays() =>
+      ref.read(holidayNotifierProvider).valueOrNull ?? const [];
 
   Future<void> setReminderDaysBefore(int days) async {
     final prefs = await SharedPreferences.getInstance();

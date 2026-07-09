@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:holiday_calendar/core/services/analytics_service.dart';
 import 'package:holiday_calendar/domain/entities/holiday.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -46,8 +47,23 @@ class NotificationService {
     if (kDebugMode) {
       debugPrint('Notification tapped: $payload');
     }
+    // Attribute the re-engagement channel. Payloads look like
+    // "holiday_d7", "monthly_summary", "brueckentag_<iso-date>", etc.;
+    // collapse to the channel type before the first "_<date>".
+    final type = _payloadType(payload);
+    AnalyticsService().logNotificationOpen(type: type);
+    AnalyticsService().logAppOpen(source: 'notification');
     // Deep link: navigate to the route registered in the app
     navigatorKey.currentState?.pushNamed('/bridge-days');
+  }
+
+  /// Normalise a notification payload into a stable channel type for
+  /// analytics. `brueckentag_2026-05-01` → `brueckentag`; everything else is
+  /// passed through unchanged.
+  String _payloadType(String? payload) {
+    if (payload == null || payload.isEmpty) return 'unknown';
+    if (payload.startsWith('brueckentag_')) return 'brueckentag';
+    return payload;
   }
 
   /// Request notification permissions (Android 13+)
@@ -166,89 +182,148 @@ class NotificationService {
     return await _notifications.pendingNotificationRequests();
   }
 
-  /// Schedule D-7 and D-1 reminders for all upcoming holidays
+  // Holiday reminder ID range: 1000-1999
+  static const int _holidayReminderIdStart = 1000;
+  static const int _holidayReminderIdEnd = 2000;
+
+  /// Schedule D-7 and D-1 reminders for all upcoming holidays.
+  ///
+  /// Each reminder is scheduled to fire on the actual D-7 / D-1 evening,
+  /// so the user does not need to open the app on that exact day for it to
+  /// arrive. Re-run this on every app open to keep the queue fresh as the
+  /// holiday list rolls forward.
   Future<void> scheduleHolidayReminders(List<Holiday> holidays) async {
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.getBool('holiday_reminders_enabled') != true) return;
-
-    // Cancel existing holiday reminders by checking pending notifications
-    final pending = await _notifications.pendingNotificationRequests();
-    for (final n in pending) {
-      if (n.id >= 1000 && n.id < 2000) {
-        await _notifications.cancel(n.id);
-      }
+    if (prefs.getBool('holiday_reminders_enabled') != true) {
+      await _cancelHolidayReminders();
+      return;
     }
+
+    // Clear the existing holiday-reminder range before rescheduling.
+    await _cancelHolidayReminders();
 
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    int idCounter = 1000;
+    int idCounter = _holidayReminderIdStart;
 
-    for (final holiday in holidays) {
-      final holidayDate = DateTime(
-        holiday.date.year,
-        holiday.date.month,
-        holiday.date.day,
-      );
-      final daysUntil = holidayDate.difference(today).inDays;
+    // Only consider upcoming holidays, soonest first, capped so we stay well
+    // within the reserved ID range (max ~500 holidays × 2 reminders).
+    final upcoming = holidays
+        .where((h) =>
+            !DateTime(h.date.year, h.date.month, h.date.day).isBefore(today))
+        .toList()
+      ..sort((a, b) => a.date.compareTo(b.date));
 
-      // D-7: schedule notification for today at 9pm
-      if (daysUntil == 7) {
-        final scheduleTime = DateTime(now.year, now.month, now.day, 21, 0);
-        if (scheduleTime.isAfter(now)) {
-          await scheduleBrueckentagReminder(
-            id: idCounter++,
-            title: 'In 7 Tagen: ${holiday.localName}',
-            body: 'Noch Zeit zum Planen! Schau dir die Brückentage an.',
-            scheduledDate: scheduleTime,
-            payload: 'holiday_d7',
-          );
-        }
+    for (final holiday in upcoming) {
+      if (idCounter >= _holidayReminderIdEnd - 1) break;
+
+      final holidayDate =
+          DateTime(holiday.date.year, holiday.date.month, holiday.date.day);
+
+      // D-7 reminder at 9pm, seven days before the holiday.
+      final d7 = DateTime(
+          holidayDate.year, holidayDate.month, holidayDate.day - 7, 21, 0);
+      if (d7.isAfter(now)) {
+        await scheduleBrueckentagReminder(
+          id: idCounter++,
+          title: 'In 7 Tagen: ${holiday.localName}',
+          body: 'Noch Zeit zum Planen! Schau dir die Brückentage an.',
+          scheduledDate: d7,
+          payload: 'holiday_d7',
+        );
       }
 
-      // D-1: schedule notification for today at 6pm
-      if (daysUntil == 1) {
-        final scheduleTime = DateTime(now.year, now.month, now.day, 18, 0);
-        if (scheduleTime.isAfter(now)) {
-          await scheduleBrueckentagReminder(
-            id: idCounter++,
-            title: 'Morgen: ${holiday.localName} 🎉',
-            body: 'Genieße deinen freien Tag!',
-            scheduledDate: scheduleTime,
-            payload: 'holiday_d1',
-          );
-        }
+      // D-1 reminder at 6pm, the evening before the holiday.
+      final d1 = DateTime(
+          holidayDate.year, holidayDate.month, holidayDate.day - 1, 18, 0);
+      if (d1.isAfter(now)) {
+        await scheduleBrueckentagReminder(
+          id: idCounter++,
+          title: 'Morgen: ${holiday.localName} 🎉',
+          body: 'Genieße deinen freien Tag!',
+          scheduledDate: d1,
+          payload: 'holiday_d1',
+        );
       }
     }
   }
 
-  // Monthly summary notification ID (reserved: 8001)
-  static const int _monthlySummaryId = 8001;
+  /// Cancel all holiday reminders (ID range 1000-1999).
+  Future<void> _cancelHolidayReminders() async {
+    final pending = await _notifications.pendingNotificationRequests();
+    for (final n in pending) {
+      if (n.id >= _holidayReminderIdStart && n.id < _holidayReminderIdEnd) {
+        await _notifications.cancel(n.id);
+      }
+    }
+  }
 
-  /// Schedule monthly summary notification for the 1st of next month
-  Future<void> scheduleMonthlyHolidaySummary({
-    required int holidayCountThisMonth,
-    required int maxDaysOff,
-    required String monthName,
-  }) async {
+  // Monthly summary ID range: 8001-8003 (up to 3 months ahead)
+  static const int _monthlySummaryIdStart = 8001;
+  static const int _monthlySummaryMonthsAhead = 3;
+
+  static const List<String> _monthNamesDE = [
+    'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+    'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember',
+  ];
+
+  /// Schedule monthly summary notifications for the next few months.
+  ///
+  /// For each upcoming month that has at least one holiday, schedule a
+  /// notification on the 1st at 9am summarising that month's holidays.
+  /// Re-run on every app open to keep the queue current.
+  Future<void> scheduleMonthlyHolidaySummary(List<Holiday> holidays) async {
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.getBool('monthly_summary_enabled') != true) return;
+    if (prefs.getBool('monthly_summary_enabled') != true) {
+      await _cancelMonthlySummaries();
+      return;
+    }
 
-    // Cancel previous monthly summary
-    await _notifications.cancel(_monthlySummaryId);
+    await _cancelMonthlySummaries();
 
     final now = DateTime.now();
-    // Schedule for 1st of next month at 9am
-    final nextMonth = DateTime(now.year, now.month + 1, 1, 9, 0);
 
-    if (holidayCountThisMonth == 0) return;
+    for (var offset = 1; offset <= _monthlySummaryMonthsAhead; offset++) {
+      final target = DateTime(now.year, now.month + offset, 1, 9, 0);
+      final holidayCount = holidays.where((h) =>
+          h.date.year == target.year && h.date.month == target.month).length;
 
-    await scheduleBrueckentagReminder(
-      id: _monthlySummaryId,
-      title: '$monthName: $holidayCountThisMonth Feiertag${holidayCountThisMonth > 1 ? 'e' : ''}',
-      body: 'Mit Brückentagen bis zu $maxDaysOff Tage am Stück frei!',
-      scheduledDate: nextMonth,
-      payload: 'monthly_summary',
-    );
+      if (holidayCount == 0) continue;
+
+      final monthName = _monthNamesDE[target.month - 1];
+      await scheduleBrueckentagReminder(
+        id: _monthlySummaryIdStart + (offset - 1),
+        title: '$monthName: $holidayCount Feiertag${holidayCount > 1 ? 'e' : ''}',
+        body: 'Öffne die App und finde die besten Brückentage im $monthName!',
+        scheduledDate: target,
+        payload: 'monthly_summary',
+      );
+    }
+  }
+
+  Future<void> _cancelMonthlySummaries() async {
+    for (var i = 0; i < _monthlySummaryMonthsAhead; i++) {
+      await _notifications.cancel(_monthlySummaryIdStart + i);
+    }
+  }
+
+  /// Single entry point that refreshes every recurring notification type from
+  /// the current holiday list. Call this whenever fresh holiday data loads
+  /// (e.g. on app open). Each sub-scheduler self-gates on its enabled flag.
+  ///
+  /// Fails silently: notification init can fail on launch (see main.dart) or
+  /// be unavailable in tests, and a re-engagement refresh must never crash the
+  /// home screen.
+  Future<void> refreshScheduledNotifications(List<Holiday> holidays) async {
+    if (holidays.isEmpty || !_isInitialized) return;
+    try {
+      await scheduleHolidayReminders(holidays);
+      await scheduleMonthlyHolidaySummary(holidays);
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('refreshScheduledNotifications failed: $e');
+      }
+    }
   }
 
   /// Show immediate notification (for testing)

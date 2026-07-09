@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:holiday_calendar/core/services/analytics_service.dart';
 import 'package:holiday_calendar/core/services/notification_service.dart';
 import 'package:holiday_calendar/domain/entities/federal_state.dart';
+import 'package:holiday_calendar/domain/entities/holiday.dart';
+import 'package:holiday_calendar/presentation/providers/bridge_day_provider.dart';
+import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
 import 'package:holiday_calendar/presentation/providers/notification_provider.dart';
 import 'package:holiday_calendar/presentation/providers/school_holiday_provider.dart';
 import 'package:holiday_calendar/presentation/providers/state_provider.dart';
@@ -42,6 +46,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   bool _showSchoolHolidays = true;
 
   @override
+  void initState() {
+    super.initState();
+    // Funnel entry: onboarding appeared, and the user is on step 0.
+    AnalyticsService().logOnboardingStarted();
+    AnalyticsService().logOnboardingStepViewed(0);
+  }
+
+  @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
@@ -52,6 +64,34 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
+  }
+
+  /// Find the next upcoming holiday from the loaded list.
+  _NextHolidayInfo? _nextHoliday(List<Holiday> holidays) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final upcoming = holidays
+        .where((h) =>
+            !DateTime(h.date.year, h.date.month, h.date.day).isBefore(today))
+        .toList()
+      ..sort((a, b) => a.date.compareTo(b.date));
+    if (upcoming.isEmpty) return null;
+    final next = upcoming.first;
+    final date = DateTime(next.date.year, next.date.month, next.date.day);
+    return _NextHolidayInfo(
+      name: next.localName,
+      daysUntil: date.difference(today).inDays,
+      formattedDate: DateFormat('d. MMMM', 'de_DE').format(date),
+    );
+  }
+
+  /// Count bridge-day recommendations that still lie in the future.
+  int _remainingBridgeDayCount(WidgetRef ref) {
+    final now = DateTime.now();
+    return ref
+        .read(bridgeDayRecommendationsProvider)
+        .where((r) => r.startDate.isAfter(now))
+        .length;
   }
 
   Future<void> _completeOnboarding() async {
@@ -72,12 +112,24 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           .read(notificationSettingsProvider.notifier)
           .setBrueckentagEnabled(true);
 
-      // Schedule D+1, D+3, D+7 smart notification sequence
+      // Load real holiday data (state was just selected above) so the
+      // onboarding notifications carry the user's actual next holiday
+      // instead of hardcoded placeholders.
+      List<Holiday> holidays = const [];
+      try {
+        holidays = await ref.read(holidayNotifierProvider.future);
+      } catch (_) {
+        // Offline / API failure at onboarding — fall back to generic copy.
+      }
+
+      final next = _nextHoliday(holidays);
+      final remainingBridgeDays = _remainingBridgeDayCount(ref);
+
       await NotificationService().scheduleOnboardingSequence(
-        daysUntilNextHoliday: 30,
-        remainingBridgeDays: 10,
-        nextHolidayDate: '',
-        nextHolidayName: 'Feiertag',
+        daysUntilNextHoliday: next?.daysUntil ?? 0,
+        remainingBridgeDays: remainingBridgeDays,
+        nextHolidayDate: next?.formattedDate ?? '',
+        nextHolidayName: next?.name ?? 'Feiertag',
         bundeslandName: _selectedState?.nameDE,
       );
     }
@@ -134,6 +186,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 onPageChanged: (page) {
                   setState(() => _currentPage = page);
+                  // Funnel: which step the user advanced to (0-indexed).
+                  AnalyticsService().logOnboardingStepViewed(page);
                 },
                 children: [
                   _ValuePropositionPage(onNext: _nextPage),
@@ -533,4 +587,18 @@ class _VacationAndNotificationPage extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Lightweight value object for the next-holiday info used in onboarding
+/// notification copy.
+class _NextHolidayInfo {
+  final String name;
+  final int daysUntil;
+  final String formattedDate;
+
+  const _NextHolidayInfo({
+    required this.name,
+    required this.daysUntil,
+    required this.formattedDate,
+  });
 }

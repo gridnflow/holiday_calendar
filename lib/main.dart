@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:holiday_calendar/app.dart';
 import 'package:holiday_calendar/core/constants/ad_constants.dart';
+import 'package:holiday_calendar/core/services/analytics_service.dart';
 import 'package:holiday_calendar/core/services/notification_service.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -28,6 +29,10 @@ void main() async {
         return InitializationStatus({});
       }),
   ]);
+
+  // Cold-launch open. Notification-driven opens are attributed separately in
+  // NotificationService._onNotificationTap (source: 'notification').
+  AnalyticsService().logAppOpen(source: 'cold');
 
   runApp(const ProviderScope(child: HolidayCalendarApp()));
 }
