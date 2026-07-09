@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/core/services/analytics_service.dart';
 import 'package:holiday_calendar/core/services/calendar_export_service.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/bridge_day_provider.dart';
 import 'package:holiday_calendar/presentation/providers/year_provider.dart';
 import 'package:holiday_calendar/presentation/widgets/bridge_day_card.dart';
@@ -11,12 +12,13 @@ class BridgeDayScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final recommendations = ref.watch(bridgeDayRecommendationsProvider);
     final year = ref.watch(selectedYearProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Brückentage $year'),
+        title: Text(l10n.bridgeDaysWithYear(year)),
       ),
       body: recommendations.isEmpty
           ? Center(
@@ -30,7 +32,7 @@ class BridgeDayScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Keine Brückentage gefunden',
+                    l10n.noBridgeDaysFound,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: Colors.grey[600],
                         ),
@@ -62,45 +64,49 @@ class BridgeDayScreen extends ConsumerWidget {
     );
     showModalBottomSheet(
       context: context,
-      builder: (context) => Container(
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return Container(
         padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Urlaubsempfehlung',
+              l10n.vacationRecommendation,
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 16),
             _buildInfoRow(
               context,
               Icons.beach_access,
-              'Urlaubstage benötigt',
-              '${recommendation.vacationDaysNeeded} Tage',
+              l10n.vacationDaysNeeded,
+              l10n.daysCount(recommendation.vacationDaysNeeded),
             ),
             _buildInfoRow(
               context,
               Icons.celebration,
-              'Freie Tage insgesamt',
-              '${recommendation.totalDaysOff} Tage',
+              l10n.totalDaysOff,
+              l10n.daysCount(recommendation.totalDaysOff),
             ),
             _buildInfoRow(
               context,
               Icons.trending_up,
-              'Effizienz',
+              l10n.efficiency,
               '${recommendation.efficiency.toStringAsFixed(1)}x',
             ),
             const SizedBox(height: 16),
             Text(
-              'Feiertage:',
+              l10n.relatedHolidays,
               style: Theme.of(context).textTheme.titleSmall,
             ),
             const SizedBox(height: 8),
             ...recommendation.relatedHolidays.map<Widget>(
               (h) => Padding(
                 padding: const EdgeInsets.only(left: 8, bottom: 4),
-                child: Text('• ${h.localName}'),
+                child: Text(
+                  '• ${h.displayName(Localizations.localeOf(context).languageCode)}',
+                ),
               ),
             ),
             const SizedBox(height: 24),
@@ -117,21 +123,20 @@ class BridgeDayScreen extends ConsumerWidget {
                   );
                   if (context.mounted && !success) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'Kalender-Export konnte nicht geöffnet werden.',
-                        ),
+                      SnackBar(
+                        content: Text(l10n.calendarExportFailed),
                       ),
                     );
                   }
                 },
                 icon: const Icon(Icons.calendar_month),
-                label: const Text('Zum Kalender hinzufügen'),
+                label: Text(l10n.addToCalendar),
               ),
             ),
           ],
         ),
-      ),
+        );
+      },
     );
   }
 

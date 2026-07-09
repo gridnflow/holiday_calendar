@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/domain/entities/holiday.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
 import 'package:holiday_calendar/presentation/providers/month_provider.dart';
 import 'package:holiday_calendar/presentation/providers/year_provider.dart';
@@ -12,6 +13,7 @@ class YearOverviewScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final year = ref.watch(selectedYearProvider);
     final holidaysByDate = ref.watch(holidaysByDateProvider);
 
@@ -22,14 +24,14 @@ class YearOverviewScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.chevron_left),
-            tooltip: 'Vorheriges Jahr',
+            tooltip: l10n.previousYear,
             onPressed: () {
               ref.read(selectedYearProvider.notifier).select(year - 1);
             },
           ),
           IconButton(
             icon: const Icon(Icons.chevron_right),
-            tooltip: 'Nächstes Jahr',
+            tooltip: l10n.nextYear,
             onPressed: () {
               ref.read(selectedYearProvider.notifier).select(year + 1);
             },
@@ -85,7 +87,10 @@ class _MiniMonthCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final monthName = DateFormat('MMMM', 'de_DE').format(DateTime(year, month));
+    final monthName = DateFormat(
+      'MMMM',
+      Localizations.localeOf(context).toString(),
+    ).format(DateTime(year, month));
     final isCurrentMonth = DateTime.now().year == year && DateTime.now().month == month;
 
     return Card(
@@ -263,6 +268,7 @@ class _YearSummaryBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
     // Count holidays in this year - distinguish national vs regional
@@ -301,19 +307,19 @@ class _YearSummaryBar extends StatelessWidget {
           children: [
             _SummaryItem(
               icon: Icons.public,
-              label: 'Bundesweit',
+              label: l10n.nationwide,
               value: '$nationalHolidayCount',
               color: theme.colorScheme.tertiary,
             ),
             _SummaryItem(
               icon: Icons.location_on,
-              label: 'Regional',
+              label: l10n.regional,
               value: '$regionalHolidayCount',
               color: theme.colorScheme.outline,
             ),
             _SummaryItem(
               icon: Icons.event_available,
-              label: 'Zusätzlich frei',
+              label: l10n.additionalDaysOff,
               value: '$effectiveNational',
               color: theme.colorScheme.primary,
             ),

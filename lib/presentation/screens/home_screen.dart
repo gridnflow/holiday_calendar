@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/core/services/notification_service.dart';
 import 'package:holiday_calendar/core/services/widget_service.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/db_vacation_provider.dart';
 import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
 import 'package:holiday_calendar/presentation/screens/bridge_day_screen.dart';
@@ -21,53 +22,44 @@ class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   void _showDisclaimerDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Über diese App'),
+        title: Text(l10n.aboutApp),
         content: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                '⚠️ WICHTIGE INFORMATIONEN',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Text(
+                l10n.importantInfoHeader,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'Diese App ist KEINE offizielle Regierungsanwendung und steht in keiner Verbindung zu staatlichen Stellen. '
-                'Es handelt sich um ein unabhängiges, privates Informationsangebot. '
-                'Für verbindliche Informationen wenden Sie sich bitte direkt an die zuständigen Behörden.',
-              ),
+              Text(l10n.disclaimerBody),
               const SizedBox(height: 16),
-              const Text(
-                'Datenquelle',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Text(
+                l10n.dataSource,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'Die Feiertagsdaten basieren auf offiziellen gesetzlichen Regelungen der Bundesrepublik Deutschland. '
-                'Maßgebliche Quellen sind:',
-              ),
+              Text(l10n.dataSourceBody),
               const SizedBox(height: 8),
               _SourceLink(
-                label: 'BMI – Nationale Feiertage',
+                label: l10n.sourceBmiLabel,
                 url: 'https://www.bmi.bund.de/DE/themen/verfassung/staatliche-symbole/nationale-feiertage/nationale-feiertage-node.html',
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Technische Umsetzung',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Text(
+                l10n.technicalImplementation,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'Zur technischen Bereitstellung der Daten wird die OpenHolidays API genutzt, '
-                'die Feiertagsinformationen aus den oben genannten offiziellen Quellen aggregiert.',
-              ),
+              Text(l10n.technicalImplementationBody),
               const SizedBox(height: 8),
               _SourceLink(
-                label: 'OpenHolidays API',
+                label: l10n.sourceOpenHolidaysLabel,
                 url: 'https://www.openholidaysapi.org/en/',
               ),
             ],
@@ -79,11 +71,11 @@ class HomeScreen extends ConsumerWidget {
               Uri.parse('https://gridnflow.github.io/privacy-policy.html'),
               mode: LaunchMode.externalApplication,
             ),
-            child: const Text('Datenschutz'),
+            child: Text(l10n.privacyPolicy),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Schließen'),
+            child: Text(l10n.close),
           ),
         ],
       ),
@@ -92,18 +84,19 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final holidaysAsync = ref.watch(holidayNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Feiertage'),
+        title: Text(l10n.holidays),
         centerTitle: true,
         leadingWidth: 96,
         leading: Row(
           children: [
             IconButton(
               icon: const Icon(Icons.calendar_view_month),
-              tooltip: 'Jahresübersicht',
+              tooltip: l10n.yearOverview,
               onPressed: () {
                 Navigator.push(
                   context,
@@ -113,7 +106,7 @@ class HomeScreen extends ConsumerWidget {
             ),
             IconButton(
               icon: const Icon(Icons.beach_access),
-              tooltip: 'Brückentage',
+              tooltip: l10n.bridgeDays,
               onPressed: () {
                 Navigator.push(
                   context,
@@ -126,7 +119,7 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
-            tooltip: 'Benachrichtigungen',
+            tooltip: l10n.notifications,
             onPressed: () {
               Navigator.push(
                 context,
@@ -138,7 +131,7 @@ class HomeScreen extends ConsumerWidget {
           ),
           IconButton(
             icon: const Icon(Icons.info_outline),
-            tooltip: 'Über diese App',
+            tooltip: l10n.aboutApp,
             onPressed: () => _showDisclaimerDialog(context),
           ),
         ],
@@ -192,6 +185,7 @@ class _NextHolidayDDayCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final holidaysAsync = ref.watch(holidayNotifierProvider);
     final holidays = holidaysAsync.valueOrNull ?? [];
 
@@ -234,7 +228,7 @@ class _NextHolidayDDayCard extends ConsumerWidget {
               ),
               child: Center(
                 child: Text(
-                  'D-$daysUntil',
+                  l10n.dDayLabel(daysUntil),
                   style: theme.textTheme.titleSmall?.copyWith(
                     color: theme.colorScheme.onPrimary,
                     fontWeight: FontWeight.bold,
@@ -248,7 +242,7 @@ class _NextHolidayDDayCard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    display.localName,
+                    display.displayName(Localizations.localeOf(context).languageCode),
                     style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -258,8 +252,8 @@ class _NextHolidayDDayCard extends ConsumerWidget {
                   const SizedBox(height: 4),
                   Text(
                     daysUntil == 1
-                        ? 'Morgen ist Feiertag'
-                        : 'Noch $daysUntil Tage',
+                        ? l10n.tomorrowIsHoliday
+                        : l10n.daysRemaining(daysUntil),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onPrimaryContainer,
                     ),
@@ -279,6 +273,7 @@ class _NextVacationDDayCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final nextVacation = ref.watch(nextVacationProvider);
 
     if (nextVacation == null) return const SizedBox.shrink();
@@ -295,10 +290,10 @@ class _NextVacationDDayCard extends ConsumerWidget {
 
     final theme = Theme.of(context);
 
-    final dDayLabel = 'D-$daysUntil';
+    final dDayLabel = l10n.dDayLabel(daysUntil);
     final subtitleLabel = daysUntil == 1
-        ? 'Morgen beginnt der Urlaub'
-        : 'Noch $daysUntil Tage';
+        ? l10n.tomorrowVacationStarts
+        : l10n.daysRemaining(daysUntil);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),

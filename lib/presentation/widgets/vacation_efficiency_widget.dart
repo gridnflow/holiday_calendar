@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/bridge_day_provider.dart';
 import 'package:holiday_calendar/presentation/providers/state_provider.dart';
 import 'package:holiday_calendar/presentation/providers/vacation_provider.dart';
@@ -65,6 +66,7 @@ class VacationEfficiencyWidget extends ConsumerWidget {
       isScrollControlled: true,
       builder: (context) => StatefulBuilder(
         builder: (context, setState) {
+          final l10n = AppLocalizations.of(context)!;
           final theme = Theme.of(context);
           return Padding(
             padding: EdgeInsets.only(
@@ -77,7 +79,7 @@ class VacationEfficiencyWidget extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Urlaubseinstellungen',
+                    l10n.vacationSettings,
                     style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -86,7 +88,7 @@ class VacationEfficiencyWidget extends ConsumerWidget {
 
                   // Total vacation days
                   Text(
-                    'Jahresurlaub (Tage)',
+                    l10n.annualVacationDays,
                     style: theme.textTheme.titleSmall,
                   ),
                   const SizedBox(height: 8),
@@ -134,8 +136,8 @@ class VacationEfficiencyWidget extends ConsumerWidget {
                   // Resturlaub reminder
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Resturlaub-Erinnerung'),
-                    subtitle: const Text('Bis 31. März einlösen'),
+                    title: Text(l10n.remainingVacationReminder),
+                    subtitle: Text(l10n.redeemByMarch31),
                     value: reminder,
                     onChanged: (value) {
                       setState(() => reminder = value);
@@ -156,7 +158,7 @@ class VacationEfficiencyWidget extends ConsumerWidget {
                           Navigator.pop(context);
                         }
                       },
-                      child: const Text('Speichern'),
+                      child: Text(l10n.save),
                     ),
                   ),
                 ],
@@ -181,6 +183,7 @@ class _VacationCounterSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final remaining = vacation.remainingDays;
     final total = vacation.totalDays;
@@ -202,7 +205,7 @@ class _VacationCounterSection extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'Urlaubsanspruch',
+                  l10n.vacationEntitlement,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -212,7 +215,7 @@ class _VacationCounterSection extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.edit_outlined, size: 20),
               onPressed: onEdit,
-              tooltip: 'Bearbeiten',
+              tooltip: l10n.edit,
             ),
           ],
         ),
@@ -237,7 +240,7 @@ class _VacationCounterSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '$used von $total Tagen genommen',
+              l10n.daysTakenOfTotal(used, total),
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.outline,
               ),
@@ -251,7 +254,7 @@ class _VacationCounterSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                '$remaining Tage übrig',
+                l10n.daysRemainingCount(remaining),
                 style: theme.textTheme.labelMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: remaining > 5
@@ -275,6 +278,7 @@ class _EfficiencyIndexSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
     if (recommendations.isEmpty) {
@@ -290,7 +294,7 @@ class _EfficiencyIndexSection extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Beste Urlaubseffizienz',
+                l10n.bestVacationEfficiency,
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -299,7 +303,7 @@ class _EfficiencyIndexSection extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            'Keine Brückentage verfügbar',
+            l10n.noBridgeDaysAvailable,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.outline,
             ),
@@ -345,7 +349,8 @@ class _EfficiencyIndexSection extends StatelessWidget {
             totalDaysOff: rec.totalDaysOff,
             efficiency: rec.efficiency,
             holidayName: rec.relatedHolidays.isNotEmpty
-                ? rec.relatedHolidays.first.localName
+                ? rec.relatedHolidays.first
+                    .displayName(Localizations.localeOf(context).languageCode)
                 : '',
             isHighlighted: isFirst,
             isPast: isPast,
@@ -378,6 +383,7 @@ class _EfficiencyItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final disabledColor = theme.colorScheme.onSurface.withValues(alpha: 0.38);
 
@@ -421,38 +427,10 @@ class _EfficiencyItem extends StatelessWidget {
             const SizedBox(width: 12),
 
             // Ratio display
-            RichText(
-              text: TextSpan(
-                style: theme.textTheme.bodyMedium,
-                children: [
-                  TextSpan(
-                    text: '1',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: isPast ? disabledColor : theme.colorScheme.primary,
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' Urlaubstag = ',
-                    style: TextStyle(
-                      color: isPast ? disabledColor : theme.colorScheme.onSurface,
-                    ),
-                  ),
-                  TextSpan(
-                    text: '$totalDaysOff',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: isPast ? disabledColor : theme.colorScheme.tertiary,
-                      fontSize: 16,
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' freie Tage',
-                    style: TextStyle(
-                      color: isPast ? disabledColor : theme.colorScheme.onSurface,
-                    ),
-                  ),
-                ],
+            Text(
+              l10n.oneVacationDayEquals(totalDaysOff),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: isPast ? disabledColor : theme.colorScheme.onSurface,
               ),
             ),
 

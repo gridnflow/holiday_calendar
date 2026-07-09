@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/core/services/analytics_service.dart';
 import 'package:holiday_calendar/domain/entities/federal_state.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/month_provider.dart';
 import 'package:holiday_calendar/presentation/providers/state_provider.dart';
 import 'package:holiday_calendar/presentation/providers/year_provider.dart';
@@ -32,6 +33,7 @@ class FilterBar extends ConsumerWidget {
 class _StateDropdown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final selectedState = ref.watch(selectedFederalStateProvider);
     final states = ref.watch(federalStatesProvider);
     final theme = Theme.of(context);
@@ -49,7 +51,7 @@ class _StateDropdown extends ConsumerWidget {
           children: [
             Expanded(
               child: Text(
-                selectedState?.nameDE ?? 'Alle Bundesländer',
+                selectedState?.nameDE ?? l10n.allStates,
                 style: theme.textTheme.bodyLarge,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -72,14 +74,16 @@ class _StateDropdown extends ConsumerWidget {
   ) {
     showModalBottomSheet(
       context: context,
-      builder: (context) => SafeArea(
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
               padding: const EdgeInsets.all(16),
               child: Text(
-                'Bundesland auswählen',
+                l10n.selectState,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
@@ -89,7 +93,7 @@ class _StateDropdown extends ConsumerWidget {
                 shrinkWrap: true,
                 children: [
                   ListTile(
-                    title: const Text('Alle Bundesländer'),
+                    title: Text(l10n.allStates),
                     leading: Icon(
                       selectedState == null
                           ? Icons.radio_button_checked
@@ -126,7 +130,8 @@ class _StateDropdown extends ConsumerWidget {
             ),
           ],
         ),
-      ),
+      );
+      },
     );
   }
 }
@@ -190,7 +195,9 @@ class _YearMonthPicker extends ConsumerWidget {
 
     showModalBottomSheet(
       context: context,
-      builder: (context) => StatefulBuilder(
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return StatefulBuilder(
         builder: (context, setState) => SafeArea(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -198,7 +205,7 @@ class _YearMonthPicker extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  'Jahr und Monat auswählen',
+                  l10n.selectYearAndMonth,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
@@ -287,7 +294,7 @@ class _YearMonthPicker extends ConsumerWidget {
                   children: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Abbrechen'),
+                      child: Text(l10n.cancel),
                     ),
                     const SizedBox(width: 8),
                     FilledButton(
@@ -296,7 +303,7 @@ class _YearMonthPicker extends ConsumerWidget {
                         ref.read(selectedMonthProvider.notifier).select(tempMonth);
                         Navigator.pop(context);
                       },
-                      child: const Text('OK'),
+                      child: Text(l10n.ok),
                     ),
                   ],
                 ),
@@ -304,7 +311,8 @@ class _YearMonthPicker extends ConsumerWidget {
             ],
           ),
         ),
-      ),
+      );
+      },
     );
   }
 }

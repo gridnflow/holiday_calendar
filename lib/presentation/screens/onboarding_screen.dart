@@ -5,6 +5,7 @@ import 'package:holiday_calendar/core/services/analytics_service.dart';
 import 'package:holiday_calendar/core/services/notification_service.dart';
 import 'package:holiday_calendar/domain/entities/federal_state.dart';
 import 'package:holiday_calendar/domain/entities/holiday.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/bridge_day_provider.dart';
 import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
 import 'package:holiday_calendar/presentation/providers/notification_provider.dart';
@@ -233,6 +234,7 @@ class _ValuePropositionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.all(32),
@@ -247,7 +249,7 @@ class _ValuePropositionPage extends StatelessWidget {
           ),
           const SizedBox(height: 32),
           Text(
-            '1 Tag Urlaub.\n4 Tage frei.',
+            l10n.onboardingHeadline,
             textAlign: TextAlign.center,
             style: theme.textTheme.headlineLarge?.copyWith(
               fontWeight: FontWeight.bold,
@@ -256,7 +258,7 @@ class _ValuePropositionPage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Finde die besten Brückentage in deinem Bundesland und maximiere deinen Urlaub.',
+            l10n.onboardingSubtitle,
             textAlign: TextAlign.center,
             style: theme.textTheme.bodyLarge?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
@@ -266,17 +268,17 @@ class _ValuePropositionPage extends StatelessWidget {
           // Feature highlights
           _FeatureRow(
             icon: Icons.calendar_today,
-            text: 'Alle Feiertage auf einen Blick',
+            text: l10n.featureAllHolidays,
           ),
           const SizedBox(height: 16),
           _FeatureRow(
             icon: Icons.auto_awesome,
-            text: 'Smarte Brückentage-Empfehlungen',
+            text: l10n.featureSmartBridgeDays,
           ),
           const SizedBox(height: 16),
           _FeatureRow(
             icon: Icons.notifications_active,
-            text: 'Erinnerungen vor Brückentagen',
+            text: l10n.featureReminders,
           ),
           const Spacer(),
           SizedBox(
@@ -286,7 +288,7 @@ class _ValuePropositionPage extends StatelessWidget {
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              child: const Text('Los geht\'s'),
+              child: Text(l10n.letsGo),
             ),
           ),
         ],
@@ -332,6 +334,7 @@ class _StateSelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final states = FederalState.all;
 
     return Column(
@@ -347,14 +350,14 @@ class _StateSelectionPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                'Dein Bundesland',
+                l10n.yourState,
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
-                'Feiertage unterscheiden sich je nach Bundesland. Wähle deins aus.',
+                l10n.stateSelectionSubtitle,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
@@ -407,7 +410,7 @@ class _StateSelectionPage extends StatelessWidget {
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              child: const Text('Weiter'),
+              child: Text(l10n.next),
             ),
           ),
         ),
@@ -449,6 +452,7 @@ class _VacationAndNotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(32),
@@ -462,7 +466,7 @@ class _VacationAndNotificationPage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Fast fertig!',
+            l10n.almostDone,
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -482,7 +486,7 @@ class _VacationAndNotificationPage extends StatelessWidget {
                           color: theme.colorScheme.primary),
                       const SizedBox(width: 12),
                       Text(
-                        'Urlaubstage pro Jahr',
+                        l10n.vacationDaysPerYear,
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -491,7 +495,7 @@ class _VacationAndNotificationPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Wie viele Urlaubstage hast du?',
+                    l10n.howManyVacationDays,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -541,10 +545,8 @@ class _VacationAndNotificationPage extends StatelessWidget {
                     ? theme.colorScheme.primary
                     : theme.colorScheme.outline,
               ),
-              title: const Text('Brückentage Erinnerungen'),
-              subtitle: const Text(
-                'Werde vor optimalen Brückentagen benachrichtigt',
-              ),
+              title: Text(l10n.bridgeDayReminders),
+              subtitle: Text(l10n.bridgeDayRemindersSubtitle),
               value: notificationsEnabled,
               onChanged: _toggleNotifications,
             ),
@@ -561,10 +563,8 @@ class _VacationAndNotificationPage extends StatelessWidget {
                     ? theme.colorScheme.secondary
                     : theme.colorScheme.outline,
               ),
-              title: const Text('Schulferien anzeigen'),
-              subtitle: const Text(
-                'Schulferien deines Bundeslandes im Kalender',
-              ),
+              title: Text(l10n.showSchoolHolidays),
+              subtitle: Text(l10n.showSchoolHolidaysSubtitleShort),
               value: showSchoolHolidays,
               onChanged: onShowSchoolHolidaysChanged,
             ),
@@ -579,7 +579,7 @@ class _VacationAndNotificationPage extends StatelessWidget {
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              child: const Text('Fertig'),
+              child: Text(l10n.done),
             ),
           ),
           const SizedBox(height: 16),

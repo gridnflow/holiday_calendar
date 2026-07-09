@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holiday_calendar/core/error/failures.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
 import 'package:holiday_calendar/presentation/providers/repository_provider.dart';
 import 'package:holiday_calendar/presentation/providers/state_provider.dart';
@@ -49,7 +50,13 @@ Future<void> _pumpHomeScreen(
       overrides: [
         holidayRepositoryProvider.overrideWith((ref) => mockRepo),
       ],
-      child: const MaterialApp(home: HomeScreen()),
+      child: const MaterialApp(
+        // Pin to German so the existing German-string assertions hold.
+        locale: Locale('de'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: HomeScreen(),
+      ),
     ),
   );
   // Allow provider to resolve (avoid pumpAndSettle due to continuous rebuilds)
@@ -427,7 +434,12 @@ void main() {
           overrides: [
             holidayRepositoryProvider.overrideWith((ref) => mockRepo),
           ],
-          child: const MaterialApp(home: BridgeDayScreen()),
+          child: const MaterialApp(
+            locale: Locale('de'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: BridgeDayScreen(),
+          ),
         ),
       );
       await tester.pump(const Duration(seconds: 1));
@@ -448,7 +460,12 @@ void main() {
           overrides: [
             holidayRepositoryProvider.overrideWith((ref) => mockRepo),
           ],
-          child: const MaterialApp(home: BridgeDayScreen()),
+          child: const MaterialApp(
+            locale: Locale('de'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: BridgeDayScreen(),
+          ),
         ),
       );
       await tester.pump(const Duration(seconds: 1));

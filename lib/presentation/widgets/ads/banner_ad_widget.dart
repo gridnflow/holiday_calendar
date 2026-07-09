@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:holiday_calendar/core/constants/ad_constants.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/ad_provider.dart';
 import 'package:holiday_calendar/presentation/providers/premium_provider.dart';
 
@@ -62,6 +63,7 @@ class AdBannerContainer extends ConsumerWidget {
     }
 
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return SafeArea(
       top: false,
@@ -75,7 +77,7 @@ class AdBannerContainer extends ConsumerWidget {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 2),
               child: Text(
-                'Anzeige',
+                l10n.adLabel,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,

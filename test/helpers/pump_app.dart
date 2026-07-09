@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holiday_calendar/domain/repositories/holiday_repository.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/repository_provider.dart';
 
 /// Helper to pump a widget wrapped in MaterialApp + ProviderScope
@@ -21,6 +22,10 @@ Future<void> pumpApp(
     ProviderScope(
       overrides: overrides,
       child: MaterialApp(
+        // Pin to German so existing German-string assertions hold.
+        locale: const Locale('de'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: widget,
       ),
     ),

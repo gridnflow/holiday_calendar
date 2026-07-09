@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/notification_provider.dart';
 import 'package:holiday_calendar/presentation/providers/school_holiday_provider.dart';
 
@@ -9,13 +10,14 @@ class NotificationSettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final settingsAsync = ref.watch(notificationSettingsProvider);
     final notificationsSupported = ref.watch(notificationsSupportedProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Benachrichtigungen'),
+        title: Text(l10n.notifications),
         centerTitle: true,
       ),
       body: settingsAsync.when(
@@ -38,14 +40,14 @@ class NotificationSettingsScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Brückentage Erinnerungen',
+                          l10n.bridgeDayReminders,
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Werde rechtzeitig an optimale Urlaubstage erinnert',
+                          l10n.notificationHeaderSubtitle,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
@@ -73,7 +75,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          'Benachrichtigungen werden auf dieser Plattform nicht unterstützt.',
+                          l10n.notificationsNotSupported,
                           style: TextStyle(
                             color: theme.colorScheme.onErrorContainer,
                           ),
@@ -89,8 +91,8 @@ class NotificationSettingsScreen extends ConsumerWidget {
 
             // Enable notifications toggle
             SwitchListTile(
-              title: const Text('Brückentage Benachrichtigungen'),
-              subtitle: const Text('Erhalte Erinnerungen vor optimalen Urlaubstagen'),
+              title: Text(l10n.bridgeDayNotifications),
+              subtitle: Text(l10n.bridgeDayNotificationsSubtitle),
               value: settings.brueckentagEnabled,
               onChanged: notificationsSupported
                   ? (value) {
@@ -113,8 +115,8 @@ class NotificationSettingsScreen extends ConsumerWidget {
 
             // Holiday reminders toggle (D-7 / D-1)
             SwitchListTile(
-              title: const Text('Feiertag-Erinnerungen'),
-              subtitle: const Text('7 Tage und 1 Tag vor jedem Feiertag erinnern'),
+              title: Text(l10n.holidayReminders),
+              subtitle: Text(l10n.holidayRemindersSubtitle),
               value: settings.holidayRemindersEnabled,
               onChanged: notificationsSupported
                   ? (value) {
@@ -144,9 +146,9 @@ class NotificationSettingsScreen extends ConsumerWidget {
                     ? theme.colorScheme.primary
                     : theme.colorScheme.outline,
               ),
-              title: const Text('Erinnerung vor'),
+              title: Text(l10n.remindBefore),
               subtitle: Text(
-                '${settings.reminderDaysBefore} Tage vorher',
+                l10n.daysBefore(settings.reminderDaysBefore),
                 style: TextStyle(
                   color: settings.brueckentagEnabled
                       ? theme.colorScheme.primary
@@ -166,10 +168,8 @@ class NotificationSettingsScreen extends ConsumerWidget {
 
             // Monthly summary toggle
             SwitchListTile(
-              title: const Text('Monatliche Zusammenfassung'),
-              subtitle: const Text(
-                'Am 1. jeden Monats eine Übersicht der Feiertage erhalten',
-              ),
+              title: Text(l10n.monthlySummary),
+              subtitle: Text(l10n.monthlySummarySubtitle),
               value: settings.monthlySummaryEnabled,
               onChanged: notificationsSupported
                   ? (value) {
@@ -193,7 +193,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                'Kalender',
+                l10n.calendar,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: theme.colorScheme.primary,
@@ -201,10 +201,8 @@ class NotificationSettingsScreen extends ConsumerWidget {
               ),
             ),
             SwitchListTile(
-              title: const Text('Schulferien anzeigen'),
-              subtitle: const Text(
-                'Schulferien deines Bundeslandes im Kalender anzeigen',
-              ),
+              title: Text(l10n.showSchoolHolidays),
+              subtitle: Text(l10n.showSchoolHolidaysSubtitle),
               value: ref.watch(showSchoolHolidaysProvider),
               onChanged: (value) {
                 ref.read(showSchoolHolidaysProvider.notifier).toggle(value);
@@ -226,7 +224,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'So funktioniert es',
+                    l10n.howItWorks,
                     style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -235,22 +233,22 @@ class NotificationSettingsScreen extends ConsumerWidget {
                   _buildInfoItem(
                     context,
                     Icons.auto_awesome,
-                    'Automatische Erkennung',
-                    'Die App findet die besten Brückentage basierend auf deinem Bundesland.',
+                    l10n.autoDetectionTitle,
+                    l10n.autoDetectionBody,
                   ),
                   const SizedBox(height: 8),
                   _buildInfoItem(
                     context,
                     Icons.notification_add,
-                    'Rechtzeitige Erinnerung',
-                    'Du wirst X Tage vor dem optimalen Zeitraum benachrichtigt.',
+                    l10n.timelyReminderTitle,
+                    l10n.timelyReminderBody,
                   ),
                   const SizedBox(height: 8),
                   _buildInfoItem(
                     context,
                     Icons.beach_access,
-                    'Mehr Urlaub',
-                    'Nutze wenige Urlaubstage für maximale freie Zeit!',
+                    l10n.moreVacationTitle,
+                    l10n.moreVacationBody,
                   ),
                 ],
               ),
@@ -269,13 +267,13 @@ class NotificationSettingsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                'Fehler beim Laden der Einstellungen',
+                l10n.errorLoadingSettings,
                 style: theme.textTheme.bodyLarge,
               ),
               const SizedBox(height: 8),
               TextButton(
                 onPressed: () => ref.invalidate(notificationSettingsProvider),
-                child: const Text('Erneut versuchen'),
+                child: Text(l10n.retry),
               ),
             ],
           ),
@@ -332,8 +330,10 @@ class NotificationSettingsScreen extends ConsumerWidget {
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Erinnerung vor'),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+        title: Text(l10n.remindBefore),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: options.map((days) {
@@ -347,7 +347,7 @@ class NotificationSettingsScreen extends ConsumerWidget {
                     ? Theme.of(context).colorScheme.primary
                     : Theme.of(context).colorScheme.outline,
               ),
-              title: Text('$days Tage'),
+              title: Text(l10n.daysCount(days)),
               onTap: () {
                 ref
                     .read(notificationSettingsProvider.notifier)
@@ -360,10 +360,11 @@ class NotificationSettingsScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Abbrechen'),
+            child: Text(l10n.cancel),
           ),
         ],
-      ),
+        );
+      },
     );
   }
 }

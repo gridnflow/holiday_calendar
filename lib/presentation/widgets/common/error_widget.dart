@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 
 class AppErrorWidget extends StatelessWidget {
   final String message;
@@ -12,6 +13,7 @@ class AppErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -25,7 +27,7 @@ class AppErrorWidget extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Fehler aufgetreten',
+              l10n.errorOccurred,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Theme.of(context).colorScheme.error,
                   ),
@@ -43,7 +45,7 @@ class AppErrorWidget extends StatelessWidget {
               FilledButton.icon(
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh),
-                label: const Text('Erneut versuchen'),
+                label: Text(l10n.retry),
               ),
             ],
           ],

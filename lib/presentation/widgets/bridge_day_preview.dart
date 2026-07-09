@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/bridge_day_provider.dart';
 import 'package:holiday_calendar/presentation/screens/bridge_day_screen.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +12,7 @@ class BridgeDayPreview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final recommendations = ref.watch(topBridgeDayRecommendationsProvider);
     final theme = Theme.of(context);
 
@@ -36,7 +38,7 @@ class BridgeDayPreview extends ConsumerWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    'Brückentage Tipps',
+                    l10n.bridgeDayTips,
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -50,7 +52,7 @@ class BridgeDayPreview extends ConsumerWidget {
                     MaterialPageRoute(builder: (_) => const BridgeDayScreen()),
                   );
                 },
-                child: const Text('Alle anzeigen'),
+                child: Text(l10n.showAll),
               ),
             ],
           ),
@@ -70,7 +72,8 @@ class BridgeDayPreview extends ConsumerWidget {
                 totalDaysOff: recommendation.totalDaysOff,
                 efficiency: recommendation.efficiency,
                 holidayName: recommendation.relatedHolidays.isNotEmpty
-                    ? recommendation.relatedHolidays.first.localName
+                    ? recommendation.relatedHolidays.first
+                        .displayName(Localizations.localeOf(context).languageCode)
                     : '',
                 dateRange:
                     '${DateFormat('dd.MM', 'de_DE').format(recommendation.startDate)} - ${DateFormat('dd.MM', 'de_DE').format(recommendation.endDate)}',
@@ -111,6 +114,7 @@ class _BridgeDayPreviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final disabledColor = theme.colorScheme.onSurface.withValues(alpha: 0.38);
 
@@ -160,7 +164,7 @@ class _BridgeDayPreviewCard extends StatelessWidget {
               const SizedBox(height: 8),
               // Main info
               Text(
-                '$vacationDays → $totalDaysOff Tage',
+                l10n.vacationToDaysOff(vacationDays, totalDaysOff),
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: isPast ? disabledColor : null,

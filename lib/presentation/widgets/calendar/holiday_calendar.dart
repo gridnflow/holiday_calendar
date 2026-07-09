@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:holiday_calendar/domain/entities/holiday.dart';
 import 'package:holiday_calendar/domain/entities/school_holiday.dart';
 import 'package:holiday_calendar/domain/entities/vacation.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/db_vacation_provider.dart';
 import 'package:holiday_calendar/presentation/providers/holiday_provider.dart';
 import 'package:holiday_calendar/presentation/providers/month_provider.dart';
@@ -32,6 +33,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
     final vacationsByDate = ref.watch(dbVacationsByDateProvider);
     final selectedState = ref.watch(selectedFederalStateProvider);
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     final focusedDay = DateTime(selectedYear, selectedMonth, 1);
 
@@ -67,7 +69,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
             alignment: Alignment.center,
             padding: const EdgeInsets.only(right: 4),
             child: Text(
-              'KW$weekNumber',
+              l10n.calendarWeekNumber(weekNumber),
               style: theme.textTheme.labelSmall?.copyWith(
                 color: theme.colorScheme.outline,
                 fontSize: 10,
@@ -203,7 +205,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
           holidaysByDate,
           schoolHolidaysByDate,
           vacationsByDate,
-          selectedState?.nameDE ?? 'Alle Bundesländer',
+          selectedState?.nameDE ?? l10n.allStates,
         );
       },
       onPageChanged: (focusedDay) {
@@ -344,21 +346,23 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
 
     showDialog(
       context: context,
-      builder: (ctx) => StatefulBuilder(
+      builder: (ctx) {
+        final l10n = AppLocalizations.of(ctx)!;
+        return StatefulBuilder(
         builder: (ctx, setState) => AlertDialog(
-          title: const Text('Urlaub eintragen'),
+          title: Text(l10n.addVacation),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: titleController,
-                decoration: const InputDecoration(
-                    labelText: 'Bezeichnung (optional)'),
+                decoration: InputDecoration(
+                    labelText: l10n.labelOptional),
               ),
               const SizedBox(height: 16),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                title: const Text('Von'),
+                title: Text(l10n.from),
                 subtitle: Text(
                     DateFormat('d. MMMM yyyy', 'de_DE').format(startDate)),
                 trailing: const Icon(Icons.calendar_today, size: 18),
@@ -380,7 +384,7 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
               ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                title: const Text('Bis'),
+                title: Text(l10n.to),
                 subtitle: Text(
                     DateFormat('d. MMMM yyyy', 'de_DE').format(endDate)),
                 trailing: const Icon(Icons.calendar_today, size: 18),
@@ -400,12 +404,12 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Abbrechen'),
+              child: Text(l10n.cancel),
             ),
             FilledButton(
               onPressed: () {
                 final title = titleController.text.trim().isEmpty
-                    ? 'Urlaub'
+                    ? l10n.vacationDefaultTitle
                     : titleController.text.trim();
                 ref.read(vacationNotifierProvider.notifier).addVacation(
                       title: title,
@@ -414,11 +418,12 @@ class _HolidayCalendarState extends ConsumerState<HolidayCalendar> {
                     );
                 Navigator.pop(ctx);
               },
-              child: const Text('Speichern'),
+              child: Text(l10n.save),
             ),
           ],
         ),
-      ),
+      );
+      },
     );
   }
 }

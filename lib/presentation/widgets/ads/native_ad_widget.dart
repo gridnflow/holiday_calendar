@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:holiday_calendar/core/constants/ad_constants.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/presentation/providers/premium_provider.dart';
 
 /// Native Ad Widget that blends with app content
@@ -91,6 +92,7 @@ class _NativeAdWidgetState extends ConsumerState<NativeAdWidget> {
     }
 
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     if (!_isAdLoaded || _nativeAd == null) {
       return Padding(
@@ -121,7 +123,7 @@ class _NativeAdWidgetState extends ConsumerState<NativeAdWidget> {
           Padding(
             padding: const EdgeInsets.only(bottom: 4),
             child: Text(
-              'Anzeige',
+              l10n.adLabel,
               style: theme.textTheme.labelSmall?.copyWith(
                 color: theme.colorScheme.outline,
                 fontSize: 10,

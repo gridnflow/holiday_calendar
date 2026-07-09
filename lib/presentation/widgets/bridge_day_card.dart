@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:holiday_calendar/core/theme/app_theme.dart';
 import 'package:holiday_calendar/domain/entities/bridge_day.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 class BridgeDayCard extends StatelessWidget {
@@ -15,6 +16,7 @@ class BridgeDayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final dateFormat = DateFormat('dd.MM', 'de_DE');
 
     return Card(
@@ -49,7 +51,8 @@ class BridgeDayCard extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      recommendation.label,
+                      l10n.bridgeDayLabel(recommendation.vacationDaysNeeded,
+                          recommendation.totalDaysOff),
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -76,7 +79,7 @@ class BridgeDayCard extends StatelessWidget {
                   ...recommendation.relatedHolidays.map(
                     (h) => Chip(
                       label: Text(
-                        h.localName,
+                        h.displayName(Localizations.localeOf(context).languageCode),
                         style: const TextStyle(fontSize: 12),
                       ),
                       backgroundColor: AppTheme.holidayColor.withValues(alpha: 0.1),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:holiday_calendar/core/services/calendar_service.dart';
 import 'package:holiday_calendar/domain/entities/holiday.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/domain/entities/school_holiday.dart';
 import 'package:holiday_calendar/domain/entities/vacation.dart';
 import 'package:intl/intl.dart';
@@ -29,9 +30,11 @@ class DateDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isHoliday = holidays.isNotEmpty;
     final dateFormat = DateFormat('d. MMMM yyyy', 'de_DE');
+    final languageCode = Localizations.localeOf(context).languageCode;
 
     return Container(
       decoration: BoxDecoration(
@@ -83,7 +86,7 @@ class DateDetailSheet extends StatelessWidget {
                       children: [
                         if (isHoliday) ...[
                           Text(
-                            holidays.first.localName,
+                            holidays.first.displayName(languageCode),
                             style: theme.textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -104,7 +107,15 @@ class DateDetailSheet extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            _getWeekdayName(date),
+                            [
+                              l10n.monday,
+                              l10n.tuesday,
+                              l10n.wednesday,
+                              l10n.thursday,
+                              l10n.friday,
+                              l10n.saturday,
+                              l10n.sunday,
+                            ][date.weekday - 1],
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.colorScheme.onSurfaceVariant,
                             ),
@@ -126,7 +137,7 @@ class DateDetailSheet extends StatelessWidget {
                 Icons.location_on_outlined,
                 color: theme.colorScheme.onSurfaceVariant,
               ),
-              title: const Text('Bundesland'),
+              title: Text(l10n.state),
               subtitle: Text(bundesland),
             ),
 
@@ -139,12 +150,12 @@ class DateDetailSheet extends StatelessWidget {
                     : theme.colorScheme.error,
               ),
               title: Text(
-                isHoliday ? 'Gesetzlicher Feiertag' : 'Kein Feiertag',
+                isHoliday ? l10n.legalHoliday : l10n.noHoliday,
               ),
               subtitle: isHoliday && holidays.first.global
-                  ? const Text('Bundesweit')
+                  ? Text(l10n.nationwide)
                   : isHoliday
-                      ? const Text('Regional')
+                      ? Text(l10n.regional)
                       : null,
             ),
 
@@ -159,7 +170,7 @@ class DateDetailSheet extends StatelessWidget {
                 subtitle: Text(
                   '${DateFormat('d. MMM', 'de_DE').format(schoolHoliday!.startDate)}'
                   ' – ${DateFormat('d. MMM yyyy', 'de_DE').format(schoolHoliday!.endDate)}'
-                  ' (${schoolHoliday!.durationDays} Tage)',
+                  ' ${l10n.durationDaysParen(schoolHoliday!.durationDays)}',
                 ),
               ),
             ],
@@ -172,7 +183,7 @@ class DateDetailSheet extends StatelessWidget {
                 subtitle: Text(
                   '${DateFormat('d. MMM', 'de_DE').format(vacation!.startDate)}'
                   ' – ${DateFormat('d. MMM yyyy', 'de_DE').format(vacation!.endDate)}'
-                  ' (${vacation!.durationDays} Tage)',
+                  ' ${l10n.durationDaysParen(vacation!.durationDays)}',
                 ),
                 trailing: IconButton(
                   icon: const Icon(Icons.delete_outline),
@@ -190,7 +201,7 @@ class DateDetailSheet extends StatelessWidget {
                   child: OutlinedButton.icon(
                     onPressed: onAddVacation,
                     icon: const Icon(Icons.add),
-                    label: const Text('Urlaub eintragen'),
+                    label: Text(l10n.addVacation),
                   ),
                 ),
               ),
@@ -205,7 +216,7 @@ class DateDetailSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Weitere Feiertage',
+                      l10n.moreHolidays,
                       style: theme.textTheme.titleSmall,
                     ),
                     const SizedBox(height: 8),
@@ -217,7 +228,7 @@ class DateDetailSheet extends StatelessWidget {
                               color: theme.colorScheme.tertiary,
                               size: 20,
                             ),
-                            title: Text(h.localName),
+                            title: Text(h.displayName(languageCode)),
                             subtitle: Text(h.name),
                           ),
                         ),
@@ -237,13 +248,13 @@ class DateDetailSheet extends StatelessWidget {
                       CalendarService.addHolidayToCalendar(holidays.first);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(
-                              '${holidays.first.localName} wird zum Kalender hinzugefügt'),
+                          content: Text(l10n.addedToCalendar(
+                              holidays.first.displayName(languageCode))),
                         ),
                       );
                     },
                     icon: const Icon(Icons.event_available),
-                    label: const Text('Zum Kalender hinzufügen'),
+                    label: Text(l10n.addToCalendar),
                   ),
                 ),
               ),
@@ -262,6 +273,7 @@ class DateDetailSheet extends StatelessWidget {
   }
 
   Widget _buildBrueckentagTip(BuildContext context, DateTime date, Holiday holiday) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final weekday = date.weekday;
 
@@ -270,11 +282,11 @@ class DateDetailSheet extends StatelessWidget {
     String? subtitleText;
 
     if (weekday == DateTime.tuesday) {
-      tipText = 'Montag Urlaub nehmen';
-      subtitleText = '→ 4 Tage frei möglich!';
+      tipText = l10n.takeMondayOff;
+      subtitleText = l10n.fourDaysOffPossible;
     } else if (weekday == DateTime.thursday) {
-      tipText = 'Freitag Urlaub nehmen';
-      subtitleText = '→ 4 Tage frei möglich!';
+      tipText = l10n.takeFridayOff;
+      subtitleText = l10n.fourDaysOffPossible;
     }
 
     if (tipText == null) {
@@ -291,7 +303,7 @@ class DateDetailSheet extends StatelessWidget {
             color: theme.colorScheme.onPrimaryContainer,
           ),
           title: Text(
-            'Brückentag Tipp',
+            l10n.bridgeDayTip,
             style: TextStyle(
               color: theme.colorScheme.onPrimaryContainer,
               fontWeight: FontWeight.bold,
@@ -320,16 +332,4 @@ class DateDetailSheet extends StatelessWidget {
     );
   }
 
-  String _getWeekdayName(DateTime date) {
-    final weekdays = [
-      'Montag',
-      'Dienstag',
-      'Mittwoch',
-      'Donnerstag',
-      'Freitag',
-      'Samstag',
-      'Sonntag',
-    ];
-    return weekdays[date.weekday - 1];
-  }
 }
