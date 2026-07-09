@@ -1,24 +1,24 @@
 {
   "@@locale": "ar",
-  "appTitle": "عطلات ألمانيا",
-  "holidays": "العطلات",
+  "appTitle": "العطلات الرسمية في ألمانيا",
+  "holidays": "العطلات الرسمية",
   "bridgeDays": "أيام الجسر",
-  "allStates": "جميع الولايات الفيدرالية",
-  "state": "الولاية الفيدرالية",
+  "allStates": "جميع الولايات",
+  "state": "الولاية",
   "year": "السنة",
   "month": "الشهر",
   "refresh": "تحديث",
   "retry": "إعادة المحاولة",
   "errorOccurred": "حدث خطأ",
-  "noHolidaysFound": "لم يتم العثور على عطلات",
+  "noHolidaysFound": "لم يتم العثور على عطلات رسمية",
   "noBridgeDaysFound": "لم يتم العثور على أيام جسر",
   "vacationDays": "أيام الإجازة",
-  "daysOff": "أيام إجازة",
+  "daysOff": "أيام العطلة",
   "efficiency": "الكفاءة",
   "vacationRecommendation": "توصية الإجازة",
   "vacationDaysNeeded": "أيام الإجازة المطلوبة",
-  "totalDaysOff": "إجمالي أيام الإجازة",
-  "relatedHolidays": "العطلات المرتبطة",
+  "totalDaysOff": "إجمالي أيام العطلة",
+  "relatedHolidays": "العطلات الرسمية",
   "veryGood": "ممتاز",
   "good": "جيد",
   "okay": "مقبول",
@@ -35,11 +35,227 @@
   "october": "أكتوبر",
   "november": "نوفمبر",
   "december": "ديسمبر",
-  "bridgeDayLabel": "{days} يوم إجازة ← {total} يوم عطلة",
+  "bridgeDayLabel": "{days} أيام إجازة → {total} أيام عطلة",
   "@bridgeDayLabel": {
     "placeholders": {
       "days": {"type": "int"},
       "total": {"type": "int"}
     }
-  }
+  },
+
+  "language": "اللغة",
+  "settings": "الإعدادات",
+  "systemDefault": "لغة النظام",
+
+  "aboutApp": "حول هذا التطبيق",
+  "importantInfoHeader": "⚠️ معلومات مهمة",
+  "disclaimerBody": "هذا التطبيق ليس تطبيقًا حكوميًا رسميًا ولا يرتبط بأي جهة حكومية. إنه خدمة معلومات مستقلة وخاصة. للحصول على معلومات ملزمة، يرجى التواصل مباشرة مع الجهات المختصة.",
+  "dataSource": "مصدر البيانات",
+  "dataSourceBody": "تستند بيانات العطلات الرسمية إلى اللوائح القانونية الرسمية لجمهورية ألمانيا الاتحادية. المصادر المعتمدة هي:",
+  "sourceBmiLabel": "وزارة الداخلية الاتحادية – العطلات الرسمية الوطنية",
+  "technicalImplementation": "التنفيذ التقني",
+  "technicalImplementationBody": "لتوفير البيانات تقنيًا، يتم استخدام واجهة OpenHolidays API التي تجمع معلومات العطلات الرسمية من المصادر الرسمية المذكورة أعلاه.",
+  "sourceOpenHolidaysLabel": "OpenHolidays API",
+  "privacyPolicy": "الخصوصية",
+  "close": "إغلاق",
+
+  "yearOverview": "نظرة عامة على السنة",
+  "notifications": "الإشعارات",
+
+  "dDayLabel": "D-{days}",
+  "@dDayLabel": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "tomorrowIsHoliday": "غدًا عطلة رسمية",
+  "daysRemaining": "باقٍ {days} أيام",
+  "@daysRemaining": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "tomorrowVacationStarts": "تبدأ الإجازة غدًا",
+
+  "onboardingHeadline": "يوم إجازة واحد.\n4 أيام عطلة.",
+  "onboardingSubtitle": "اكتشف أفضل أيام الجسر في ولايتك وحقق أقصى استفادة من إجازتك.",
+  "featureAllHolidays": "جميع العطلات الرسمية في لمحة واحدة",
+  "featureSmartBridgeDays": "توصيات ذكية لأيام الجسر",
+  "featureReminders": "تذكيرات قبل أيام الجسر",
+  "letsGo": "هيا بنا",
+  "yourState": "ولايتك",
+  "stateSelectionSubtitle": "تختلف العطلات الرسمية باختلاف الولاية. اختر ولايتك.",
+  "next": "التالي",
+  "almostDone": "أوشكت على الانتهاء!",
+  "vacationDaysPerYear": "أيام الإجازة في السنة",
+  "howManyVacationDays": "كم عدد أيام إجازتك؟",
+  "bridgeDayReminders": "تذكيرات أيام الجسر",
+  "bridgeDayRemindersSubtitle": "احصل على إشعار قبل أيام الجسر المثالية",
+  "showSchoolHolidays": "عرض العطلة المدرسية",
+  "showSchoolHolidaysSubtitleShort": "العطلة المدرسية لولايتك في التقويم",
+  "done": "تم",
+
+  "previousYear": "السنة السابقة",
+  "nextYear": "السنة التالية",
+  "nationwide": "على مستوى البلاد",
+  "regional": "إقليمي",
+  "additionalDaysOff": "أيام عطلة إضافية",
+
+  "bridgeDaysWithYear": "أيام الجسر {year}",
+  "@bridgeDaysWithYear": {
+    "placeholders": {"year": {"type": "int"}}
+  },
+  "daysCount": "{count} أيام",
+  "@daysCount": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "calendarExportFailed": "تعذر فتح تصدير التقويم.",
+  "addToCalendar": "إضافة إلى التقويم",
+
+  "notificationHeaderSubtitle": "احصل على تذكير في الوقت المناسب بأيام الإجازة المثالية",
+  "notificationsNotSupported": "الإشعارات غير مدعومة على هذه المنصة.",
+  "bridgeDayNotifications": "إشعارات أيام الجسر",
+  "bridgeDayNotificationsSubtitle": "احصل على تذكيرات قبل أيام الإجازة المثالية",
+  "holidayReminders": "تذكيرات العطلات الرسمية",
+  "holidayRemindersSubtitle": "التذكير قبل 7 أيام ويوم واحد من كل عطلة رسمية",
+  "remindBefore": "التذكير قبل",
+  "daysBefore": "قبل {days} أيام",
+  "@daysBefore": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "monthlySummary": "الملخص الشهري",
+  "monthlySummarySubtitle": "احصل على نظرة عامة للعطلات الرسمية في اليوم الأول من كل شهر",
+  "calendar": "التقويم",
+  "showSchoolHolidaysSubtitle": "عرض العطلة المدرسية لولايتك في التقويم",
+  "howItWorks": "كيف يعمل",
+  "autoDetectionTitle": "الكشف التلقائي",
+  "autoDetectionBody": "يعثر التطبيق على أفضل أيام الجسر بناءً على ولايتك.",
+  "timelyReminderTitle": "تذكير في الوقت المناسب",
+  "timelyReminderBody": "سيتم إشعارك في الوقت المناسب قبل الفترة المثالية.",
+  "moreVacationTitle": "المزيد من الإجازة",
+  "moreVacationBody": "استخدم أيام إجازة قليلة للحصول على أقصى وقت عطلة!",
+  "errorLoadingSettings": "خطأ أثناء تحميل الإعدادات",
+  "cancel": "إلغاء",
+  "ok": "موافق",
+
+  "selectState": "اختر الولاية",
+  "selectYearAndMonth": "اختر السنة والشهر",
+
+  "bridgeDayTips": "نصائح أيام الجسر",
+  "showAll": "عرض الكل",
+  "vacationToDaysOff": "{vacationDays} → {totalDaysOff} أيام",
+  "@vacationToDaysOff": {
+    "placeholders": {
+      "vacationDays": {"type": "int"},
+      "totalDaysOff": {"type": "int"}
+    }
+  },
+
+  "vacationSettings": "إعدادات الإجازة",
+  "annualVacationDays": "الإجازة السنوية (أيام)",
+  "remainingVacationReminder": "تذكير الإجازة المتبقية",
+  "redeemByMarch31": "استخدمها قبل 31 مارس",
+  "save": "حفظ",
+  "vacationEntitlement": "رصيد الإجازة",
+  "edit": "تعديل",
+  "daysTakenOfTotal": "تم أخذ {used} من {total} أيام",
+  "@daysTakenOfTotal": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "daysRemainingCount": "باقٍ {count} أيام",
+  "@daysRemainingCount": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "bestVacationEfficiency": "أفضل كفاءة للإجازة",
+  "noBridgeDaysAvailable": "لا توجد أيام جسر متاحة",
+  "oneVacationDayEquals": "يوم إجازة واحد = {totalDaysOff} أيام عطلة",
+  "@oneVacationDayEquals": {
+    "placeholders": {"totalDaysOff": {"type": "int"}}
+  },
+
+  "legalHoliday": "عطلة رسمية قانونية",
+  "noHoliday": "لا توجد عطلة رسمية",
+  "durationDaysParen": "({count} أيام)",
+  "@durationDaysParen": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "addVacation": "تسجيل إجازة",
+  "moreHolidays": "المزيد من العطلات الرسمية",
+  "addedToCalendar": "تتم إضافة {name} إلى التقويم",
+  "@addedToCalendar": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "takeMondayOff": "خذ إجازة يوم الاثنين",
+  "takeFridayOff": "خذ إجازة يوم الجمعة",
+  "fourDaysOffPossible": "→ 4 أيام عطلة ممكنة!",
+  "bridgeDayTip": "نصيحة يوم الجسر",
+
+  "calendarWeekNumber": "أسبوع {week}",
+  "@calendarWeekNumber": {
+    "placeholders": {"week": {"type": "int"}}
+  },
+  "labelOptional": "التسمية (اختياري)",
+  "from": "من",
+  "to": "إلى",
+  "vacationDefaultTitle": "إجازة",
+
+  "adLabel": "إعلان",
+
+  "monday": "الاثنين",
+  "tuesday": "الثلاثاء",
+  "wednesday": "الأربعاء",
+  "thursday": "الخميس",
+  "friday": "الجمعة",
+  "saturday": "السبت",
+  "sunday": "الأحد",
+
+  "notifHolidayInDaysTitle": "العطلة الرسمية التالية خلال {days} أيام!",
+  "@notifHolidayInDaysTitle": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "notifPlanNowBody": "خطط الآن لأيام الجسر الخاصة بك وحقق أقصى استفادة من إجازتك.",
+  "notifRemainingBridgeTitle": "باقٍ {count} من أيام الجسر في {year}",
+  "@notifRemainingBridgeTitle": {
+    "placeholders": {
+      "count": {"type": "int"},
+      "year": {"type": "int"}
+    }
+  },
+  "notifPlanBestBody": "خطط الآن وحقق أقصى استفادة من إجازتك!",
+  "notifNextHolidayTitle": "العطلة الرسمية التالية",
+  "notifNextHolidayBody": "{date} — {name}. افتح التطبيق للحصول على نصائح أيام الجسر!",
+  "@notifNextHolidayBody": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "name": {"type": "String"}
+    }
+  },
+  "notifHolidayIn7DaysTitle": "خلال 7 أيام: {name}",
+  "@notifHolidayIn7DaysTitle": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "notifTimeToPlanBody": "لا يزال هناك وقت للتخطيط! ألقِ نظرة على أيام الجسر.",
+  "notifHolidayTomorrowTitle": "غدًا: {name} 🎉",
+  "@notifHolidayTomorrowTitle": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "notifEnjoyDayOffBody": "استمتع بيوم عطلتك!",
+  "notifMonthlySummaryTitle": "{month}: {count, plural, zero{لا أيام عطل} one{عطلة واحدة} two{عطلتان} few{{count} أيام عطل} many{{count} عطلة} other{{count} عطلة}}",
+  "@notifMonthlySummaryTitle": {
+    "placeholders": {
+      "month": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "notifMonthlySummaryBody": "افتح التطبيق واكتشف أفضل أيام الجسر في {month}!",
+  "@notifMonthlySummaryBody": {
+    "placeholders": {"month": {"type": "String"}}
+  },
+  "notifChannelName": "تذكيرات أيام الجسر",
+  "notifChannelDescription": "تذكيرات لتخطيط إجازة أيام الجسر",
+
+  "exportBridgeDaySummary": "أيام الجسر: {holidays}",
+  "@exportBridgeDaySummary": {
+    "placeholders": {"holidays": {"type": "String"}}
+  },
+  "exportBridgeDayTitle": "إجازة (يوم جسر)"
 }

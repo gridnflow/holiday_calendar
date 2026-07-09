@@ -1,24 +1,24 @@
 {
   "@@locale": "tr",
-  "appTitle": "Almanya Tatilleri",
-  "holidays": "Tatiller",
-  "bridgeDays": "Köprü Günler",
-  "allStates": "Tüm Federal Eyaletler",
-  "state": "Federal Eyalet",
+  "appTitle": "Almanya Resmi Tatilleri",
+  "holidays": "Resmi tatiller",
+  "bridgeDays": "Köprü günleri",
+  "allStates": "Tüm eyaletler",
+  "state": "Eyalet",
   "year": "Yıl",
   "month": "Ay",
   "refresh": "Yenile",
   "retry": "Tekrar dene",
   "errorOccurred": "Hata oluştu",
-  "noHolidaysFound": "Tatil bulunamadı",
-  "noBridgeDaysFound": "Köprü gün bulunamadı",
+  "noHolidaysFound": "Resmi tatil bulunamadı",
+  "noBridgeDaysFound": "Köprü günü bulunamadı",
   "vacationDays": "İzin günleri",
-  "daysOff": "Tatil günü",
+  "daysOff": "İzinli gün",
   "efficiency": "Verimlilik",
   "vacationRecommendation": "İzin önerisi",
   "vacationDaysNeeded": "Gereken izin günü",
-  "totalDaysOff": "Toplam tatil günü",
-  "relatedHolidays": "İlgili tatiller",
+  "totalDaysOff": "Toplam izinli gün",
+  "relatedHolidays": "Resmi tatiller",
   "veryGood": "Çok iyi",
   "good": "İyi",
   "okay": "Fena değil",
@@ -35,11 +35,227 @@
   "october": "Ekim",
   "november": "Kasım",
   "december": "Aralık",
-  "bridgeDayLabel": "{days} izin günü → {total} gün tatil",
+  "bridgeDayLabel": "{days} izin günü → {total} gün izinli",
   "@bridgeDayLabel": {
     "placeholders": {
       "days": {"type": "int"},
       "total": {"type": "int"}
     }
-  }
+  },
+
+  "language": "Dil",
+  "settings": "Ayarlar",
+  "systemDefault": "Sistem dili",
+
+  "aboutApp": "Bu uygulama hakkında",
+  "importantInfoHeader": "⚠️ ÖNEMLİ BİLGİLER",
+  "disclaimerBody": "Bu uygulama resmi bir devlet uygulaması DEĞİLDİR ve herhangi bir devlet kurumuyla bağlantısı yoktur. Bağımsız, özel bir bilgilendirme hizmetidir. Bağlayıcı bilgiler için lütfen doğrudan yetkili makamlara başvurun.",
+  "dataSource": "Veri kaynağı",
+  "dataSourceBody": "Resmi tatil verileri, Almanya Federal Cumhuriyeti'nin resmi yasal düzenlemelerine dayanmaktadır. Yetkili kaynaklar şunlardır:",
+  "sourceBmiLabel": "BMI – Ulusal resmi tatiller",
+  "technicalImplementation": "Teknik uygulama",
+  "technicalImplementationBody": "Verilerin teknik olarak sağlanması için, yukarıda belirtilen resmi kaynaklardan resmi tatil bilgilerini derleyen OpenHolidays API kullanılır.",
+  "sourceOpenHolidaysLabel": "OpenHolidays API",
+  "privacyPolicy": "Gizlilik",
+  "close": "Kapat",
+
+  "yearOverview": "Yıllık genel bakış",
+  "notifications": "Bildirimler",
+
+  "dDayLabel": "D-{days}",
+  "@dDayLabel": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "tomorrowIsHoliday": "Yarın resmi tatil",
+  "daysRemaining": "{days} gün kaldı",
+  "@daysRemaining": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "tomorrowVacationStarts": "İzin yarın başlıyor",
+
+  "onboardingHeadline": "1 gün izin.\n4 gün tatil.",
+  "onboardingSubtitle": "Eyaletindeki en iyi köprü günlerini bul ve iznini en üst düzeye çıkar.",
+  "featureAllHolidays": "Tüm resmi tatiller tek bakışta",
+  "featureSmartBridgeDays": "Akıllı köprü günü önerileri",
+  "featureReminders": "Köprü günlerinden önce hatırlatmalar",
+  "letsGo": "Hadi başlayalım",
+  "yourState": "Eyaletin",
+  "stateSelectionSubtitle": "Resmi tatiller eyalete göre değişir. Kendininkini seç.",
+  "next": "İleri",
+  "almostDone": "Neredeyse bitti!",
+  "vacationDaysPerYear": "Yıllık izin günü",
+  "howManyVacationDays": "Kaç izin günün var?",
+  "bridgeDayReminders": "Köprü günü hatırlatmaları",
+  "bridgeDayRemindersSubtitle": "En uygun köprü günlerinden önce bilgilendiril",
+  "showSchoolHolidays": "Okul tatillerini göster",
+  "showSchoolHolidaysSubtitleShort": "Eyaletinin okul tatilleri takvimde",
+  "done": "Bitti",
+
+  "previousYear": "Önceki yıl",
+  "nextYear": "Sonraki yıl",
+  "nationwide": "Ülke geneli",
+  "regional": "Bölgesel",
+  "additionalDaysOff": "Ekstra izinli",
+
+  "bridgeDaysWithYear": "Köprü günleri {year}",
+  "@bridgeDaysWithYear": {
+    "placeholders": {"year": {"type": "int"}}
+  },
+  "daysCount": "{count} gün",
+  "@daysCount": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "calendarExportFailed": "Takvim dışa aktarımı açılamadı.",
+  "addToCalendar": "Takvime ekle",
+
+  "notificationHeaderSubtitle": "En uygun izin günleri için zamanında hatırlatılır",
+  "notificationsNotSupported": "Bu platformda bildirimler desteklenmiyor.",
+  "bridgeDayNotifications": "Köprü günü bildirimleri",
+  "bridgeDayNotificationsSubtitle": "En uygun izin günlerinden önce hatırlatmalar al",
+  "holidayReminders": "Resmi tatil hatırlatmaları",
+  "holidayRemindersSubtitle": "Her resmi tatilden 7 gün ve 1 gün önce hatırlat",
+  "remindBefore": "Şu kadar önce hatırlat",
+  "daysBefore": "{days} gün önce",
+  "@daysBefore": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "monthlySummary": "Aylık özet",
+  "monthlySummarySubtitle": "Her ayın 1'inde resmi tatillerin özetini al",
+  "calendar": "Takvim",
+  "showSchoolHolidaysSubtitle": "Eyaletinin okul tatillerini takvimde göster",
+  "howItWorks": "Nasıl çalışır",
+  "autoDetectionTitle": "Otomatik algılama",
+  "autoDetectionBody": "Uygulama, eyaletine göre en iyi köprü günlerini bulur.",
+  "timelyReminderTitle": "Zamanında hatırlatma",
+  "timelyReminderBody": "En uygun dönemden önce zamanında bilgilendirilirsin.",
+  "moreVacationTitle": "Daha fazla izin",
+  "moreVacationBody": "Az izin günüyle maksimum tatil zamanı kazan!",
+  "errorLoadingSettings": "Ayarlar yüklenirken hata oluştu",
+  "cancel": "İptal",
+  "ok": "Tamam",
+
+  "selectState": "Eyalet seç",
+  "selectYearAndMonth": "Yıl ve ay seç",
+
+  "bridgeDayTips": "Köprü günü ipuçları",
+  "showAll": "Tümünü göster",
+  "vacationToDaysOff": "{vacationDays} → {totalDaysOff} gün",
+  "@vacationToDaysOff": {
+    "placeholders": {
+      "vacationDays": {"type": "int"},
+      "totalDaysOff": {"type": "int"}
+    }
+  },
+
+  "vacationSettings": "İzin ayarları",
+  "annualVacationDays": "Yıllık izin (gün)",
+  "remainingVacationReminder": "Kalan izin hatırlatması",
+  "redeemByMarch31": "31 Mart'a kadar kullan",
+  "save": "Kaydet",
+  "vacationEntitlement": "İzin hakkı",
+  "edit": "Düzenle",
+  "daysTakenOfTotal": "{total} günün {used} günü kullanıldı",
+  "@daysTakenOfTotal": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "daysRemainingCount": "{count} gün kaldı",
+  "@daysRemainingCount": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "bestVacationEfficiency": "En iyi izin verimliliği",
+  "noBridgeDaysAvailable": "Köprü günü yok",
+  "oneVacationDayEquals": "1 izin günü = {totalDaysOff} izinli gün",
+  "@oneVacationDayEquals": {
+    "placeholders": {"totalDaysOff": {"type": "int"}}
+  },
+
+  "legalHoliday": "Resmi tatil",
+  "noHoliday": "Resmi tatil değil",
+  "durationDaysParen": "({count} gün)",
+  "@durationDaysParen": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "addVacation": "İzin ekle",
+  "moreHolidays": "Diğer resmi tatiller",
+  "addedToCalendar": "{name} takvime ekleniyor",
+  "@addedToCalendar": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "takeMondayOff": "Pazartesi izin al",
+  "takeFridayOff": "Cuma izin al",
+  "fourDaysOffPossible": "→ 4 gün izin mümkün!",
+  "bridgeDayTip": "Köprü günü ipucu",
+
+  "calendarWeekNumber": "H{week}",
+  "@calendarWeekNumber": {
+    "placeholders": {"week": {"type": "int"}}
+  },
+  "labelOptional": "Etiket (isteğe bağlı)",
+  "from": "Başlangıç",
+  "to": "Bitiş",
+  "vacationDefaultTitle": "İzin",
+
+  "adLabel": "Reklam",
+
+  "monday": "Pazartesi",
+  "tuesday": "Salı",
+  "wednesday": "Çarşamba",
+  "thursday": "Perşembe",
+  "friday": "Cuma",
+  "saturday": "Cumartesi",
+  "sunday": "Pazar",
+
+  "notifHolidayInDaysTitle": "Sonraki resmi tatile {days} gün kaldı!",
+  "@notifHolidayInDaysTitle": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "notifPlanNowBody": "Köprü günlerini şimdi planla ve iznini en üst düzeye çıkar.",
+  "notifRemainingBridgeTitle": "{year} yılında {count} köprü günü kaldı",
+  "@notifRemainingBridgeTitle": {
+    "placeholders": {
+      "count": {"type": "int"},
+      "year": {"type": "int"}
+    }
+  },
+  "notifPlanBestBody": "Şimdi planla ve izninden en iyi şekilde yararlan!",
+  "notifNextHolidayTitle": "Sonraki resmi tatil",
+  "notifNextHolidayBody": "{date} — {name}. Köprü günü ipuçları için uygulamayı aç!",
+  "@notifNextHolidayBody": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "name": {"type": "String"}
+    }
+  },
+  "notifHolidayIn7DaysTitle": "7 gün sonra: {name}",
+  "@notifHolidayIn7DaysTitle": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "notifTimeToPlanBody": "Planlamak için hâlâ zaman var! Köprü günlerine göz at.",
+  "notifHolidayTomorrowTitle": "Yarın: {name} 🎉",
+  "@notifHolidayTomorrowTitle": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "notifEnjoyDayOffBody": "İzin gününün tadını çıkar!",
+  "notifMonthlySummaryTitle": "{month}: {count, plural, one{{count} resmi tatil} other{{count} resmi tatil}}",
+  "@notifMonthlySummaryTitle": {
+    "placeholders": {
+      "month": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "notifMonthlySummaryBody": "Uygulamayı aç ve {month} ayının en iyi köprü günlerini bul!",
+  "@notifMonthlySummaryBody": {
+    "placeholders": {"month": {"type": "String"}}
+  },
+  "notifChannelName": "Köprü günü hatırlatmaları",
+  "notifChannelDescription": "Köprü günü izin planlaması için hatırlatmalar",
+
+  "exportBridgeDaySummary": "Köprü günleri: {holidays}",
+  "@exportBridgeDaySummary": {
+    "placeholders": {"holidays": {"type": "String"}}
+  },
+  "exportBridgeDayTitle": "İzin (köprü günü)"
 }

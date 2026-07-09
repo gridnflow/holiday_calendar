@@ -319,6 +319,750 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'{days} Urlaubstage → {total} Tage frei'**
   String bridgeDayLabel(int days, int total);
+
+  /// No description provided for @language.
+  ///
+  /// In de, this message translates to:
+  /// **'Sprache'**
+  String get language;
+
+  /// No description provided for @settings.
+  ///
+  /// In de, this message translates to:
+  /// **'Einstellungen'**
+  String get settings;
+
+  /// No description provided for @systemDefault.
+  ///
+  /// In de, this message translates to:
+  /// **'Systemsprache'**
+  String get systemDefault;
+
+  /// No description provided for @aboutApp.
+  ///
+  /// In de, this message translates to:
+  /// **'Über diese App'**
+  String get aboutApp;
+
+  /// No description provided for @importantInfoHeader.
+  ///
+  /// In de, this message translates to:
+  /// **'⚠️ WICHTIGE INFORMATIONEN'**
+  String get importantInfoHeader;
+
+  /// No description provided for @disclaimerBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese App ist KEINE offizielle Regierungsanwendung und steht in keiner Verbindung zu staatlichen Stellen. Es handelt sich um ein unabhängiges, privates Informationsangebot. Für verbindliche Informationen wenden Sie sich bitte direkt an die zuständigen Behörden.'**
+  String get disclaimerBody;
+
+  /// No description provided for @dataSource.
+  ///
+  /// In de, this message translates to:
+  /// **'Datenquelle'**
+  String get dataSource;
+
+  /// No description provided for @dataSourceBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Feiertagsdaten basieren auf offiziellen gesetzlichen Regelungen der Bundesrepublik Deutschland. Maßgebliche Quellen sind:'**
+  String get dataSourceBody;
+
+  /// No description provided for @sourceBmiLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'BMI – Nationale Feiertage'**
+  String get sourceBmiLabel;
+
+  /// No description provided for @technicalImplementation.
+  ///
+  /// In de, this message translates to:
+  /// **'Technische Umsetzung'**
+  String get technicalImplementation;
+
+  /// No description provided for @technicalImplementationBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Zur technischen Bereitstellung der Daten wird die OpenHolidays API genutzt, die Feiertagsinformationen aus den oben genannten offiziellen Quellen aggregiert.'**
+  String get technicalImplementationBody;
+
+  /// No description provided for @sourceOpenHolidaysLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'OpenHolidays API'**
+  String get sourceOpenHolidaysLabel;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In de, this message translates to:
+  /// **'Datenschutz'**
+  String get privacyPolicy;
+
+  /// No description provided for @close.
+  ///
+  /// In de, this message translates to:
+  /// **'Schließen'**
+  String get close;
+
+  /// No description provided for @yearOverview.
+  ///
+  /// In de, this message translates to:
+  /// **'Jahresübersicht'**
+  String get yearOverview;
+
+  /// No description provided for @notifications.
+  ///
+  /// In de, this message translates to:
+  /// **'Benachrichtigungen'**
+  String get notifications;
+
+  /// No description provided for @dDayLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'D-{days}'**
+  String dDayLabel(int days);
+
+  /// No description provided for @tomorrowIsHoliday.
+  ///
+  /// In de, this message translates to:
+  /// **'Morgen ist Feiertag'**
+  String get tomorrowIsHoliday;
+
+  /// No description provided for @daysRemaining.
+  ///
+  /// In de, this message translates to:
+  /// **'Noch {days} Tage'**
+  String daysRemaining(int days);
+
+  /// No description provided for @tomorrowVacationStarts.
+  ///
+  /// In de, this message translates to:
+  /// **'Morgen beginnt der Urlaub'**
+  String get tomorrowVacationStarts;
+
+  /// No description provided for @onboardingHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'1 Tag Urlaub.\n4 Tage frei.'**
+  String get onboardingHeadline;
+
+  /// No description provided for @onboardingSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Finde die besten Brückentage in deinem Bundesland und maximiere deinen Urlaub.'**
+  String get onboardingSubtitle;
+
+  /// No description provided for @featureAllHolidays.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle Feiertage auf einen Blick'**
+  String get featureAllHolidays;
+
+  /// No description provided for @featureSmartBridgeDays.
+  ///
+  /// In de, this message translates to:
+  /// **'Smarte Brückentage-Empfehlungen'**
+  String get featureSmartBridgeDays;
+
+  /// No description provided for @featureReminders.
+  ///
+  /// In de, this message translates to:
+  /// **'Erinnerungen vor Brückentagen'**
+  String get featureReminders;
+
+  /// No description provided for @letsGo.
+  ///
+  /// In de, this message translates to:
+  /// **'Los geht\'s'**
+  String get letsGo;
+
+  /// No description provided for @yourState.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Bundesland'**
+  String get yourState;
+
+  /// No description provided for @stateSelectionSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Feiertage unterscheiden sich je nach Bundesland. Wähle deins aus.'**
+  String get stateSelectionSubtitle;
+
+  /// No description provided for @next.
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter'**
+  String get next;
+
+  /// No description provided for @almostDone.
+  ///
+  /// In de, this message translates to:
+  /// **'Fast fertig!'**
+  String get almostDone;
+
+  /// No description provided for @vacationDaysPerYear.
+  ///
+  /// In de, this message translates to:
+  /// **'Urlaubstage pro Jahr'**
+  String get vacationDaysPerYear;
+
+  /// No description provided for @howManyVacationDays.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie viele Urlaubstage hast du?'**
+  String get howManyVacationDays;
+
+  /// No description provided for @bridgeDayReminders.
+  ///
+  /// In de, this message translates to:
+  /// **'Brückentage Erinnerungen'**
+  String get bridgeDayReminders;
+
+  /// No description provided for @bridgeDayRemindersSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Werde vor optimalen Brückentagen benachrichtigt'**
+  String get bridgeDayRemindersSubtitle;
+
+  /// No description provided for @showSchoolHolidays.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulferien anzeigen'**
+  String get showSchoolHolidays;
+
+  /// No description provided for @showSchoolHolidaysSubtitleShort.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulferien deines Bundeslandes im Kalender'**
+  String get showSchoolHolidaysSubtitleShort;
+
+  /// No description provided for @done.
+  ///
+  /// In de, this message translates to:
+  /// **'Fertig'**
+  String get done;
+
+  /// No description provided for @previousYear.
+  ///
+  /// In de, this message translates to:
+  /// **'Vorheriges Jahr'**
+  String get previousYear;
+
+  /// No description provided for @nextYear.
+  ///
+  /// In de, this message translates to:
+  /// **'Nächstes Jahr'**
+  String get nextYear;
+
+  /// No description provided for @nationwide.
+  ///
+  /// In de, this message translates to:
+  /// **'Bundesweit'**
+  String get nationwide;
+
+  /// No description provided for @regional.
+  ///
+  /// In de, this message translates to:
+  /// **'Regional'**
+  String get regional;
+
+  /// No description provided for @additionalDaysOff.
+  ///
+  /// In de, this message translates to:
+  /// **'Zusätzlich frei'**
+  String get additionalDaysOff;
+
+  /// No description provided for @bridgeDaysWithYear.
+  ///
+  /// In de, this message translates to:
+  /// **'Brückentage {year}'**
+  String bridgeDaysWithYear(int year);
+
+  /// No description provided for @daysCount.
+  ///
+  /// In de, this message translates to:
+  /// **'{count} Tage'**
+  String daysCount(int count);
+
+  /// No description provided for @calendarExportFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Kalender-Export konnte nicht geöffnet werden.'**
+  String get calendarExportFailed;
+
+  /// No description provided for @addToCalendar.
+  ///
+  /// In de, this message translates to:
+  /// **'Zum Kalender hinzufügen'**
+  String get addToCalendar;
+
+  /// No description provided for @notificationHeaderSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Werde rechtzeitig an optimale Urlaubstage erinnert'**
+  String get notificationHeaderSubtitle;
+
+  /// No description provided for @notificationsNotSupported.
+  ///
+  /// In de, this message translates to:
+  /// **'Benachrichtigungen werden auf dieser Plattform nicht unterstützt.'**
+  String get notificationsNotSupported;
+
+  /// No description provided for @bridgeDayNotifications.
+  ///
+  /// In de, this message translates to:
+  /// **'Brückentage Benachrichtigungen'**
+  String get bridgeDayNotifications;
+
+  /// No description provided for @bridgeDayNotificationsSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Erhalte Erinnerungen vor optimalen Urlaubstagen'**
+  String get bridgeDayNotificationsSubtitle;
+
+  /// No description provided for @holidayReminders.
+  ///
+  /// In de, this message translates to:
+  /// **'Feiertag-Erinnerungen'**
+  String get holidayReminders;
+
+  /// No description provided for @holidayRemindersSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'7 Tage und 1 Tag vor jedem Feiertag erinnern'**
+  String get holidayRemindersSubtitle;
+
+  /// No description provided for @remindBefore.
+  ///
+  /// In de, this message translates to:
+  /// **'Erinnerung vor'**
+  String get remindBefore;
+
+  /// No description provided for @daysBefore.
+  ///
+  /// In de, this message translates to:
+  /// **'{days} Tage vorher'**
+  String daysBefore(int days);
+
+  /// No description provided for @monthlySummary.
+  ///
+  /// In de, this message translates to:
+  /// **'Monatliche Zusammenfassung'**
+  String get monthlySummary;
+
+  /// No description provided for @monthlySummarySubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Am 1. jeden Monats eine Übersicht der Feiertage erhalten'**
+  String get monthlySummarySubtitle;
+
+  /// No description provided for @calendar.
+  ///
+  /// In de, this message translates to:
+  /// **'Kalender'**
+  String get calendar;
+
+  /// No description provided for @showSchoolHolidaysSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulferien deines Bundeslandes im Kalender anzeigen'**
+  String get showSchoolHolidaysSubtitle;
+
+  /// No description provided for @howItWorks.
+  ///
+  /// In de, this message translates to:
+  /// **'So funktioniert es'**
+  String get howItWorks;
+
+  /// No description provided for @autoDetectionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Automatische Erkennung'**
+  String get autoDetectionTitle;
+
+  /// No description provided for @autoDetectionBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Die App findet die besten Brückentage basierend auf deinem Bundesland.'**
+  String get autoDetectionBody;
+
+  /// No description provided for @timelyReminderTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Rechtzeitige Erinnerung'**
+  String get timelyReminderTitle;
+
+  /// No description provided for @timelyReminderBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Du wirst rechtzeitig vor dem optimalen Zeitraum benachrichtigt.'**
+  String get timelyReminderBody;
+
+  /// No description provided for @moreVacationTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Mehr Urlaub'**
+  String get moreVacationTitle;
+
+  /// No description provided for @moreVacationBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Nutze wenige Urlaubstage für maximale freie Zeit!'**
+  String get moreVacationBody;
+
+  /// No description provided for @errorLoadingSettings.
+  ///
+  /// In de, this message translates to:
+  /// **'Fehler beim Laden der Einstellungen'**
+  String get errorLoadingSettings;
+
+  /// No description provided for @cancel.
+  ///
+  /// In de, this message translates to:
+  /// **'Abbrechen'**
+  String get cancel;
+
+  /// No description provided for @ok.
+  ///
+  /// In de, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @selectState.
+  ///
+  /// In de, this message translates to:
+  /// **'Bundesland auswählen'**
+  String get selectState;
+
+  /// No description provided for @selectYearAndMonth.
+  ///
+  /// In de, this message translates to:
+  /// **'Jahr und Monat auswählen'**
+  String get selectYearAndMonth;
+
+  /// No description provided for @bridgeDayTips.
+  ///
+  /// In de, this message translates to:
+  /// **'Brückentage Tipps'**
+  String get bridgeDayTips;
+
+  /// No description provided for @showAll.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle anzeigen'**
+  String get showAll;
+
+  /// No description provided for @vacationToDaysOff.
+  ///
+  /// In de, this message translates to:
+  /// **'{vacationDays} → {totalDaysOff} Tage'**
+  String vacationToDaysOff(int vacationDays, int totalDaysOff);
+
+  /// No description provided for @vacationSettings.
+  ///
+  /// In de, this message translates to:
+  /// **'Urlaubseinstellungen'**
+  String get vacationSettings;
+
+  /// No description provided for @annualVacationDays.
+  ///
+  /// In de, this message translates to:
+  /// **'Jahresurlaub (Tage)'**
+  String get annualVacationDays;
+
+  /// No description provided for @remainingVacationReminder.
+  ///
+  /// In de, this message translates to:
+  /// **'Resturlaub-Erinnerung'**
+  String get remainingVacationReminder;
+
+  /// No description provided for @redeemByMarch31.
+  ///
+  /// In de, this message translates to:
+  /// **'Bis 31. März einlösen'**
+  String get redeemByMarch31;
+
+  /// No description provided for @save.
+  ///
+  /// In de, this message translates to:
+  /// **'Speichern'**
+  String get save;
+
+  /// No description provided for @vacationEntitlement.
+  ///
+  /// In de, this message translates to:
+  /// **'Urlaubsanspruch'**
+  String get vacationEntitlement;
+
+  /// No description provided for @edit.
+  ///
+  /// In de, this message translates to:
+  /// **'Bearbeiten'**
+  String get edit;
+
+  /// No description provided for @daysTakenOfTotal.
+  ///
+  /// In de, this message translates to:
+  /// **'{used} von {total} Tagen genommen'**
+  String daysTakenOfTotal(int used, int total);
+
+  /// No description provided for @daysRemainingCount.
+  ///
+  /// In de, this message translates to:
+  /// **'{count} Tage übrig'**
+  String daysRemainingCount(int count);
+
+  /// No description provided for @bestVacationEfficiency.
+  ///
+  /// In de, this message translates to:
+  /// **'Beste Urlaubseffizienz'**
+  String get bestVacationEfficiency;
+
+  /// No description provided for @noBridgeDaysAvailable.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Brückentage verfügbar'**
+  String get noBridgeDaysAvailable;
+
+  /// No description provided for @oneVacationDayEquals.
+  ///
+  /// In de, this message translates to:
+  /// **'1 Urlaubstag = {totalDaysOff} freie Tage'**
+  String oneVacationDayEquals(int totalDaysOff);
+
+  /// No description provided for @legalHoliday.
+  ///
+  /// In de, this message translates to:
+  /// **'Gesetzlicher Feiertag'**
+  String get legalHoliday;
+
+  /// No description provided for @noHoliday.
+  ///
+  /// In de, this message translates to:
+  /// **'Kein Feiertag'**
+  String get noHoliday;
+
+  /// No description provided for @durationDaysParen.
+  ///
+  /// In de, this message translates to:
+  /// **'({count} Tage)'**
+  String durationDaysParen(int count);
+
+  /// No description provided for @addVacation.
+  ///
+  /// In de, this message translates to:
+  /// **'Urlaub eintragen'**
+  String get addVacation;
+
+  /// No description provided for @moreHolidays.
+  ///
+  /// In de, this message translates to:
+  /// **'Weitere Feiertage'**
+  String get moreHolidays;
+
+  /// No description provided for @addedToCalendar.
+  ///
+  /// In de, this message translates to:
+  /// **'{name} wird zum Kalender hinzugefügt'**
+  String addedToCalendar(String name);
+
+  /// No description provided for @takeMondayOff.
+  ///
+  /// In de, this message translates to:
+  /// **'Montag Urlaub nehmen'**
+  String get takeMondayOff;
+
+  /// No description provided for @takeFridayOff.
+  ///
+  /// In de, this message translates to:
+  /// **'Freitag Urlaub nehmen'**
+  String get takeFridayOff;
+
+  /// No description provided for @fourDaysOffPossible.
+  ///
+  /// In de, this message translates to:
+  /// **'→ 4 Tage frei möglich!'**
+  String get fourDaysOffPossible;
+
+  /// No description provided for @bridgeDayTip.
+  ///
+  /// In de, this message translates to:
+  /// **'Brückentag Tipp'**
+  String get bridgeDayTip;
+
+  /// No description provided for @calendarWeekNumber.
+  ///
+  /// In de, this message translates to:
+  /// **'KW{week}'**
+  String calendarWeekNumber(int week);
+
+  /// No description provided for @labelOptional.
+  ///
+  /// In de, this message translates to:
+  /// **'Bezeichnung (optional)'**
+  String get labelOptional;
+
+  /// No description provided for @from.
+  ///
+  /// In de, this message translates to:
+  /// **'Von'**
+  String get from;
+
+  /// No description provided for @to.
+  ///
+  /// In de, this message translates to:
+  /// **'Bis'**
+  String get to;
+
+  /// No description provided for @vacationDefaultTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Urlaub'**
+  String get vacationDefaultTitle;
+
+  /// No description provided for @adLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Anzeige'**
+  String get adLabel;
+
+  /// No description provided for @monday.
+  ///
+  /// In de, this message translates to:
+  /// **'Montag'**
+  String get monday;
+
+  /// No description provided for @tuesday.
+  ///
+  /// In de, this message translates to:
+  /// **'Dienstag'**
+  String get tuesday;
+
+  /// No description provided for @wednesday.
+  ///
+  /// In de, this message translates to:
+  /// **'Mittwoch'**
+  String get wednesday;
+
+  /// No description provided for @thursday.
+  ///
+  /// In de, this message translates to:
+  /// **'Donnerstag'**
+  String get thursday;
+
+  /// No description provided for @friday.
+  ///
+  /// In de, this message translates to:
+  /// **'Freitag'**
+  String get friday;
+
+  /// No description provided for @saturday.
+  ///
+  /// In de, this message translates to:
+  /// **'Samstag'**
+  String get saturday;
+
+  /// No description provided for @sunday.
+  ///
+  /// In de, this message translates to:
+  /// **'Sonntag'**
+  String get sunday;
+
+  /// No description provided for @notifHolidayInDaysTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Nächster Feiertag in {days} Tagen!'**
+  String notifHolidayInDaysTitle(int days);
+
+  /// No description provided for @notifPlanNowBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Plane jetzt deine Brückentage und maximiere deinen Urlaub.'**
+  String get notifPlanNowBody;
+
+  /// No description provided for @notifRemainingBridgeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Noch {count} Brückentage in {year}'**
+  String notifRemainingBridgeTitle(int count, int year);
+
+  /// No description provided for @notifPlanBestBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Jetzt planen und das Beste aus deinem Urlaub herausholen!'**
+  String get notifPlanBestBody;
+
+  /// No description provided for @notifNextHolidayTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Nächster Feiertag'**
+  String get notifNextHolidayTitle;
+
+  /// No description provided for @notifNextHolidayBody.
+  ///
+  /// In de, this message translates to:
+  /// **'{date} — {name}. App öffnen für Brückentage-Tipps!'**
+  String notifNextHolidayBody(String date, String name);
+
+  /// No description provided for @notifHolidayIn7DaysTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'In 7 Tagen: {name}'**
+  String notifHolidayIn7DaysTitle(String name);
+
+  /// No description provided for @notifTimeToPlanBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Noch Zeit zum Planen! Schau dir die Brückentage an.'**
+  String get notifTimeToPlanBody;
+
+  /// No description provided for @notifHolidayTomorrowTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Morgen: {name} 🎉'**
+  String notifHolidayTomorrowTitle(String name);
+
+  /// No description provided for @notifEnjoyDayOffBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Genieße deinen freien Tag!'**
+  String get notifEnjoyDayOffBody;
+
+  /// No description provided for @notifMonthlySummaryTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'{month}: {count, plural, one{{count} Feiertag} other{{count} Feiertage}}'**
+  String notifMonthlySummaryTitle(String month, int count);
+
+  /// No description provided for @notifMonthlySummaryBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Öffne die App und finde die besten Brückentage im {month}!'**
+  String notifMonthlySummaryBody(String month);
+
+  /// No description provided for @notifChannelName.
+  ///
+  /// In de, this message translates to:
+  /// **'Brückentage Erinnerungen'**
+  String get notifChannelName;
+
+  /// No description provided for @notifChannelDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Erinnerungen für Brückentage Urlaubsplanung'**
+  String get notifChannelDescription;
+
+  /// No description provided for @exportBridgeDaySummary.
+  ///
+  /// In de, this message translates to:
+  /// **'Brückentage: {holidays}'**
+  String exportBridgeDaySummary(String holidays);
+
+  /// No description provided for @exportBridgeDayTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Urlaub (Brückentag)'**
+  String get exportBridgeDayTitle;
 }
 
 class _AppLocalizationsDelegate

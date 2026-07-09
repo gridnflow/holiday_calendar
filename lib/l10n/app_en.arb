@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "German Public Holidays",
+  "appTitle": "Holidays Germany",
   "holidays": "Holidays",
   "bridgeDays": "Bridge Days",
   "allStates": "All Federal States",
@@ -8,17 +8,17 @@
   "year": "Year",
   "month": "Month",
   "refresh": "Refresh",
-  "retry": "Try again",
-  "errorOccurred": "Error occurred",
+  "retry": "Retry",
+  "errorOccurred": "An error occurred",
   "noHolidaysFound": "No holidays found",
   "noBridgeDaysFound": "No bridge days found",
-  "vacationDays": "Vacation days",
-  "daysOff": "Days off",
+  "vacationDays": "Vacation Days",
+  "daysOff": "Days Off",
   "efficiency": "Efficiency",
-  "vacationRecommendation": "Vacation recommendation",
+  "vacationRecommendation": "Vacation Recommendation",
   "vacationDaysNeeded": "Vacation days needed",
-  "totalDaysOff": "Total days off",
-  "relatedHolidays": "Related holidays",
+  "totalDaysOff": "Total Days Off",
+  "relatedHolidays": "Holidays",
   "veryGood": "Very good",
   "good": "Good",
   "okay": "Okay",
@@ -41,5 +41,221 @@
       "days": {"type": "int"},
       "total": {"type": "int"}
     }
-  }
+  },
+
+  "language": "Language",
+  "settings": "Settings",
+  "systemDefault": "System language",
+
+  "aboutApp": "About This App",
+  "importantInfoHeader": "⚠️ IMPORTANT INFORMATION",
+  "disclaimerBody": "This app is NOT an official government application and is not affiliated with any government agency. It is an independent, private information service. For binding information, please contact the relevant authorities directly.",
+  "dataSource": "Data Source",
+  "dataSourceBody": "The holiday data is based on the official statutory regulations of the Federal Republic of Germany. The authoritative sources are:",
+  "sourceBmiLabel": "BMI – National Holidays",
+  "technicalImplementation": "Technical Implementation",
+  "technicalImplementationBody": "The OpenHolidays API is used to technically provide the data, aggregating holiday information from the official sources mentioned above.",
+  "sourceOpenHolidaysLabel": "OpenHolidays API",
+  "privacyPolicy": "Privacy Policy",
+  "close": "Close",
+
+  "yearOverview": "Year Overview",
+  "notifications": "Notifications",
+
+  "dDayLabel": "D-{days}",
+  "@dDayLabel": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "tomorrowIsHoliday": "Tomorrow is a holiday",
+  "daysRemaining": "{days} days left",
+  "@daysRemaining": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "tomorrowVacationStarts": "Vacation starts tomorrow",
+
+  "onboardingHeadline": "1 day off.\n4 days free.",
+  "onboardingSubtitle": "Find the best bridge days in your federal state and maximize your vacation.",
+  "featureAllHolidays": "All holidays at a glance",
+  "featureSmartBridgeDays": "Smart bridge day recommendations",
+  "featureReminders": "Reminders before bridge days",
+  "letsGo": "Let's go",
+  "yourState": "Your Federal State",
+  "stateSelectionSubtitle": "Holidays vary by federal state. Choose yours.",
+  "next": "Next",
+  "almostDone": "Almost done!",
+  "vacationDaysPerYear": "Vacation days per year",
+  "howManyVacationDays": "How many vacation days do you have?",
+  "bridgeDayReminders": "Bridge Day Reminders",
+  "bridgeDayRemindersSubtitle": "Get notified before optimal bridge days",
+  "showSchoolHolidays": "Show school holidays",
+  "showSchoolHolidaysSubtitleShort": "Your federal state's school holidays in the calendar",
+  "done": "Done",
+
+  "previousYear": "Previous year",
+  "nextYear": "Next year",
+  "nationwide": "Nationwide",
+  "regional": "Regional",
+  "additionalDaysOff": "Additional day off",
+
+  "bridgeDaysWithYear": "Bridge Days {year}",
+  "@bridgeDaysWithYear": {
+    "placeholders": {"year": {"type": "int"}}
+  },
+  "daysCount": "{count} days",
+  "@daysCount": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "calendarExportFailed": "Calendar export could not be opened.",
+  "addToCalendar": "Add to calendar",
+
+  "notificationHeaderSubtitle": "Get reminded in time about optimal vacation days",
+  "notificationsNotSupported": "Notifications are not supported on this platform.",
+  "bridgeDayNotifications": "Bridge Day Notifications",
+  "bridgeDayNotificationsSubtitle": "Receive reminders before optimal vacation days",
+  "holidayReminders": "Holiday Reminders",
+  "holidayRemindersSubtitle": "Remind 7 days and 1 day before each holiday",
+  "remindBefore": "Remind before",
+  "daysBefore": "{days} days before",
+  "@daysBefore": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "monthlySummary": "Monthly Summary",
+  "monthlySummarySubtitle": "Get an overview of the holidays on the 1st of every month",
+  "calendar": "Calendar",
+  "showSchoolHolidaysSubtitle": "Show your federal state's school holidays in the calendar",
+  "howItWorks": "How it works",
+  "autoDetectionTitle": "Automatic detection",
+  "autoDetectionBody": "The app finds the best bridge days based on your federal state.",
+  "timelyReminderTitle": "Timely reminder",
+  "timelyReminderBody": "You'll be notified in time before the optimal period.",
+  "moreVacationTitle": "More vacation",
+  "moreVacationBody": "Use just a few vacation days for maximum time off!",
+  "errorLoadingSettings": "Error loading settings",
+  "cancel": "Cancel",
+  "ok": "OK",
+
+  "selectState": "Select federal state",
+  "selectYearAndMonth": "Select year and month",
+
+  "bridgeDayTips": "Bridge Day Tips",
+  "showAll": "Show all",
+  "vacationToDaysOff": "{vacationDays} → {totalDaysOff} days",
+  "@vacationToDaysOff": {
+    "placeholders": {
+      "vacationDays": {"type": "int"},
+      "totalDaysOff": {"type": "int"}
+    }
+  },
+
+  "vacationSettings": "Vacation Settings",
+  "annualVacationDays": "Annual vacation (days)",
+  "remainingVacationReminder": "Remaining Vacation Reminder",
+  "redeemByMarch31": "Use by March 31",
+  "save": "Save",
+  "vacationEntitlement": "Vacation Entitlement",
+  "edit": "Edit",
+  "daysTakenOfTotal": "{used} of {total} days taken",
+  "@daysTakenOfTotal": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "daysRemainingCount": "{count} days left",
+  "@daysRemainingCount": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "bestVacationEfficiency": "Best Vacation Efficiency",
+  "noBridgeDaysAvailable": "No bridge days available",
+  "oneVacationDayEquals": "1 vacation day = {totalDaysOff} days off",
+  "@oneVacationDayEquals": {
+    "placeholders": {"totalDaysOff": {"type": "int"}}
+  },
+
+  "legalHoliday": "Public Holiday",
+  "noHoliday": "No holiday",
+  "durationDaysParen": "({count} days)",
+  "@durationDaysParen": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "addVacation": "Add vacation",
+  "moreHolidays": "More holidays",
+  "addedToCalendar": "{name} will be added to the calendar",
+  "@addedToCalendar": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "takeMondayOff": "Take Monday off",
+  "takeFridayOff": "Take Friday off",
+  "fourDaysOffPossible": "→ 4 days off possible!",
+  "bridgeDayTip": "Bridge Day Tip",
+
+  "calendarWeekNumber": "CW{week}",
+  "@calendarWeekNumber": {
+    "placeholders": {"week": {"type": "int"}}
+  },
+  "labelOptional": "Label (optional)",
+  "from": "From",
+  "to": "To",
+  "vacationDefaultTitle": "Vacation",
+
+  "adLabel": "Ad",
+
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday": "Sunday",
+
+  "notifHolidayInDaysTitle": "Next holiday in {days} days!",
+  "@notifHolidayInDaysTitle": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "notifPlanNowBody": "Plan your bridge days now and maximize your vacation.",
+  "notifRemainingBridgeTitle": "{count} bridge days left in {year}",
+  "@notifRemainingBridgeTitle": {
+    "placeholders": {
+      "count": {"type": "int"},
+      "year": {"type": "int"}
+    }
+  },
+  "notifPlanBestBody": "Plan now and get the most out of your vacation!",
+  "notifNextHolidayTitle": "Next holiday",
+  "notifNextHolidayBody": "{date} — {name}. Open the app for bridge day tips!",
+  "@notifNextHolidayBody": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "name": {"type": "String"}
+    }
+  },
+  "notifHolidayIn7DaysTitle": "In 7 days: {name}",
+  "@notifHolidayIn7DaysTitle": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "notifTimeToPlanBody": "Still time to plan! Check out the bridge days.",
+  "notifHolidayTomorrowTitle": "Tomorrow: {name} 🎉",
+  "@notifHolidayTomorrowTitle": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "notifEnjoyDayOffBody": "Enjoy your day off!",
+  "notifMonthlySummaryTitle": "{month}: {count, plural, one{{count} holiday} other{{count} holidays}}",
+  "@notifMonthlySummaryTitle": {
+    "placeholders": {
+      "month": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "notifMonthlySummaryBody": "Open the app and find the best bridge days in {month}!",
+  "@notifMonthlySummaryBody": {
+    "placeholders": {"month": {"type": "String"}}
+  },
+  "notifChannelName": "Bridge Day Reminders",
+  "notifChannelDescription": "Reminders for bridge day vacation planning",
+
+  "exportBridgeDaySummary": "Bridge Days: {holidays}",
+  "@exportBridgeDaySummary": {
+    "placeholders": {"holidays": {"type": "String"}}
+  },
+  "exportBridgeDayTitle": "Vacation (Bridge Day)"
 }

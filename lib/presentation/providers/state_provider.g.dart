@@ -43,7 +43,7 @@ final usedVacationDaysProvider = AutoDisposeProvider<int>.internal(
 // ignore: unused_element
 typedef UsedVacationDaysRef = AutoDisposeProviderRef<int>;
 String _$remainingVacationDaysHash() =>
-    r'527ca4fb8c984387c375bf9c08f82fc19a145fcc';
+    r'44dc1ccfe84a0bcc58d98ad932db2e9df4c68e43';
 
 /// See also [remainingVacationDays].
 @ProviderFor(remainingVacationDays)

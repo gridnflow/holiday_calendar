@@ -43,9 +43,9 @@ final dbVacationsByDateProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef DbVacationsByDateRef = AutoDisposeProviderRef<Map<DateTime, Vacation>>;
-String _$nextVacationHash() => r'e66d5cdc3d96269ae4ea890fbce4e4a771be2384';
+String _$nextVacationHash() => r'558a0039fd347f6ee8021403bd53a1f5eb5912f4';
 
-/// Next upcoming vacation (endDate >= today)
+/// Next upcoming vacation — skips today's (D-0) and ongoing vacations
 ///
 /// Copied from [nextVacation].
 @ProviderFor(nextVacation)

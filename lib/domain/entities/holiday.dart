@@ -17,6 +17,14 @@ class Holiday with _$Holiday {
 
   const Holiday._();
 
+  /// Display name resolved to the active app language.
+  ///
+  /// The OpenHolidays API only provides German ([localName]) and English
+  /// ([name]) holiday names, so every non-German locale falls back to the
+  /// English name. Pass `languageCode` from `Localizations.localeOf(context)`.
+  String displayName(String languageCode) =>
+      languageCode == 'de' ? localName : name;
+
   /// Check if this holiday applies to a specific Bundesland
   ///
   /// - If global (nationwide) → applies to all states
