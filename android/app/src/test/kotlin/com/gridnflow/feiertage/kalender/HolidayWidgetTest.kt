@@ -75,4 +75,26 @@ class HolidayWidgetTest {
             HolidayWidget.daysText("not-a-date", 3L, LocalDate.of(2026, 7, 10)),
         )
     }
+
+    // --- 1x1 widget: compact "D-day" label ---
+
+    @Test
+    fun `dDayLabel recomputes from iso and decreases over time`() {
+        val iso = "2026-08-15"
+        assertEquals("D-36", HolidayWidget.dDayLabel(iso, 36L, LocalDate.of(2026, 7, 10)))
+        assertEquals("D-5", HolidayWidget.dDayLabel(iso, 36L, LocalDate.of(2026, 8, 10)))
+        assertEquals("D-1", HolidayWidget.dDayLabel(iso, 36L, LocalDate.of(2026, 8, 14)))
+    }
+
+    @Test
+    fun `dDayLabel shows Heute on the day and dash after`() {
+        assertEquals("Heute", HolidayWidget.dDayLabel("2026-08-15", 36L, LocalDate.of(2026, 8, 15)))
+        assertEquals("—", HolidayWidget.dDayLabel("2026-08-15", 36L, LocalDate.of(2026, 8, 16)))
+    }
+
+    @Test
+    fun `daysUntil returns null once the holiday has passed`() {
+        assertEquals(36L, HolidayWidget.daysUntil("2026-08-15", 0L, LocalDate.of(2026, 7, 10)))
+        assertEquals(null, HolidayWidget.daysUntil("2026-08-15", 0L, LocalDate.of(2026, 8, 16)))
+    }
 }

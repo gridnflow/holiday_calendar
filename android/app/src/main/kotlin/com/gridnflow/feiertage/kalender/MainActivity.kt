@@ -25,11 +25,23 @@ class MainActivity : FlutterFragmentActivity() {
         ).setMethodCallHandler { call, result ->
             if (call.method == "updateWidget") {
                 val appWidgetManager = AppWidgetManager.getInstance(this)
-                val componentName = ComponentName(this, HolidayWidget::class.java)
-                val widgetIds = appWidgetManager.getAppWidgetIds(componentName)
-                for (id in widgetIds) {
+
+                // Refresh the full 3x2 widget...
+                val fullIds = appWidgetManager.getAppWidgetIds(
+                    ComponentName(this, HolidayWidget::class.java)
+                )
+                for (id in fullIds) {
                     HolidayWidget.updateAppWidget(this, appWidgetManager, id)
                 }
+
+                // ...and the compact 1x1 widget, so both reflect the new data.
+                val smallIds = appWidgetManager.getAppWidgetIds(
+                    ComponentName(this, HolidaySmallWidget::class.java)
+                )
+                for (id in smallIds) {
+                    HolidaySmallWidget.updateAppWidget(this, appWidgetManager, id)
+                }
+
                 result.success(null)
             } else {
                 result.notImplemented()

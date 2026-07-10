@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_small_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="8dp">
+
+    <!-- D-day count, the focal point of the 1x1 widget. -->
+    <TextView
+        android:id="@+id/widget_small_days"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="—"
+        android:textColor="#FF4FC3F7"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:includeFontPadding="false" />
+
+    <!-- Short holiday name below, clipped to one line. -->
+    <TextView
+        android:id="@+id/widget_small_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="—"
+        android:textColor="#CCFFFFFF"
+        android:textSize="11sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:gravity="center" />
+
+</LinearLayout>

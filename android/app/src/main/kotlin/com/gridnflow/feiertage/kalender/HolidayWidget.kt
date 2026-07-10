@@ -73,5 +73,31 @@ class HolidayWidget : AppWidgetProvider() {
                 else -> "—"
             }
         }
+
+        /// Number of days until [isoDate] from [today], or null when the date
+        /// is missing/unparseable and the fallback isn't usable. Shared by the
+        /// widgets so both count down from the same recomputed value.
+        fun daysUntil(isoDate: String, fallbackDays: Long, today: LocalDate): Long? {
+            val days: Long = try {
+                if (isoDate.isNotEmpty()) {
+                    ChronoUnit.DAYS.between(today, LocalDate.parse(isoDate))
+                } else {
+                    fallbackDays
+                }
+            } catch (_: Exception) {
+                fallbackDays
+            }
+            return if (days < 0) null else days
+        }
+
+        /// Compact "D-day" label for the 1x1 widget, e.g. `D-36`, `D-1`,
+        /// `Heute` on the day itself, `—` once the holiday has passed.
+        fun dDayLabel(isoDate: String, fallbackDays: Long, today: LocalDate): String {
+            val days = daysUntil(isoDate, fallbackDays, today) ?: return "—"
+            return when (days) {
+                0L -> "Heute"
+                else -> "D-$days"
+            }
+        }
     }
 }
