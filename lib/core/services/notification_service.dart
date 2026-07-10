@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:holiday_calendar/core/services/analytics_service.dart';
+import 'package:holiday_calendar/core/services/localization_helper.dart';
+import 'package:holiday_calendar/l10n/app_localizations.dart';
 import 'package:holiday_calendar/domain/entities/holiday.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -88,10 +90,11 @@ class NotificationService {
     required DateTime scheduledDate,
     String? payload,
   }) async {
+    final (:l10n, languageCode: _) = await LocalizationHelper.current();
     final androidDetails = AndroidNotificationDetails(
       'brueckentage_channel',
-      'Brückentage Erinnerungen',
-      channelDescription: 'Erinnerungen für Brückentage Urlaubsplanung',
+      l10n.notifChannelName,
+      channelDescription: l10n.notifChannelDescription,
       importance: Importance.high,
       priority: Priority.high,
       icon: '@mipmap/ic_launcher',
@@ -129,12 +132,13 @@ class NotificationService {
     String? bundeslandName,
   }) async {
     final now = DateTime.now();
+    final (:l10n, languageCode: _) = await LocalizationHelper.current();
 
     // D+1: Encourage enabling reminders
     await scheduleBrueckentagReminder(
       id: _onboardingD1Id,
-      title: 'Nächster Feiertag in $daysUntilNextHoliday Tagen!',
-      body: 'Plane jetzt deine Brückentage und maximiere deinen Urlaub.',
+      title: l10n.notifHolidayInDaysTitle(daysUntilNextHoliday),
+      body: l10n.notifPlanNowBody,
       scheduledDate: now.add(const Duration(days: 1)),
       payload: 'onboarding_d1',
     );
@@ -142,8 +146,8 @@ class NotificationService {
     // D+3: Show remaining bridge days
     await scheduleBrueckentagReminder(
       id: _onboardingD3Id,
-      title: 'Noch $remainingBridgeDays Brückentage in ${now.year}',
-      body: 'Jetzt planen und das Beste aus deinem Urlaub herausholen!',
+      title: l10n.notifRemainingBridgeTitle(remainingBridgeDays, now.year),
+      body: l10n.notifPlanBestBody,
       scheduledDate: now.add(const Duration(days: 3)),
       payload: 'onboarding_d3',
     );
@@ -153,8 +157,8 @@ class NotificationService {
         bundeslandName != null ? '$bundeslandName: ' : '';
     await scheduleBrueckentagReminder(
       id: _onboardingD7Id,
-      title: '${locationPrefix}Nächster Feiertag',
-      body: '$nextHolidayDate — $nextHolidayName. App öffnen für Brückentage-Tipps!',
+      title: '$locationPrefix${l10n.notifNextHolidayTitle}',
+      body: l10n.notifNextHolidayBody(nextHolidayDate, nextHolidayName),
       scheduledDate: now.add(const Duration(days: 7)),
       payload: 'onboarding_d7',
     );
@@ -204,6 +208,7 @@ class NotificationService {
 
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
+    final (:l10n, :languageCode) = await LocalizationHelper.current();
     int idCounter = _holidayReminderIdStart;
 
     // Only consider upcoming holidays, soonest first, capped so we stay well
@@ -219,6 +224,7 @@ class NotificationService {
 
       final holidayDate =
           DateTime(holiday.date.year, holiday.date.month, holiday.date.day);
+      final holidayName = holiday.displayName(languageCode);
 
       // D-7 reminder at 9pm, seven days before the holiday.
       final d7 = DateTime(
@@ -226,8 +232,8 @@ class NotificationService {
       if (d7.isAfter(now)) {
         await scheduleBrueckentagReminder(
           id: idCounter++,
-          title: 'In 7 Tagen: ${holiday.localName}',
-          body: 'Noch Zeit zum Planen! Schau dir die Brückentage an.',
+          title: l10n.notifHolidayIn7DaysTitle(holidayName),
+          body: l10n.notifTimeToPlanBody,
           scheduledDate: d7,
           payload: 'holiday_d7',
         );
@@ -239,8 +245,8 @@ class NotificationService {
       if (d1.isAfter(now)) {
         await scheduleBrueckentagReminder(
           id: idCounter++,
-          title: 'Morgen: ${holiday.localName} 🎉',
-          body: 'Genieße deinen freien Tag!',
+          title: l10n.notifHolidayTomorrowTitle(holidayName),
+          body: l10n.notifEnjoyDayOffBody,
           scheduledDate: d1,
           payload: 'holiday_d1',
         );
@@ -262,10 +268,12 @@ class NotificationService {
   static const int _monthlySummaryIdStart = 8001;
   static const int _monthlySummaryMonthsAhead = 3;
 
-  static const List<String> _monthNamesDE = [
-    'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-    'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember',
-  ];
+  /// Localized month names indexed 0 (January) .. 11 (December).
+  static List<String> _monthNames(AppLocalizations l10n) => [
+        l10n.january, l10n.february, l10n.march, l10n.april,
+        l10n.may, l10n.june, l10n.july, l10n.august,
+        l10n.september, l10n.october, l10n.november, l10n.december,
+      ];
 
   /// Schedule monthly summary notifications for the next few months.
   ///
@@ -282,6 +290,8 @@ class NotificationService {
     await _cancelMonthlySummaries();
 
     final now = DateTime.now();
+    final (:l10n, languageCode: _) = await LocalizationHelper.current();
+    final monthNames = _monthNames(l10n);
 
     for (var offset = 1; offset <= _monthlySummaryMonthsAhead; offset++) {
       final target = DateTime(now.year, now.month + offset, 1, 9, 0);
@@ -290,11 +300,11 @@ class NotificationService {
 
       if (holidayCount == 0) continue;
 
-      final monthName = _monthNamesDE[target.month - 1];
+      final monthName = monthNames[target.month - 1];
       await scheduleBrueckentagReminder(
         id: _monthlySummaryIdStart + (offset - 1),
-        title: '$monthName: $holidayCount Feiertag${holidayCount > 1 ? 'e' : ''}',
-        body: 'Öffne die App und finde die besten Brückentage im $monthName!',
+        title: l10n.notifMonthlySummaryTitle(monthName, holidayCount),
+        body: l10n.notifMonthlySummaryBody(monthName),
         scheduledDate: target,
         payload: 'monthly_summary',
       );
